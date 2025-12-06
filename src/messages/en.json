@@ -1,0 +1,748 @@
+{
+  "common": {
+    "buttons": {
+      "save": "Save",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "edit": "Edit",
+      "create": "Create",
+      "update": "Update",
+      "submit": "Submit",
+      "search": "Search",
+      "filter": "Filter",
+      "reset": "Reset",
+      "confirm": "Confirm",
+      "back": "Back",
+      "next": "Next",
+      "previous": "Previous",
+      "close": "Close",
+      "view": "View",
+      "download": "Download",
+      "upload": "Upload",
+      "export": "Export",
+      "import": "Import"
+    },
+    "labels": {
+      "email": "Email",
+      "password": "Password",
+      "name": "Name",
+      "phone": "Phone",
+      "address": "Address",
+      "city": "City",
+      "country": "Country",
+      "zipCode": "Zip Code",
+      "date": "Date",
+      "time": "Time",
+      "price": "Price",
+      "total": "Total",
+      "status": "Status",
+      "actions": "Actions",
+      "description": "Description",
+      "notes": "Notes",
+      "language": "Language"
+    },
+    "errors": {
+      "required": "This field is required",
+      "invalidEmail": "Invalid email address",
+      "invalidPhone": "Invalid phone number",
+      "minLength": "Minimum {min} characters required",
+      "maxLength": "Maximum {max} characters allowed",
+      "networkError": "Network error. Please try again.",
+      "serverError": "Server error. Please try again later.",
+      "notFound": "Resource not found",
+      "unauthorized": "You are not authorized to perform this action",
+      "forbidden": "Access forbidden",
+      "validationError": "Please check your input and try again",
+      "unknownError": "An unknown error occurred"
+    },
+    "messages": {
+      "loading": "Loading...",
+      "noResults": "No results found",
+      "success": "Operation completed successfully",
+      "confirmDelete": "Are you sure you want to delete this item?",
+      "unsavedChanges": "You have unsaved changes. Are you sure you want to leave?"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Sign In",
+      "subtitle": "Welcome back to Hotelius",
+      "emailPlaceholder": "Enter your email",
+      "passwordPlaceholder": "Enter your password",
+      "rememberMe": "Remember me",
+      "forgotPassword": "Forgot password?",
+      "submitButton": "Sign In",
+      "noAccount": "Don't have an account?",
+      "signUp": "Sign up",
+      "errors": {
+        "invalidCredentials": "Invalid email or password",
+        "accountLocked": "Your account has been locked. Please contact support.",
+        "emailNotVerified": "Please verify your email before signing in"
+      }
+    },
+    "signup": {
+      "title": "Create Account",
+      "subtitle": "Start managing your hotel reservations",
+      "firstNamePlaceholder": "First name",
+      "lastNamePlaceholder": "Last name",
+      "emailPlaceholder": "Email address",
+      "passwordPlaceholder": "Create password",
+      "confirmPasswordPlaceholder": "Confirm password",
+      "hotelNamePlaceholder": "Hotel name",
+      "termsAndConditions": "I agree to the {terms} and {privacy}",
+      "termsLink": "Terms of Service",
+      "privacyLink": "Privacy Policy",
+      "submitButton": "Create Account",
+      "hasAccount": "Already have an account?",
+      "signIn": "Sign in",
+      "errors": {
+        "emailExists": "An account with this email already exists",
+        "passwordMismatch": "Passwords do not match",
+        "weakPassword": "Password must be at least 8 characters with uppercase, lowercase, and numbers",
+        "termsRequired": "You must accept the terms and conditions"
+      }
+    },
+    "forgotPassword": {
+      "title": "Reset Password",
+      "subtitle": "Enter your email to receive a password reset link",
+      "emailPlaceholder": "Enter your email",
+      "submitButton": "Send Reset Link",
+      "backToLogin": "Back to login",
+      "successMessage": "Password reset link has been sent to your email",
+      "errors": {
+        "emailNotFound": "No account found with this email address"
+      }
+    },
+    "resetPassword": {
+      "title": "Create New Password",
+      "subtitle": "Enter your new password",
+      "newPasswordPlaceholder": "New password",
+      "confirmPasswordPlaceholder": "Confirm new password",
+      "submitButton": "Reset Password",
+      "successMessage": "Password has been reset successfully",
+      "errors": {
+        "invalidToken": "Invalid or expired reset link",
+        "passwordMismatch": "Passwords do not match"
+      }
+    }
+  },
+  "dashboard": {
+    "sidebar": {
+      "dashboard": "Dashboard",
+      "bookings": "Bookings",
+      "calendar": "Calendar",
+      "roomTypes": "Room Types",
+      "rooms": "Rooms",
+      "rates": "Rates",
+      "reports": "Reports",
+      "settings": "Settings"
+    },
+    "header": {
+      "openSidebar": "Open sidebar",
+      "viewNotifications": "View notifications",
+      "openUserMenu": "Open user menu",
+      "user": "User",
+      "settings": "Settings",
+      "profile": "Profile",
+      "signOut": "Sign out"
+    },
+    "breadcrumb": {
+      "dashboard": "Dashboard"
+    },
+    "home": {
+      "title": "Dashboard",
+      "subtitle": "Welcome back! Here's an overview of your hotel performance.",
+      "metrics": {
+        "occupancy": "Occupancy Rate",
+        "occupancyDesc": "vs last month",
+        "revenue": "Monthly Revenue",
+        "revenueDesc": "This month",
+        "upcomingCheckIns": "Check-ins Today",
+        "upcomingCheckInsDesc": "Arriving today",
+        "totalBookings": "Total Bookings",
+        "totalBookingsDesc": "This month"
+      },
+      "recentBookings": {
+        "title": "Recent Bookings",
+        "guest": "Guest",
+        "roomType": "Room Type",
+        "checkIn": "Check-in",
+        "checkOut": "Check-out",
+        "status": "Status",
+        "total": "Total"
+      }
+    },
+    "settings": {
+      "title": "Settings",
+      "subtitle": "Manage your hotel settings and preferences",
+      "nav": {
+        "general": "General",
+        "branding": "Branding",
+        "policies": "Policies",
+        "team": "Team",
+        "payments": "Payments"
+      },
+      "general": {
+        "title": "General Settings",
+        "fields": {
+          "name": "Hotel Name",
+          "description": "Description",
+          "timezone": "Timezone",
+          "currency": "Currency",
+          "email": "Email Address",
+          "phone": "Phone Number",
+          "address": "Street Address",
+          "city": "City",
+          "zipCode": "ZIP Code",
+          "country": "Country"
+        },
+        "sections": {
+          "contact": "Contact Information",
+          "address": "Address"
+        },
+        "actions": {
+          "save": "Save Changes"
+        }
+      },
+      "branding": {
+        "title": "Branding",
+        "fields": {
+          "logo": "Hotel Logo",
+          "logoHint": "PNG or JPG. Recommended size: 512x512px",
+          "favicon": "Favicon",
+          "faviconHint": "PNG or ICO. Size: 32x32px or 64x64px",
+          "primaryColor": "Primary Color",
+          "secondaryColor": "Secondary Color",
+          "colorsHint": "These colors will be used across your booking engine"
+        },
+        "sections": {
+          "colors": "Color Scheme"
+        },
+        "actions": {
+          "uploadLogo": "Upload Logo",
+          "uploadFavicon": "Upload Favicon",
+          "save": "Save Changes"
+        }
+      },
+      "policies": {
+        "title": "Policies",
+        "sections": {
+          "checkInOut": "Check-in / Check-out Times",
+          "cancellation": "Cancellation Policy",
+          "otherPolicies": "Other Policies"
+        },
+        "fields": {
+          "checkInTime": "Check-in Time",
+          "checkOutTime": "Check-out Time",
+          "cancellationPolicy": "Cancellation Policy",
+          "cancellationHours": "Free Cancellation (Hours)",
+          "cancellationHoursHint": "Number of hours before check-in for free cancellation",
+          "smokingPolicy": "Smoking Policy",
+          "petPolicy": "Pet Policy",
+          "childrenPolicy": "Children Policy"
+        },
+        "options": {
+          "freeCancellation": "Free Cancellation",
+          "moderatePolicy": "Moderate - 50% refund",
+          "strictPolicy": "Strict - No refund",
+          "nonRefundable": "Non-refundable",
+          "noSmoking": "No Smoking",
+          "designatedAreas": "Designated Areas Only",
+          "smokingAllowed": "Smoking Allowed"
+        },
+        "actions": {
+          "save": "Save Changes"
+        }
+      },
+      "team": {
+        "title": "Team Management",
+        "invite": {
+          "title": "Invite Team Member",
+          "emailLabel": "Email address",
+          "emailPlaceholder": "colleague@example.com",
+          "action": "Send Invite"
+        },
+        "members": {
+          "title": "Team Members",
+          "table": {
+            "name": "Name",
+            "email": "Email",
+            "role": "Role",
+            "status": "Status",
+            "joinedAt": "Joined",
+            "actions": "Actions"
+          }
+        },
+        "roles": {
+          "owner": "Owner",
+          "staff": "Staff"
+        }
+      },
+      "payments": {
+        "title": "Payments & Payouts",
+        "stripe": {
+          "title": "Stripe Connect",
+          "connected": "Connected",
+          "notConnected": "Not Connected",
+          "accountStatus": "Account Status",
+          "chargesEnabled": "Charges Enabled",
+          "payoutsEnabled": "Payouts Enabled",
+          "accountId": "Account ID",
+          "viewDashboard": "View Stripe Dashboard",
+          "updateAccount": "Update Account",
+          "notConnectedTitle": "Connect Stripe Account",
+          "notConnectedDescription": "Connect your Stripe account to start accepting payments from guests.",
+          "connectStripe": "Connect with Stripe"
+        },
+        "payouts": {
+          "title": "Payout Information",
+          "last": "Last Payout",
+          "next": "Next Payout",
+          "scheduledFor": "Scheduled for",
+          "viewHistory": "View Payout History"
+        },
+        "settings": {
+          "title": "Payment Settings",
+          "applicationFee": "Platform Fee",
+          "applicationFeeDesc": "Fee charged per booking",
+          "paymentMethods": "Payment Methods",
+          "paymentMethodsDesc": "Accepted payment methods",
+          "currency": "Currency",
+          "currencyDesc": "Payout currency"
+        }
+      }
+    },
+    "bookings": {
+      "title": "Bookings",
+      "subtitle": "Manage and track all your hotel bookings",
+      "actions": {
+        "export": "Export",
+        "view": "View"
+      },
+      "filters": {
+        "searchPlaceholder": "Search by guest name, email, or booking ID...",
+        "allStatuses": "All Statuses",
+        "allDates": "All Dates",
+        "today": "Today",
+        "thisWeek": "This Week",
+        "thisMonth": "This Month"
+      },
+      "statuses": {
+        "confirmed": "Confirmed",
+        "pending": "Pending",
+        "checkedIn": "Checked In",
+        "checkedOut": "Checked Out",
+        "cancelled": "Cancelled"
+      },
+      "table": {
+        "bookingId": "Booking ID",
+        "guest": "Guest",
+        "room": "Room",
+        "checkIn": "Check-in",
+        "checkOut": "Check-out",
+        "status": "Status",
+        "payment": "Payment",
+        "total": "Total",
+        "actions": "Actions"
+      },
+      "pagination": {
+        "showing": "Showing",
+        "to": "to",
+        "of": "of",
+        "results": "results",
+        "previous": "Previous",
+        "next": "Next"
+      },
+      "detail": {
+        "title": "Booking",
+        "backToBookings": "Back to Bookings",
+        "sections": {
+          "guestInfo": "Guest Information",
+          "bookingDetails": "Booking Details",
+          "priceBreakdown": "Price Breakdown",
+          "payment": "Payment Information",
+          "timeline": "Timeline"
+        },
+        "fields": {
+          "guestName": "Guest Name",
+          "email": "Email",
+          "phone": "Phone",
+          "guests": "Guests",
+          "room": "Room",
+          "nights": "Nights",
+          "checkIn": "Check-in",
+          "checkOut": "Check-out",
+          "specialRequests": "Special Requests",
+          "total": "Total",
+          "status": "Booking Status",
+          "paymentStatus": "Payment Status",
+          "paymentMethod": "Payment Method",
+          "transactionId": "Transaction ID",
+          "amount": "Amount"
+        },
+        "adults": "adults",
+        "children": "children",
+        "nights": "nights",
+        "actions": {
+          "sendEmail": "Send Email",
+          "edit": "Edit Booking",
+          "checkIn": "Check In",
+          "modify": "Modify Booking",
+          "cancel": "Cancel Booking"
+        },
+        "timeline": {
+          "created": "Created",
+          "confirmed": "Confirmed"
+        }
+      }
+    },
+    "roomTypes": {
+      "title": "Room Types",
+      "subtitle": "Manage your room categories and pricing",
+      "actions": {
+        "addNew": "Add Room Type",
+        "edit": "Edit"
+      },
+      "fields": {
+        "basePrice": "Base Price",
+        "occupancy": "Occupancy",
+        "availability": "Availability",
+        "amenities": "Amenities"
+      },
+      "perNight": "per night",
+      "adults": "adults",
+      "children": "children",
+      "images": "images",
+      "available": "available",
+      "empty": {
+        "title": "No room types",
+        "description": "Get started by creating your first room type."
+      }
+    },
+    "rooms": {
+      "title": "Rooms",
+      "subtitle": "Manage individual rooms and their status",
+      "actions": {
+        "addNew": "Add Room"
+      },
+      "stats": {
+        "available": "Available",
+        "occupied": "Occupied",
+        "cleaning": "Cleaning",
+        "maintenance": "Maintenance",
+        "total": "Total Rooms"
+      },
+      "filters": {
+        "searchPlaceholder": "Search by room number...",
+        "allRoomTypes": "All Room Types",
+        "allStatuses": "All Statuses"
+      },
+      "statuses": {
+        "available": "Available",
+        "occupied": "Occupied",
+        "cleaning": "Cleaning",
+        "maintenance": "Maintenance",
+        "inactive": "Inactive"
+      },
+      "floor": "Floor",
+      "table": {
+        "roomNumber": "Room Number",
+        "roomType": "Room Type",
+        "status": "Status",
+        "currentGuest": "Current Guest",
+        "actions": "Actions"
+      }
+    },
+    "navigation": {
+      "overview": "Overview",
+      "bookings": "Bookings",
+      "rooms": "Rooms",
+      "guests": "Guests",
+      "calendar": "Calendar",
+      "reports": "Reports",
+      "settings": "Settings",
+      "logout": "Logout"
+    },
+    "metrics": {
+      "totalBookings": "Total Bookings",
+      "occupancyRate": "Occupancy Rate",
+      "revenue": "Revenue",
+      "averageRate": "Average Daily Rate",
+      "checkInsToday": "Check-ins Today",
+      "checkOutsToday": "Check-outs Today",
+      "availableRooms": "Available Rooms",
+      "pendingBookings": "Pending Bookings"
+    },
+    "actions": {
+      "newBooking": "New Booking",
+      "viewAll": "View All",
+      "quickCheckIn": "Quick Check-in",
+      "quickCheckOut": "Quick Check-out",
+      "generateReport": "Generate Report"
+    },
+    "overview": {
+      "title": "Dashboard Overview",
+      "recentBookings": "Recent Bookings",
+      "upcomingCheckIns": "Upcoming Check-ins",
+      "roomStatus": "Room Status",
+      "revenueChart": "Revenue Overview",
+      "noRecentActivity": "No recent activity"
+    }
+  },
+  "booking": {
+    "search": {
+      "title": "Search Availability",
+      "checkIn": "Check-in Date",
+      "checkOut": "Check-out Date",
+      "guests": "Guests",
+      "rooms": "Rooms",
+      "adults": "Adults",
+      "children": "Children",
+      "searchButton": "Search Rooms",
+      "errors": {
+        "invalidDates": "Check-out date must be after check-in date",
+        "pastDate": "Check-in date cannot be in the past",
+        "maxStay": "Maximum stay is {days} days",
+        "noAvailability": "No rooms available for selected dates"
+      }
+    },
+    "rooms": {
+      "available": "Available Rooms",
+      "roomType": "Room Type",
+      "capacity": "Capacity",
+      "pricePerNight": "per night",
+      "amenities": "Amenities",
+      "viewDetails": "View Details",
+      "selectRoom": "Select Room",
+      "roomDetails": {
+        "size": "Size",
+        "bedType": "Bed Type",
+        "view": "View",
+        "maxOccupancy": "Max Occupancy",
+        "smoking": "Smoking",
+        "nonSmoking": "Non-smoking",
+        "photos": "Photos"
+      },
+      "amenitiesList": {
+        "wifi": "Free Wi-Fi",
+        "tv": "Flat-screen TV",
+        "airConditioning": "Air Conditioning",
+        "minibar": "Minibar",
+        "safe": "Safe",
+        "balcony": "Balcony",
+        "oceanView": "Ocean View",
+        "cityView": "City View",
+        "bathtub": "Bathtub",
+        "shower": "Shower",
+        "hairDryer": "Hair Dryer",
+        "iron": "Iron",
+        "coffeemaker": "Coffee Maker",
+        "workspace": "Workspace"
+      }
+    },
+    "checkout": {
+      "title": "Complete Your Booking",
+      "guestInformation": "Guest Information",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email Address",
+      "phone": "Phone Number",
+      "specialRequests": "Special Requests",
+      "specialRequestsPlaceholder": "Any special requests or preferences?",
+      "paymentInformation": "Payment Information",
+      "cardNumber": "Card Number",
+      "expiryDate": "Expiry Date",
+      "cvv": "CVV",
+      "billingAddress": "Billing Address",
+      "bookingSummary": "Booking Summary",
+      "roomType": "Room Type",
+      "checkInDate": "Check-in Date",
+      "checkOutDate": "Check-out Date",
+      "nights": "{count} night",
+      "nights_other": "{count} nights",
+      "guests": "{count} guest",
+      "guests_other": "{count} guests",
+      "subtotal": "Subtotal",
+      "taxes": "Taxes & Fees",
+      "total": "Total",
+      "confirmBooking": "Confirm Booking",
+      "cancellationPolicy": "Cancellation Policy",
+      "termsAndConditions": "By completing this booking, you agree to our {terms} and {privacy}",
+      "termsLink": "Terms & Conditions",
+      "privacyLink": "Privacy Policy"
+    },
+    "confirmation": {
+      "title": "Booking Confirmed!",
+      "subtitle": "Your reservation has been successfully completed",
+      "bookingNumber": "Booking Number",
+      "confirmationEmail": "A confirmation email has been sent to {email}",
+      "bookingDetails": "Booking Details",
+      "guestName": "Guest Name",
+      "roomType": "Room Type",
+      "checkIn": "Check-in",
+      "checkOut": "Check-out",
+      "totalAmount": "Total Amount",
+      "actions": {
+        "viewBooking": "View Booking",
+        "printConfirmation": "Print Confirmation",
+        "newBooking": "Make Another Booking",
+        "backToDashboard": "Back to Dashboard"
+      },
+      "nextSteps": {
+        "title": "What's Next?",
+        "checkIn": "Check-in time starts at 3:00 PM",
+        "checkOut": "Check-out time is 11:00 AM",
+        "contact": "Contact us at {phone} for any questions",
+        "modifications": "To modify your booking, please contact us at least 24 hours before check-in"
+      }
+    },
+    "list": {
+      "title": "All Bookings",
+      "filterByStatus": "Filter by Status",
+      "filterByDate": "Filter by Date",
+      "statuses": {
+        "all": "All",
+        "pending": "Pending",
+        "confirmed": "Confirmed",
+        "checkedIn": "Checked In",
+        "checkedOut": "Checked Out",
+        "cancelled": "Cancelled"
+      },
+      "table": {
+        "bookingId": "Booking ID",
+        "guestName": "Guest Name",
+        "roomType": "Room Type",
+        "checkIn": "Check-in",
+        "checkOut": "Check-out",
+        "status": "Status",
+        "total": "Total",
+        "actions": "Actions"
+      },
+      "actions": {
+        "view": "View",
+        "edit": "Edit",
+        "cancel": "Cancel",
+        "checkIn": "Check In",
+        "checkOut": "Check Out"
+      },
+      "cancelConfirm": "Are you sure you want to cancel this booking?"
+    }
+  },
+  "settings": {
+    "navigation": {
+      "general": "General",
+      "hotel": "Hotel Settings",
+      "rooms": "Room Management",
+      "rates": "Rates & Pricing",
+      "policies": "Policies",
+      "integrations": "Integrations",
+      "billing": "Billing",
+      "users": "Users & Permissions"
+    },
+    "hotel": {
+      "title": "Hotel Settings",
+      "basicInformation": "Basic Information",
+      "hotelName": "Hotel Name",
+      "description": "Description",
+      "address": "Address",
+      "city": "City",
+      "state": "State/Province",
+      "country": "Country",
+      "zipCode": "Zip Code",
+      "phone": "Phone Number",
+      "email": "Email Address",
+      "website": "Website",
+      "checkInTime": "Check-in Time",
+      "checkOutTime": "Check-out Time",
+      "currency": "Currency",
+      "timezone": "Timezone",
+      "amenities": "Hotel Amenities",
+      "photos": "Hotel Photos",
+      "uploadPhotos": "Upload Photos",
+      "saveChanges": "Save Changes"
+    },
+    "rooms": {
+      "title": "Room Management",
+      "addNewRoom": "Add New Room Type",
+      "editRoom": "Edit Room Type",
+      "roomTypes": "Room Types",
+      "table": {
+        "name": "Room Name",
+        "capacity": "Capacity",
+        "basePrice": "Base Price",
+        "totalRooms": "Total Rooms",
+        "available": "Available",
+        "status": "Status",
+        "actions": "Actions"
+      },
+      "form": {
+        "roomName": "Room Name",
+        "roomType": "Room Type",
+        "description": "Description",
+        "maxOccupancy": "Max Occupancy",
+        "adults": "Adults",
+        "children": "Children",
+        "bedConfiguration": "Bed Configuration",
+        "roomSize": "Room Size (sq ft)",
+        "basePrice": "Base Price",
+        "totalRooms": "Number of Rooms",
+        "amenities": "Amenities",
+        "photos": "Room Photos",
+        "status": "Status",
+        "active": "Active",
+        "inactive": "Inactive"
+      }
+    },
+    "rates": {
+      "title": "Rates & Pricing",
+      "seasonalRates": "Seasonal Rates",
+      "addSeasonalRate": "Add Seasonal Rate",
+      "weekendPricing": "Weekend Pricing",
+      "longStayDiscounts": "Long Stay Discounts",
+      "earlyBookingDiscounts": "Early Booking Discounts",
+      "table": {
+        "name": "Rate Name",
+        "roomType": "Room Type",
+        "startDate": "Start Date",
+        "endDate": "End Date",
+        "adjustment": "Price Adjustment",
+        "status": "Status",
+        "actions": "Actions"
+      },
+      "form": {
+        "rateName": "Rate Name",
+        "roomType": "Room Type",
+        "dateRange": "Date Range",
+        "adjustmentType": "Adjustment Type",
+        "percentage": "Percentage",
+        "fixedAmount": "Fixed Amount",
+        "adjustmentValue": "Adjustment Value",
+        "minStay": "Minimum Stay (nights)",
+        "maxStay": "Maximum Stay (nights)"
+      }
+    },
+    "policies": {
+      "title": "Policies",
+      "cancellationPolicy": "Cancellation Policy",
+      "paymentPolicy": "Payment Policy",
+      "childrenPolicy": "Children Policy",
+      "petPolicy": "Pet Policy",
+      "smokingPolicy": "Smoking Policy",
+      "checkInCheckOut": "Check-in/Check-out Policy",
+      "cancellation": {
+        "flexible": "Flexible: Free cancellation up to 24 hours before check-in",
+        "moderate": "Moderate: Free cancellation up to 5 days before check-in",
+        "strict": "Strict: Free cancellation up to 14 days before check-in",
+        "custom": "Custom Policy",
+        "customDescription": "Custom Policy Description"
+      },
+      "payment": {
+        "fullPrepayment": "Full prepayment required",
+        "partialPrepayment": "Partial prepayment required",
+        "payAtHotel": "Pay at hotel",
+        "depositAmount": "Deposit Amount",
+        "depositPercentage": "Deposit Percentage"
+      }
+    }
+  }
+}

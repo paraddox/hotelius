@@ -1,0 +1,422 @@
+{
+  "common": {
+    "buttons": {
+      "save": "Guardar",
+      "cancel": "Cancelar",
+      "delete": "Eliminar",
+      "edit": "Editar",
+      "create": "Crear",
+      "update": "Actualizar",
+      "submit": "Enviar",
+      "search": "Buscar",
+      "filter": "Filtrar",
+      "reset": "Restablecer",
+      "confirm": "Confirmar",
+      "back": "Volver",
+      "next": "Siguiente",
+      "previous": "Anterior",
+      "close": "Cerrar",
+      "view": "Ver",
+      "download": "Descargar",
+      "upload": "Subir",
+      "export": "Exportar",
+      "import": "Importar"
+    },
+    "labels": {
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "name": "Nombre",
+      "phone": "Teléfono",
+      "address": "Dirección",
+      "city": "Ciudad",
+      "country": "País",
+      "zipCode": "Código postal",
+      "date": "Fecha",
+      "time": "Hora",
+      "price": "Precio",
+      "total": "Total",
+      "status": "Estado",
+      "actions": "Acciones",
+      "description": "Descripción",
+      "notes": "Notas",
+      "language": "Idioma"
+    },
+    "errors": {
+      "required": "Este campo es obligatorio",
+      "invalidEmail": "Dirección de correo electrónico no válida",
+      "invalidPhone": "Número de teléfono no válido",
+      "minLength": "Se requieren al menos {min} caracteres",
+      "maxLength": "Máximo {max} caracteres permitidos",
+      "networkError": "Error de red. Por favor, inténtelo de nuevo.",
+      "serverError": "Error del servidor. Por favor, inténtelo más tarde.",
+      "notFound": "Recurso no encontrado",
+      "unauthorized": "No está autorizado para realizar esta acción",
+      "forbidden": "Acceso prohibido",
+      "validationError": "Por favor, verifique su entrada e inténtelo de nuevo",
+      "unknownError": "Ocurrió un error desconocido"
+    },
+    "messages": {
+      "loading": "Cargando...",
+      "noResults": "No se encontraron resultados",
+      "success": "Operación completada con éxito",
+      "confirmDelete": "¿Está seguro de que desea eliminar este elemento?",
+      "unsavedChanges": "Tiene cambios sin guardar. ¿Está seguro de que desea salir?"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Iniciar sesión",
+      "subtitle": "Bienvenido de nuevo a Hotelius",
+      "emailPlaceholder": "Ingrese su correo electrónico",
+      "passwordPlaceholder": "Ingrese su contraseña",
+      "rememberMe": "Recuérdame",
+      "forgotPassword": "¿Olvidó su contraseña?",
+      "submitButton": "Iniciar sesión",
+      "noAccount": "¿No tiene una cuenta?",
+      "signUp": "Registrarse",
+      "errors": {
+        "invalidCredentials": "Correo electrónico o contraseña no válidos",
+        "accountLocked": "Su cuenta ha sido bloqueada. Por favor, contacte con soporte.",
+        "emailNotVerified": "Por favor, verifique su correo electrónico antes de iniciar sesión"
+      }
+    },
+    "signup": {
+      "title": "Crear cuenta",
+      "subtitle": "Comience a gestionar sus reservas hoteleras",
+      "firstNamePlaceholder": "Nombre",
+      "lastNamePlaceholder": "Apellido",
+      "emailPlaceholder": "Correo electrónico",
+      "passwordPlaceholder": "Crear contraseña",
+      "confirmPasswordPlaceholder": "Confirmar contraseña",
+      "hotelNamePlaceholder": "Nombre del hotel",
+      "termsAndConditions": "Acepto los {terms} y la {privacy}",
+      "termsLink": "Términos de servicio",
+      "privacyLink": "Política de privacidad",
+      "submitButton": "Crear cuenta",
+      "hasAccount": "¿Ya tiene una cuenta?",
+      "signIn": "Iniciar sesión",
+      "errors": {
+        "emailExists": "Ya existe una cuenta con este correo electrónico",
+        "passwordMismatch": "Las contraseñas no coinciden",
+        "weakPassword": "La contraseña debe tener al menos 8 caracteres con mayúsculas, minúsculas y números",
+        "termsRequired": "Debe aceptar los términos y condiciones"
+      }
+    },
+    "forgotPassword": {
+      "title": "Restablecer contraseña",
+      "subtitle": "Ingrese su correo electrónico para recibir un enlace de restablecimiento",
+      "emailPlaceholder": "Ingrese su correo electrónico",
+      "submitButton": "Enviar enlace",
+      "backToLogin": "Volver al inicio de sesión",
+      "successMessage": "El enlace de restablecimiento se ha enviado a su correo electrónico",
+      "errors": {
+        "emailNotFound": "No se encontró ninguna cuenta con este correo electrónico"
+      }
+    },
+    "resetPassword": {
+      "title": "Crear nueva contraseña",
+      "subtitle": "Ingrese su nueva contraseña",
+      "newPasswordPlaceholder": "Nueva contraseña",
+      "confirmPasswordPlaceholder": "Confirmar nueva contraseña",
+      "submitButton": "Restablecer contraseña",
+      "successMessage": "La contraseña se ha restablecido con éxito",
+      "errors": {
+        "invalidToken": "Enlace de restablecimiento no válido o caducado",
+        "passwordMismatch": "Las contraseñas no coinciden"
+      }
+    }
+  },
+  "dashboard": {
+    "navigation": {
+      "overview": "Resumen",
+      "bookings": "Reservas",
+      "rooms": "Habitaciones",
+      "guests": "Huéspedes",
+      "calendar": "Calendario",
+      "reports": "Informes",
+      "settings": "Configuración",
+      "logout": "Cerrar sesión"
+    },
+    "metrics": {
+      "totalBookings": "Total de reservas",
+      "occupancyRate": "Tasa de ocupación",
+      "revenue": "Ingresos",
+      "averageRate": "Tarifa diaria promedio",
+      "checkInsToday": "Check-ins hoy",
+      "checkOutsToday": "Check-outs hoy",
+      "availableRooms": "Habitaciones disponibles",
+      "pendingBookings": "Reservas pendientes"
+    },
+    "actions": {
+      "newBooking": "Nueva reserva",
+      "viewAll": "Ver todo",
+      "quickCheckIn": "Check-in rápido",
+      "quickCheckOut": "Check-out rápido",
+      "generateReport": "Generar informe"
+    },
+    "overview": {
+      "title": "Panel de control",
+      "recentBookings": "Reservas recientes",
+      "upcomingCheckIns": "Próximos check-ins",
+      "roomStatus": "Estado de habitaciones",
+      "revenueChart": "Resumen de ingresos",
+      "noRecentActivity": "No hay actividad reciente"
+    }
+  },
+  "booking": {
+    "search": {
+      "title": "Buscar disponibilidad",
+      "checkIn": "Fecha de entrada",
+      "checkOut": "Fecha de salida",
+      "guests": "Huéspedes",
+      "rooms": "Habitaciones",
+      "adults": "Adultos",
+      "children": "Niños",
+      "searchButton": "Buscar habitaciones",
+      "errors": {
+        "invalidDates": "La fecha de salida debe ser posterior a la fecha de entrada",
+        "pastDate": "La fecha de entrada no puede ser en el pasado",
+        "maxStay": "La estancia máxima es de {days} días",
+        "noAvailability": "No hay habitaciones disponibles para las fechas seleccionadas"
+      }
+    },
+    "rooms": {
+      "available": "Habitaciones disponibles",
+      "roomType": "Tipo de habitación",
+      "capacity": "Capacidad",
+      "pricePerNight": "por noche",
+      "amenities": "Comodidades",
+      "viewDetails": "Ver detalles",
+      "selectRoom": "Seleccionar habitación",
+      "roomDetails": {
+        "size": "Tamaño",
+        "bedType": "Tipo de cama",
+        "view": "Vista",
+        "maxOccupancy": "Ocupación máxima",
+        "smoking": "Fumador",
+        "nonSmoking": "No fumador",
+        "photos": "Fotos"
+      },
+      "amenitiesList": {
+        "wifi": "Wi-Fi gratis",
+        "tv": "TV de pantalla plana",
+        "airConditioning": "Aire acondicionado",
+        "minibar": "Minibar",
+        "safe": "Caja fuerte",
+        "balcony": "Balcón",
+        "oceanView": "Vista al mar",
+        "cityView": "Vista a la ciudad",
+        "bathtub": "Bañera",
+        "shower": "Ducha",
+        "hairDryer": "Secador de pelo",
+        "iron": "Plancha",
+        "coffeemaker": "Cafetera",
+        "workspace": "Espacio de trabajo"
+      }
+    },
+    "checkout": {
+      "title": "Complete su reserva",
+      "guestInformation": "Información del huésped",
+      "firstName": "Nombre",
+      "lastName": "Apellido",
+      "email": "Correo electrónico",
+      "phone": "Número de teléfono",
+      "specialRequests": "Solicitudes especiales",
+      "specialRequestsPlaceholder": "¿Alguna solicitud o preferencia especial?",
+      "paymentInformation": "Información de pago",
+      "cardNumber": "Número de tarjeta",
+      "expiryDate": "Fecha de vencimiento",
+      "cvv": "CVV",
+      "billingAddress": "Dirección de facturación",
+      "bookingSummary": "Resumen de la reserva",
+      "roomType": "Tipo de habitación",
+      "checkInDate": "Fecha de entrada",
+      "checkOutDate": "Fecha de salida",
+      "nights": "{count} noche",
+      "nights_other": "{count} noches",
+      "guests": "{count} huésped",
+      "guests_other": "{count} huéspedes",
+      "subtotal": "Subtotal",
+      "taxes": "Impuestos y cargos",
+      "total": "Total",
+      "confirmBooking": "Confirmar reserva",
+      "cancellationPolicy": "Política de cancelación",
+      "termsAndConditions": "Al completar esta reserva, acepta nuestros {terms} y {privacy}",
+      "termsLink": "Términos y condiciones",
+      "privacyLink": "Política de privacidad"
+    },
+    "confirmation": {
+      "title": "¡Reserva confirmada!",
+      "subtitle": "Su reserva se ha completado con éxito",
+      "bookingNumber": "Número de reserva",
+      "confirmationEmail": "Se ha enviado un correo de confirmación a {email}",
+      "bookingDetails": "Detalles de la reserva",
+      "guestName": "Nombre del huésped",
+      "roomType": "Tipo de habitación",
+      "checkIn": "Entrada",
+      "checkOut": "Salida",
+      "totalAmount": "Monto total",
+      "actions": {
+        "viewBooking": "Ver reserva",
+        "printConfirmation": "Imprimir confirmación",
+        "newBooking": "Hacer otra reserva",
+        "backToDashboard": "Volver al panel"
+      },
+      "nextSteps": {
+        "title": "¿Qué sigue?",
+        "checkIn": "El check-in comienza a las 3:00 PM",
+        "checkOut": "El check-out es a las 11:00 AM",
+        "contact": "Contáctenos al {phone} para cualquier pregunta",
+        "modifications": "Para modificar su reserva, contáctenos al menos 24 horas antes del check-in"
+      }
+    },
+    "list": {
+      "title": "Todas las reservas",
+      "filterByStatus": "Filtrar por estado",
+      "filterByDate": "Filtrar por fecha",
+      "statuses": {
+        "all": "Todas",
+        "pending": "Pendiente",
+        "confirmed": "Confirmada",
+        "checkedIn": "Check-in realizado",
+        "checkedOut": "Check-out realizado",
+        "cancelled": "Cancelada"
+      },
+      "table": {
+        "bookingId": "ID de reserva",
+        "guestName": "Nombre del huésped",
+        "roomType": "Tipo de habitación",
+        "checkIn": "Entrada",
+        "checkOut": "Salida",
+        "status": "Estado",
+        "total": "Total",
+        "actions": "Acciones"
+      },
+      "actions": {
+        "view": "Ver",
+        "edit": "Editar",
+        "cancel": "Cancelar",
+        "checkIn": "Check-in",
+        "checkOut": "Check-out"
+      },
+      "cancelConfirm": "¿Está seguro de que desea cancelar esta reserva?"
+    }
+  },
+  "settings": {
+    "navigation": {
+      "general": "General",
+      "hotel": "Configuración del hotel",
+      "rooms": "Gestión de habitaciones",
+      "rates": "Tarifas y precios",
+      "policies": "Políticas",
+      "integrations": "Integraciones",
+      "billing": "Facturación",
+      "users": "Usuarios y permisos"
+    },
+    "hotel": {
+      "title": "Configuración del hotel",
+      "basicInformation": "Información básica",
+      "hotelName": "Nombre del hotel",
+      "description": "Descripción",
+      "address": "Dirección",
+      "city": "Ciudad",
+      "state": "Estado/Provincia",
+      "country": "País",
+      "zipCode": "Código postal",
+      "phone": "Número de teléfono",
+      "email": "Correo electrónico",
+      "website": "Sitio web",
+      "checkInTime": "Hora de check-in",
+      "checkOutTime": "Hora de check-out",
+      "currency": "Moneda",
+      "timezone": "Zona horaria",
+      "amenities": "Comodidades del hotel",
+      "photos": "Fotos del hotel",
+      "uploadPhotos": "Subir fotos",
+      "saveChanges": "Guardar cambios"
+    },
+    "rooms": {
+      "title": "Gestión de habitaciones",
+      "addNewRoom": "Agregar nuevo tipo de habitación",
+      "editRoom": "Editar tipo de habitación",
+      "roomTypes": "Tipos de habitaciones",
+      "table": {
+        "name": "Nombre de la habitación",
+        "capacity": "Capacidad",
+        "basePrice": "Precio base",
+        "totalRooms": "Total de habitaciones",
+        "available": "Disponible",
+        "status": "Estado",
+        "actions": "Acciones"
+      },
+      "form": {
+        "roomName": "Nombre de la habitación",
+        "roomType": "Tipo de habitación",
+        "description": "Descripción",
+        "maxOccupancy": "Ocupación máxima",
+        "adults": "Adultos",
+        "children": "Niños",
+        "bedConfiguration": "Configuración de camas",
+        "roomSize": "Tamaño de la habitación (pies cuadrados)",
+        "basePrice": "Precio base",
+        "totalRooms": "Número de habitaciones",
+        "amenities": "Comodidades",
+        "photos": "Fotos de la habitación",
+        "status": "Estado",
+        "active": "Activo",
+        "inactive": "Inactivo"
+      }
+    },
+    "rates": {
+      "title": "Tarifas y precios",
+      "seasonalRates": "Tarifas de temporada",
+      "addSeasonalRate": "Agregar tarifa de temporada",
+      "weekendPricing": "Precios de fin de semana",
+      "longStayDiscounts": "Descuentos por estancia prolongada",
+      "earlyBookingDiscounts": "Descuentos por reserva anticipada",
+      "table": {
+        "name": "Nombre de la tarifa",
+        "roomType": "Tipo de habitación",
+        "startDate": "Fecha de inicio",
+        "endDate": "Fecha de finalización",
+        "adjustment": "Ajuste de precio",
+        "status": "Estado",
+        "actions": "Acciones"
+      },
+      "form": {
+        "rateName": "Nombre de la tarifa",
+        "roomType": "Tipo de habitación",
+        "dateRange": "Rango de fechas",
+        "adjustmentType": "Tipo de ajuste",
+        "percentage": "Porcentaje",
+        "fixedAmount": "Monto fijo",
+        "adjustmentValue": "Valor de ajuste",
+        "minStay": "Estancia mínima (noches)",
+        "maxStay": "Estancia máxima (noches)"
+      }
+    },
+    "policies": {
+      "title": "Políticas",
+      "cancellationPolicy": "Política de cancelación",
+      "paymentPolicy": "Política de pago",
+      "childrenPolicy": "Política de niños",
+      "petPolicy": "Política de mascotas",
+      "smokingPolicy": "Política de fumadores",
+      "checkInCheckOut": "Política de check-in/check-out",
+      "cancellation": {
+        "flexible": "Flexible: Cancelación gratuita hasta 24 horas antes del check-in",
+        "moderate": "Moderada: Cancelación gratuita hasta 5 días antes del check-in",
+        "strict": "Estricta: Cancelación gratuita hasta 14 días antes del check-in",
+        "custom": "Política personalizada",
+        "customDescription": "Descripción de política personalizada"
+      },
+      "payment": {
+        "fullPrepayment": "Prepago completo requerido",
+        "partialPrepayment": "Prepago parcial requerido",
+        "payAtHotel": "Pagar en el hotel",
+        "depositAmount": "Monto del depósito",
+        "depositPercentage": "Porcentaje del depósito"
+      }
+    }
+  }
+}
