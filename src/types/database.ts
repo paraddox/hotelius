@@ -22,6 +22,7 @@ export interface Database {
           created_at: string
           updated_at: string
           name: string
+          slug: string
           description: string | null
           address: string
           city: string
@@ -40,6 +41,7 @@ export interface Database {
           created_at?: string
           updated_at?: string
           name: string
+          slug: string
           description?: string | null
           address: string
           city: string
@@ -57,6 +59,7 @@ export interface Database {
           id?: string
           created_at?: string
           updated_at?: string
+          slug?: string
           name?: string
           description?: string | null
           address?: string

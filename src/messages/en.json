@@ -172,6 +172,31 @@
         "total": "Total"
       }
     },
+    "calendar": {
+      "title": "Calendar",
+      "subtitle": "View and manage room availability and bookings",
+      "header": {
+        "today": "Today",
+        "previous": "Previous",
+        "next": "Next",
+        "view": "View"
+      },
+      "viewOptions": {
+        "7days": "7 Days",
+        "14days": "14 Days",
+        "30days": "30 Days"
+      },
+      "legend": {
+        "confirmed": "Confirmed",
+        "checkedIn": "Checked In",
+        "pending": "Pending",
+        "checkedOut": "Checked Out",
+        "maintenance": "Maintenance",
+        "outOfService": "Out of Service"
+      },
+      "room": "Room",
+      "type": "Type"
+    },
     "settings": {
       "title": "Settings",
       "subtitle": "Manage your hotel settings and preferences",
@@ -453,6 +478,84 @@
         "actions": "Actions"
       }
     },
+    "rates": {
+      "title": "Rate Plans",
+      "subtitle": "Manage pricing strategies and rate plans for your rooms",
+      "actions": {
+        "addNew": "Add Rate Plan",
+        "backToList": "Back to Rate Plans"
+      },
+      "stats": {
+        "total": "Total Plans",
+        "active": "Active Plans",
+        "avgPrice": "Avg Rate",
+        "roomTypes": "Room Types"
+      },
+      "filters": {
+        "searchPlaceholder": "Search rate plans..."
+      },
+      "new": {
+        "title": "Create Rate Plan",
+        "subtitle": "Set up a new pricing strategy for your rooms"
+      },
+      "edit": {
+        "title": "Edit Rate Plan",
+        "subtitle": "Update rate plan details and pricing"
+      },
+      "form": {
+        "sections": {
+          "basic": "Basic Information",
+          "pricing": "Pricing",
+          "validity": "Validity Period",
+          "restrictions": "Day of Week Restrictions",
+          "restrictionsHint": "Select specific days when this rate plan applies (leave empty for all days)"
+        },
+        "fields": {
+          "name": {
+            "label": "Rate Plan Name",
+            "placeholder": "e.g., Weekend Special, Summer Rate"
+          },
+          "roomType": {
+            "label": "Room Type"
+          },
+          "price": {
+            "label": "Price per Night",
+            "hint": "Enter price in dollars (e.g., 150.00)"
+          },
+          "priority": {
+            "label": "Priority",
+            "hint": "Higher priority rates are applied first (1-100)"
+          },
+          "minimumStay": {
+            "label": "Minimum Stay",
+            "hint": "Minimum number of nights required"
+          },
+          "validFrom": {
+            "label": "Valid From"
+          },
+          "validTo": {
+            "label": "Valid To"
+          },
+          "status": {
+            "label": "Status"
+          },
+          "restrictions": {
+            "selected": "Selected days"
+          }
+        },
+        "warnings": {
+          "overlap": {
+            "title": "Potential Overlapping Rates",
+            "message": "This date range is quite long. Make sure it doesn't conflict with other rate plans for the same room type."
+          }
+        },
+        "actions": {
+          "cancel": "Cancel",
+          "create": "Create Rate Plan",
+          "save": "Save Changes"
+        }
+      }
+    },
     "navigation": {
       "overview": "Overview",
       "bookings": "Bookings",
@@ -487,6 +590,57 @@
       "roomStatus": "Room Status",
       "revenueChart": "Revenue Overview",
       "noRecentActivity": "No recent activity"
+    },
+    "reports": {
+      "title": "Reports & Analytics",
+      "subtitle": "Analyze your hotel performance with detailed reports",
+      "viewReport": "View Report",
+      "categories": {
+        "occupancy": {
+          "title": "Occupancy Report"
+        },
+        "revenue": {
+          "title": "Revenue Report"
+        },
+        "bookings": {
+          "title": "Bookings Report"
+        },
+        "performance": {
+          "title": "Performance Report"
+        },
+        "guests": {
+          "title": "Guest Analytics"
+        },
+        "custom": {
+          "title": "Custom Reports"
+        }
+      },
+      "exportData": {
+        "title": "Export Your Data",
+        "description": "Download all your reports and data in CSV or Excel format for further analysis and record keeping.",
+        "button": "Export All Reports"
+      },
+      "occupancy": {
+        "title": "Occupancy Report",
+        "subtitle": "Track room utilization and occupancy trends",
+        "charts": {
+          "trend": "Occupancy Trend"
+        },
+        "tables": {
+          "byRoomType": "Occupancy by Room Type"
+        }
+      },
+      "revenue": {
+        "title": "Revenue Report",
+        "subtitle": "Analyze revenue streams and financial performance",
+        "charts": {
+          "trend": "Revenue Trend"
+        },
+        "tables": {
+          "byRoomType": "Revenue by Room Type",
+          "paymentMethods": "Payment Methods Breakdown"
+        }
+      }
     }
   },
   "booking": {

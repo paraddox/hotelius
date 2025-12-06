@@ -1,0 +1,82 @@
+ANALYTICS & REPORTS - FILE STRUCTURE
+=====================================
+
+API & Data Layer
+----------------
+src/lib/api/reports.ts
+  - fetchDashboardMetrics(tenantId, range, customRange)
+  - fetchOccupancyData(tenantId, range, customRange)
+  - fetchRevenueData(tenantId, range, customRange)
+  - fetchBookingSourceData(tenantId, range, customRange)
+  - fetchTopRooms(tenantId, range, customRange, limit)
+
+src/lib/hooks/useReportData.ts
+  - useReportData({ tenantId, range, customRange, autoFetch })
+  - useDashboardMetrics(tenantId, range, customRange)
+  - useOccupancyData(tenantId, range, customRange)
+
+Components
+----------
+src/components/dashboard/reports/
+  - DateRangeSelector.tsx - Date range picker component
+  - MetricCard.tsx - Metric card with sparkline
+  - OccupancyChart.tsx - Bar chart for occupancy
+  - RevenueChart.tsx - Bar chart for revenue
+  - BookingSourceChart.tsx - Donut chart for sources
+  - TopRoomsTable.tsx - Table for top rooms
+  - index.ts - Component exports
+  - README.md - Component documentation
+
+Pages
+-----
+src/app/[locale]/dashboard/analytics/page.tsx
+  - Main analytics dashboard page
+  - Combines all components
+  - Client-side rendered
+
+Documentation
+-------------
+ANALYTICS_IMPLEMENTATION.md - Full implementation guide
+ANALYTICS_FILES.txt - This file (quick reference)
+src/components/dashboard/reports/README.md - Component docs
+
+Key Features
+------------
+✓ Date range filtering (today, week, month, custom)
+✓ 4 key metrics with trend indicators
+✓ Occupancy bar chart
+✓ Revenue by room type chart
+✓ Booking source donut chart
+✓ Top rooms performance table
+✓ SVG-based charts (no external libraries)
+✓ Loading states
+✓ Error handling
+✓ Responsive design
+✓ Luxury boutique aesthetic
+
+Color Palette
+-------------
+Terracotta: #C4A484
+Charcoal: #2C2C2C
+Cream: #FAF7F2
+Sage: #A8B5A0
+Success: #5AAF5A
+Error: #C45C5C
+
+Typography
+----------
+Headings: Cormorant Garamond
+Body: DM Sans
+
+URLs
+----
+Analytics Dashboard: /dashboard/analytics
+Reports Index: /dashboard/reports
+
+Next Steps
+----------
+1. Replace 'your-tenant-id' with actual tenant ID from auth
+2. Add navigation link to sidebar
+3. Test with real booking data
+4. Implement export functionality (PDF, Excel, CSV)
+5. Add to protected routes with requireAuth()
