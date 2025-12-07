@@ -1,14 +1,13 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useAuth } from '@/hooks/useAuth'
 import { useTranslations } from 'next-intl'
 import { Mail, Lock, User, AlertCircle, Loader2, CheckCircle } from 'lucide-react'
-import Link from 'next/link'
+import { Link, useRouter } from '@/lib/i18n/navigation'
 
 const signUpSchema = z.object({
   fullName: z.string().min(2, 'Full name must be at least 2 characters'),
@@ -23,7 +22,8 @@ const signUpSchema = z.object({
 type SignUpFormData = z.infer<typeof signUpSchema>
 
 export function SignUpForm() {
-  const t = useTranslations('auth')
+  const t = useTranslations('auth.signup')
+  const tCommon = useTranslations('common.labels')
   const router = useRouter()
   const { signUp } = useAuth()
   const [error, setError] = useState<string | null>(null)
@@ -70,8 +70,8 @@ export function SignUpForm() {
             <CheckCircle className="w-8 h-8 text-[var(--color-success)]" />
           </div>
         </div>
-        <h3 className="font-serif text-lg font-medium text-[var(--foreground)]">{t('signUpSuccess')}</h3>
-        <p className="text-sm text-[var(--foreground-muted)]">{t('signUpSuccessMessage')}</p>
+        <h3 className="font-serif text-lg font-medium text-[var(--foreground)]">{t('successTitle')}</h3>
+        <p className="text-sm text-[var(--foreground-muted)]">{t('successMessage')}</p>
       </div>
     )
   }
@@ -87,7 +87,7 @@ export function SignUpForm() {
 
       <div>
         <label htmlFor="fullName" className="block text-xs font-semibold uppercase tracking-wider text-[var(--foreground-muted)] mb-2">
-          {t('fullName')}
+          {tCommon('name')}
         </label>
         <div className="relative">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -99,7 +99,7 @@ export function SignUpForm() {
             autoComplete="name"
             {...register('fullName')}
             className="block w-full pl-10 pr-3 py-2.5 border border-[var(--color-sand)] rounded-lg bg-[var(--background-elevated)] text-[var(--foreground)] focus:ring-2 focus:ring-[rgba(196,164,132,0.15)] focus:border-[var(--color-terracotta)] transition-all duration-150"
-            placeholder={t('fullNamePlaceholder')}
+            placeholder={t('firstNamePlaceholder')}
           />
         </div>
         {errors.fullName && (
@@ -109,7 +109,7 @@ export function SignUpForm() {
 
       <div>
         <label htmlFor="email" className="block text-xs font-semibold uppercase tracking-wider text-[var(--foreground-muted)] mb-2">
-          {t('email')}
+          {tCommon('email')}
         </label>
         <div className="relative">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -131,7 +131,7 @@ export function SignUpForm() {
 
       <div>
         <label htmlFor="password" className="block text-xs font-semibold uppercase tracking-wider text-[var(--foreground-muted)] mb-2">
-          {t('password')}
+          {tCommon('password')}
         </label>
         <div className="relative">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -176,14 +176,14 @@ export function SignUpForm() {
       <button
         type="submit"
         disabled={isLoading}
-        className="w-full flex justify-center items-center gap-2 py-2.5 px-4 border border-transparent rounded-lg text-sm font-medium text-[var(--color-pearl)] bg-[var(--color-charcoal)] hover:bg-[var(--color-slate)] hover:-translate-y-0.5 hover:shadow-[var(--shadow-soft)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-charcoal)] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+        className="w-full flex justify-center items-center gap-2 py-2.5 px-4 border border-transparent rounded-lg text-sm font-medium text-white bg-[var(--color-charcoal)] hover:bg-[var(--color-slate)] hover:-translate-y-0.5 hover:shadow-[var(--shadow-soft)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-charcoal)] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
       >
         {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
-        {isLoading ? t('signingUp') : t('signUp')}
+        {isLoading ? t('creatingAccount') : t('submitButton')}
       </button>
 
       <div className="text-center text-sm">
-        <span className="text-[var(--foreground-muted)]">{t('alreadyHaveAccount')} </span>
+        <span className="text-[var(--foreground-muted)]">{t('hasAccount')} </span>
         <Link
           href="/auth/login"
           className="font-medium text-[var(--color-terracotta)] hover:text-[var(--color-terracotta-dark)] transition-colors"

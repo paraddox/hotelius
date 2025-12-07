@@ -1,14 +1,14 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useAuth } from '@/hooks/useAuth'
 import { useTranslations } from 'next-intl'
 import { Mail, Lock, AlertCircle, Loader2 } from 'lucide-react'
-import Link from 'next/link'
+import { Link, useRouter } from '@/lib/i18n/navigation'
 
 const loginSchema = z.object({
   email: z.string().email('Invalid email address'),
@@ -18,7 +18,8 @@ const loginSchema = z.object({
 type LoginFormData = z.infer<typeof loginSchema>
 
 export function LoginForm() {
-  const t = useTranslations('auth')
+  const t = useTranslations('auth.login')
+  const tCommon = useTranslations('common.labels')
   const router = useRouter()
   const searchParams = useSearchParams()
   const { signIn } = useAuth()
@@ -62,7 +63,7 @@ export function LoginForm() {
 
       <div>
         <label htmlFor="email" className="block text-xs font-semibold uppercase tracking-wider text-[var(--foreground-muted)] mb-2">
-          {t('email')}
+          {tCommon('email')}
         </label>
         <div className="relative">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -84,7 +85,7 @@ export function LoginForm() {
 
       <div>
         <label htmlFor="password" className="block text-xs font-semibold uppercase tracking-wider text-[var(--foreground-muted)] mb-2">
-          {t('password')}
+          {tCommon('password')}
         </label>
         <div className="relative">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -110,7 +111,7 @@ export function LoginForm() {
             href="/auth/forgot-password"
             className="font-medium text-[var(--color-terracotta)] hover:text-[var(--color-terracotta-dark)] transition-colors"
           >
-            {t('forgotPassword')}
+            {t('forgotPasswordLink')}
           </Link>
         </div>
       </div>
@@ -118,14 +119,14 @@ export function LoginForm() {
       <button
         type="submit"
         disabled={isLoading}
-        className="w-full flex justify-center items-center gap-2 py-2.5 px-4 border border-transparent rounded-lg text-sm font-medium text-[var(--color-pearl)] bg-[var(--color-charcoal)] hover:bg-[var(--color-slate)] hover:-translate-y-0.5 hover:shadow-[var(--shadow-soft)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-charcoal)] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+        className="w-full flex justify-center items-center gap-2 py-2.5 px-4 border border-transparent rounded-lg text-sm font-medium text-white bg-[var(--color-charcoal)] hover:bg-[var(--color-slate)] hover:-translate-y-0.5 hover:shadow-[var(--shadow-soft)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-charcoal)] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
       >
         {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
-        {isLoading ? t('signingIn') : t('signIn')}
+        {isLoading ? t('signingIn') : t('submitButton')}
       </button>
 
       <div className="text-center text-sm">
-        <span className="text-[var(--foreground-muted)]">{t('dontHaveAccount')} </span>
+        <span className="text-[var(--foreground-muted)]">{t('noAccount')} </span>
         <Link
           href="/auth/signup"
           className="font-medium text-[var(--color-terracotta)] hover:text-[var(--color-terracotta-dark)] transition-colors"

@@ -7,13 +7,13 @@ export const metadata = {
 }
 
 export default function LoginPage() {
-  const t = useTranslations('auth')
+  const t = useTranslations('auth.login')
 
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h2 className="font-serif text-2xl font-medium text-[var(--foreground)]">{t('signInTitle')}</h2>
-        <p className="mt-2 text-sm text-[var(--foreground-muted)]">{t('signInSubtitle')}</p>
+        <h2 className="font-serif text-2xl font-medium text-[var(--foreground)]">{t('title')}</h2>
+        <p className="mt-2 text-sm text-[var(--foreground-muted)]">{t('subtitle')}</p>
       </div>
 
       <LoginForm />

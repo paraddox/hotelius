@@ -1,4 +1,8 @@
 {
+  "app": {
+    "name": "Hotelius",
+    "tagline": "Boutique Hotel Management"
+  },
   "common": {
     "buttons": {
       "save": "Save",
@@ -71,7 +75,9 @@
       "passwordPlaceholder": "Enter your password",
       "rememberMe": "Remember me",
       "forgotPassword": "Forgot password?",
+      "forgotPasswordLink": "Forgot password?",
       "submitButton": "Sign In",
+      "signingIn": "Signing in...",
       "noAccount": "Don't have an account?",
       "signUp": "Sign up",
       "errors": {
@@ -95,6 +101,10 @@
       "submitButton": "Create Account",
       "hasAccount": "Already have an account?",
       "signIn": "Sign in",
+      "creatingAccount": "Creating account...",
+      "confirmPassword": "Confirm Password",
+      "successTitle": "Account Created!",
+      "successMessage": "Please check your email to verify your account.",
       "errors": {
         "emailExists": "An account with this email already exists",
         "passwordMismatch": "Passwords do not match",
@@ -107,7 +117,9 @@
       "subtitle": "Enter your email to receive a password reset link",
       "emailPlaceholder": "Enter your email",
       "submitButton": "Send Reset Link",
+      "sending": "Sending...",
       "backToLogin": "Back to login",
+      "successTitle": "Email Sent!",
       "successMessage": "Password reset link has been sent to your email",
       "errors": {
         "emailNotFound": "No account found with this email address"
@@ -116,10 +128,14 @@
     "resetPassword": {
       "title": "Create New Password",
       "subtitle": "Enter your new password",
+      "newPassword": "New Password",
       "newPasswordPlaceholder": "New password",
+      "confirmPassword": "Confirm Password",
       "confirmPasswordPlaceholder": "Confirm new password",
       "submitButton": "Reset Password",
-      "successMessage": "Password has been reset successfully",
+      "resetting": "Resetting...",
+      "successTitle": "Password Updated!",
+      "successMessage": "Password has been reset successfully. Redirecting to login...",
       "errors": {
         "invalidToken": "Invalid or expired reset link",
         "passwordMismatch": "Passwords do not match"

@@ -1,11 +1,16 @@
 import { ReactNode } from 'react'
+import { useTranslations } from 'next-intl'
+import { AuthProvider } from '@/components/auth/AuthProvider'
 
 interface AuthLayoutProps {
   children: ReactNode
 }
 
 export default function AuthLayout({ children }: AuthLayoutProps) {
+  const t = useTranslations('app')
+
   return (
+    <AuthProvider>
     <div className="min-h-screen bg-[var(--background)] flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       {/* Decorative background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -15,8 +20,8 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
 
       <div className="relative sm:mx-auto sm:w-full sm:max-w-md">
         <div className="text-center">
-          <h1 className="font-serif text-3xl font-medium italic text-[var(--color-terracotta)]">Hotelius</h1>
-          <p className="mt-2 text-sm text-[var(--foreground-muted)]">Boutique Hotel Management</p>
+          <h1 className="font-serif text-3xl font-medium italic text-[var(--color-terracotta)]">{t('name')}</h1>
+          <p className="mt-2 text-sm text-[var(--foreground-muted)]">{t('tagline')}</p>
         </div>
       </div>
 
@@ -26,5 +31,6 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
         </div>
       </div>
     </div>
+    </AuthProvider>
   )
 }

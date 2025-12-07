@@ -50,12 +50,12 @@ export default function Home() {
             <Link href="#pricing" className="text-sm font-medium text-[var(--foreground-muted)] transition-colors hover:text-[var(--foreground)]">
               Pricing
             </Link>
-            <Link href="/login" className="text-sm font-medium text-[var(--foreground-muted)] transition-colors hover:text-[var(--foreground)]">
+            <Link href="/en/auth/login" className="text-sm font-medium text-[var(--foreground-muted)] transition-colors hover:text-[var(--foreground)]">
               Sign In
             </Link>
             <Link
-              href="/register"
-              className="btn-accent inline-flex items-center gap-2 rounded-md bg-[var(--color-charcoal)] px-5 py-2.5 text-sm font-medium text-[var(--color-pearl)] transition-all hover:bg-[var(--color-slate)] hover:-translate-y-0.5 hover:shadow-md"
+              href="/en/auth/signup"
+              className="inline-flex items-center gap-2 rounded-md bg-[var(--color-charcoal)] px-5 py-2.5 text-sm font-medium text-white transition-all hover:bg-[var(--color-slate)] hover:-translate-y-0.5 hover:shadow-md"
             >
               Get Started
               <ArrowRight className="h-4 w-4" />
@@ -86,15 +86,15 @@ export default function Home() {
           </p>
           <div className="flex animate-fade-in-up flex-col items-center justify-center gap-4 sm:flex-row" style={{ animationDelay: '300ms' }}>
             <Link
-              href="/register"
-              className="btn group inline-flex items-center gap-2 rounded-md bg-[var(--color-charcoal)] px-8 py-3.5 text-sm font-medium text-[var(--color-pearl)] transition-all hover:bg-[var(--color-slate)] hover:-translate-y-0.5 hover:shadow-lg"
+              href="/en/auth/signup"
+              className="group inline-flex items-center gap-2 rounded-md bg-[var(--color-charcoal)] px-8 py-3.5 text-sm font-medium text-white transition-all hover:bg-[var(--color-slate)] hover:-translate-y-0.5 hover:shadow-lg"
             >
               Start Free Trial
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
             <Link
               href="#features"
-              className="btn-secondary inline-flex items-center gap-2 rounded-md border border-[var(--color-sand)] bg-transparent px-8 py-3.5 text-sm font-medium text-[var(--foreground)] transition-all hover:border-[var(--color-terracotta)] hover:bg-[var(--color-cream-dark)]"
+              className="inline-flex items-center gap-2 rounded-md border border-[var(--color-sand)] bg-[var(--background-elevated)] px-8 py-3.5 text-sm font-medium text-[var(--foreground)] transition-all hover:border-[var(--color-terracotta)] hover:bg-[var(--color-cream-dark)]"
             >
               Learn More
             </Link>
@@ -140,15 +140,15 @@ export default function Home() {
       {/* CTA Section */}
       <section className="bg-[var(--color-charcoal)] py-24">
         <div className="container mx-auto px-6 text-center">
-          <h2 className="mb-6 font-serif text-3xl font-medium text-[var(--color-pearl)] md:text-4xl">
+          <h2 className="mb-6 font-serif text-3xl font-medium text-white md:text-4xl">
             Ready to Transform Your <span className="italic text-[var(--color-terracotta)]">Hotel Operations</span>?
           </h2>
           <p className="mx-auto mb-10 max-w-xl text-lg text-[var(--color-sand)]">
             Join boutique hotels worldwide using Hotelius to deliver exceptional guest experiences.
           </p>
           <Link
-            href="/register"
-            className="btn group inline-flex items-center gap-2 rounded-md bg-[var(--color-terracotta)] px-8 py-3.5 text-sm font-medium text-[var(--color-pearl)] transition-all hover:bg-[var(--color-terracotta-dark)] hover:-translate-y-0.5 hover:shadow-lg"
+            href="/en/auth/signup"
+            className="group inline-flex items-center gap-2 rounded-md bg-[var(--color-terracotta)] px-8 py-3.5 text-sm font-medium text-white transition-all hover:bg-[var(--color-terracotta-dark)] hover:-translate-y-0.5 hover:shadow-lg"
           >
             Get Started Free
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />

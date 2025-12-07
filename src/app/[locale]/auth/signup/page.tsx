@@ -7,13 +7,13 @@ export const metadata = {
 }
 
 export default function SignUpPage() {
-  const t = useTranslations('auth')
+  const t = useTranslations('auth.signup')
 
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h2 className="font-serif text-2xl font-medium text-[var(--foreground)]">{t('signUpTitle')}</h2>
-        <p className="mt-2 text-sm text-[var(--foreground-muted)]">{t('signUpSubtitle')}</p>
+        <h2 className="font-serif text-2xl font-medium text-[var(--foreground)]">{t('title')}</h2>
+        <p className="mt-2 text-sm text-[var(--foreground-muted)]">{t('subtitle')}</p>
       </div>
 
       <SignUpForm />
