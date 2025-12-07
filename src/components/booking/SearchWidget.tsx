@@ -39,15 +39,15 @@ export default function SearchWidget({
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-6">
-      <h3 className="text-xl font-semibold mb-4">Check Availability</h3>
+    <div className="bg-[var(--background-elevated)] rounded-xl border border-[var(--color-sand)] shadow-[var(--shadow-medium)] p-6">
+      <h3 className="font-serif text-xl font-medium text-[var(--foreground)] mb-4">Check Availability</h3>
 
       <div className="space-y-4">
         {/* Check-in Date */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-xs font-semibold uppercase tracking-wider text-[var(--foreground-muted)] mb-2">
             <div className="flex items-center gap-2">
-              <Calendar className="w-4 h-4" />
+              <Calendar className="w-4 h-4 text-[var(--color-terracotta)]" />
               Check-in
             </div>
           </label>
@@ -56,15 +56,15 @@ export default function SearchWidget({
             value={checkIn}
             onChange={(e) => setCheckIn(e.target.value)}
             min={format(new Date(), 'yyyy-MM-dd')}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-4 py-2.5 border border-[var(--color-sand)] rounded-lg bg-[var(--background-elevated)] text-[var(--foreground)] focus:ring-2 focus:ring-[rgba(196,164,132,0.15)] focus:border-[var(--color-terracotta)] transition-all duration-150"
           />
         </div>
 
         {/* Check-out Date */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-xs font-semibold uppercase tracking-wider text-[var(--foreground-muted)] mb-2">
             <div className="flex items-center gap-2">
-              <Calendar className="w-4 h-4" />
+              <Calendar className="w-4 h-4 text-[var(--color-terracotta)]" />
               Check-out
             </div>
           </label>
@@ -73,22 +73,22 @@ export default function SearchWidget({
             value={checkOut}
             onChange={(e) => setCheckOut(e.target.value)}
             min={checkIn}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-4 py-2.5 border border-[var(--color-sand)] rounded-lg bg-[var(--background-elevated)] text-[var(--foreground)] focus:ring-2 focus:ring-[rgba(196,164,132,0.15)] focus:border-[var(--color-terracotta)] transition-all duration-150"
           />
         </div>
 
         {/* Guests */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-xs font-semibold uppercase tracking-wider text-[var(--foreground-muted)] mb-2">
             <div className="flex items-center gap-2">
-              <Users className="w-4 h-4" />
+              <Users className="w-4 h-4 text-[var(--color-terracotta)]" />
               Guests
             </div>
           </label>
           <select
             value={guests}
             onChange={(e) => setGuests(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-4 py-2.5 border border-[var(--color-sand)] rounded-lg bg-[var(--background-elevated)] text-[var(--foreground)] focus:ring-2 focus:ring-[rgba(196,164,132,0.15)] focus:border-[var(--color-terracotta)] transition-all duration-150"
           >
             {[1, 2, 3, 4, 5, 6, 7, 8].map((num) => (
               <option key={num} value={num}>
@@ -101,7 +101,7 @@ export default function SearchWidget({
         {/* Search Button */}
         <button
           onClick={handleSearch}
-          className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+          className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-[var(--color-charcoal)] text-[var(--color-pearl)] rounded-lg hover:bg-[var(--color-slate)] hover:-translate-y-0.5 hover:shadow-[var(--shadow-soft)] transition-all duration-200 font-medium"
         >
           <Search className="w-5 h-5" />
           Check Availability
@@ -109,15 +109,15 @@ export default function SearchWidget({
       </div>
 
       {/* Price Info */}
-      <div className="mt-6 pt-6 border-t border-gray-200">
+      <div className="mt-6 pt-6 border-t border-[var(--color-sand)]">
         <div className="flex items-center justify-between text-sm">
-          <span className="text-gray-600">Starting from</span>
+          <span className="text-[var(--foreground-muted)]">Starting from</span>
           <div>
-            <span className="text-2xl font-bold text-gray-900">$150</span>
-            <span className="text-gray-600"> / night</span>
+            <span className="font-serif text-2xl font-medium text-[var(--color-terracotta)]">$150</span>
+            <span className="text-[var(--foreground-muted)]"> / night</span>
           </div>
         </div>
-        <p className="text-xs text-gray-500 mt-2">
+        <p className="text-xs text-[var(--foreground-muted)] mt-2">
           Prices may vary based on dates and availability
         </p>
       </div>

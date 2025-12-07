@@ -15,7 +15,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const baseStyles = `
       inline-flex items-center justify-center gap-2
       font-medium tracking-wide
-      rounded transition-all duration-250
+      rounded-lg transition-all duration-200
       focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
       disabled:opacity-50 disabled:cursor-not-allowed
       relative overflow-hidden
@@ -25,45 +25,45 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
     const variants = {
       primary: `
-        bg-[#2C2C2C] text-white
-        hover:bg-[#4A4A4A] hover:-translate-y-0.5
-        hover:shadow-[0_4px_12px_rgba(44,44,44,0.15)]
-        focus-visible:ring-[#2C2C2C]
+        bg-[var(--color-charcoal)] text-[var(--color-pearl)]
+        hover:bg-[var(--color-slate)] hover:-translate-y-0.5
+        hover:shadow-[var(--shadow-soft)]
+        focus-visible:ring-[var(--color-charcoal)]
       `,
       default: `
-        bg-[#2C2C2C] text-white
-        hover:bg-[#4A4A4A] hover:-translate-y-0.5
-        hover:shadow-[0_4px_12px_rgba(44,44,44,0.15)]
-        focus-visible:ring-[#2C2C2C]
+        bg-[var(--color-charcoal)] text-[var(--color-pearl)]
+        hover:bg-[var(--color-slate)] hover:-translate-y-0.5
+        hover:shadow-[var(--shadow-soft)]
+        focus-visible:ring-[var(--color-charcoal)]
       `,
       secondary: `
-        bg-transparent text-[#2C2C2C]
-        border border-[#E8E0D5]
-        hover:bg-[#F0EBE3] hover:border-[#C4A484]
-        focus-visible:ring-[#C4A484]
+        bg-transparent text-[var(--foreground)]
+        border border-[var(--color-sand)]
+        hover:bg-[var(--color-cream-dark)] hover:border-[var(--color-terracotta)]
+        focus-visible:ring-[var(--color-terracotta)]
       `,
       outline: `
-        bg-transparent text-[#2C2C2C]
-        border border-[#E8E0D5]
-        hover:bg-[#F0EBE3] hover:border-[#C4A484]
-        focus-visible:ring-[#C4A484]
+        bg-transparent text-[var(--foreground)]
+        border border-[var(--color-sand)]
+        hover:bg-[var(--color-cream-dark)] hover:border-[var(--color-terracotta)]
+        focus-visible:ring-[var(--color-terracotta)]
       `,
       accent: `
-        bg-[#C4A484] text-white
-        hover:bg-[#A67B5B] hover:-translate-y-0.5
-        hover:shadow-[0_4px_12px_rgba(196,164,132,0.25)]
-        focus-visible:ring-[#C4A484]
+        bg-[var(--color-terracotta)] text-[var(--color-pearl)]
+        hover:bg-[var(--color-terracotta-dark)] hover:-translate-y-0.5
+        hover:shadow-[var(--shadow-soft)]
+        focus-visible:ring-[var(--color-terracotta)]
       `,
       ghost: `
-        text-[#2C2C2C]
-        hover:bg-[#F0EBE3]
-        focus-visible:ring-[#C4A484]
+        text-[var(--foreground)]
+        hover:bg-[var(--color-cream-dark)]
+        focus-visible:ring-[var(--color-terracotta)]
       `,
       danger: `
-        bg-[#C45C5C] text-white
-        hover:bg-[#A84848] hover:-translate-y-0.5
-        hover:shadow-[0_4px_12px_rgba(196,92,92,0.25)]
-        focus-visible:ring-[#C45C5C]
+        bg-[var(--color-error)] text-[var(--color-pearl)]
+        hover:opacity-90 hover:-translate-y-0.5
+        hover:shadow-[var(--shadow-soft)]
+        focus-visible:ring-[var(--color-error)]
       `,
     };
 

@@ -18,24 +18,24 @@ export function MetricCard({
   description,
   icon: Icon,
   trend,
-  iconColor = 'text-blue-600',
+  iconColor = 'text-[var(--color-terracotta)]',
 }: MetricCardProps) {
   return (
-    <div className="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6 border border-gray-200">
+    <div className="card overflow-hidden rounded-xl bg-[var(--background-elevated)] px-4 py-5 sm:p-6 border border-[var(--color-sand)] transition-all duration-300 hover:border-[var(--color-terracotta)] hover:shadow-md">
       <div className="flex items-center">
         {Icon && (
-          <div className={`flex-shrink-0 ${iconColor}`}>
+          <div className={`flex-shrink-0 p-2 rounded-lg bg-[rgba(196,164,132,0.1)] ${iconColor}`}>
             <Icon className="h-6 w-6" />
           </div>
         )}
-        <div className={Icon ? 'ml-5 w-0 flex-1' : 'w-full'}>
-          <dt className="text-sm font-medium text-gray-500 truncate">{title}</dt>
-          <dd className="flex items-baseline">
-            <div className="text-2xl font-semibold text-gray-900">{value}</div>
+        <div className={Icon ? 'ml-4 w-0 flex-1' : 'w-full'}>
+          <dt className="text-label text-xs font-semibold tracking-wider uppercase text-[var(--foreground-muted)] truncate">{title}</dt>
+          <dd className="flex items-baseline mt-1">
+            <div className="font-serif text-2xl font-medium text-[var(--foreground)]">{value}</div>
             {trend && (
               <div
-                className={`ml-2 flex items-baseline text-sm font-semibold ${
-                  trend.isPositive ? 'text-green-600' : 'text-red-600'
+                className={`ml-2 flex items-baseline text-sm font-medium ${
+                  trend.isPositive ? 'text-[var(--color-success)]' : 'text-[var(--color-error)]'
                 }`}
               >
                 {trend.isPositive ? '+' : '-'}
@@ -44,7 +44,7 @@ export function MetricCard({
             )}
           </dd>
           {description && (
-            <p className="mt-1 text-sm text-gray-500">{description}</p>
+            <p className="mt-1 text-sm text-[var(--foreground-muted)]">{description}</p>
           )}
         </div>
       </div>

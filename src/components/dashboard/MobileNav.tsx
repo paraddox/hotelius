@@ -52,14 +52,14 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
 
   return (
     <>
-      <div className="fixed inset-0 z-50 bg-gray-900/80 lg:hidden" onClick={onClose} />
+      <div className="fixed inset-0 z-50 bg-[var(--color-charcoal)]/80 lg:hidden" onClick={onClose} />
 
-      <div className="fixed inset-y-0 left-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 lg:hidden">
+      <div className="fixed inset-y-0 left-0 z-50 w-full overflow-y-auto bg-[var(--background-elevated)] px-6 py-6 sm:max-w-sm sm:border-r sm:border-[var(--color-sand)] lg:hidden">
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold text-blue-600">Hotelius</h1>
+          <h1 className="font-serif text-2xl font-medium italic text-[var(--color-terracotta)]">Hotelius</h1>
           <button
             type="button"
-            className="-m-2.5 rounded-md p-2.5 text-gray-700"
+            className="-m-2.5 rounded-lg p-2.5 text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--color-cream-dark)] transition-colors"
             onClick={onClose}
           >
             <span className="sr-only">Close menu</span>
@@ -78,17 +78,17 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
                     href={item.href}
                     onClick={onClose}
                     className={`
-                      group flex gap-x-3 rounded-md p-3 text-sm font-semibold leading-6 transition-colors
+                      group flex gap-x-3 rounded-lg p-3 text-sm font-medium leading-6 transition-all duration-200
                       ${
                         isActive
-                          ? 'bg-blue-50 text-blue-600'
-                          : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600'
+                          ? 'bg-[rgba(196,164,132,0.1)] text-[var(--color-terracotta)]'
+                          : 'text-[var(--foreground-muted)] hover:bg-[var(--color-cream-dark)] hover:text-[var(--foreground)]'
                       }
                     `}
                   >
                     <Icon
-                      className={`h-6 w-6 shrink-0 ${
-                        isActive ? 'text-blue-600' : 'text-gray-400 group-hover:text-blue-600'
+                      className={`h-6 w-6 shrink-0 transition-colors duration-200 ${
+                        isActive ? 'text-[var(--color-terracotta)]' : 'text-[var(--foreground-muted)] group-hover:text-[var(--foreground)]'
                       }`}
                     />
                     {t(item.name)}

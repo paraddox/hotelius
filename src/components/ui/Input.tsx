@@ -18,7 +18,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className="block text-xs font-semibold tracking-[0.1em] uppercase text-[#8B8B8B] mb-2"
+            className="block text-xs font-semibold tracking-[0.1em] uppercase text-[var(--foreground-muted)] mb-2"
           >
             {label}
           </label>
@@ -28,26 +28,26 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           id={inputId}
           className={cn(
             `block w-full px-4 py-3
-            font-sans text-base text-[#2C2C2C]
-            bg-white border rounded
+            font-sans text-base text-[var(--foreground)]
+            bg-[var(--background-elevated)] border rounded-lg
             transition-all duration-150
-            placeholder:text-[#8B8B8B]
+            placeholder:text-[var(--foreground-muted)]
             focus:outline-none`,
             error
-              ? 'border-[#C45C5C] focus:border-[#C45C5C] focus:ring-2 focus:ring-[#C45C5C]/20'
-              : 'border-[#E8E0D5] focus:border-[#C4A484] focus:ring-2 focus:ring-[#C4A484]/15',
+              ? 'border-[var(--color-error)] focus:border-[var(--color-error)] focus:ring-2 focus:ring-[rgba(196,92,92,0.2)]'
+              : 'border-[var(--color-sand)] focus:border-[var(--color-terracotta)] focus:ring-2 focus:ring-[rgba(196,164,132,0.15)]',
             className
           )}
           {...props}
         />
         {error && (
-          <p className="mt-2 text-sm text-[#C45C5C] flex items-center gap-1.5">
-            <span className="inline-block w-1 h-1 rounded-full bg-[#C45C5C]" />
+          <p className="mt-2 text-sm text-[var(--color-error)] flex items-center gap-1.5">
+            <span className="inline-block w-1 h-1 rounded-full bg-[var(--color-error)]" />
             {error}
           </p>
         )}
         {hint && !error && (
-          <p className="mt-2 text-sm text-[#8B8B8B]">{hint}</p>
+          <p className="mt-2 text-sm text-[var(--foreground-muted)]">{hint}</p>
         )}
       </div>
     );

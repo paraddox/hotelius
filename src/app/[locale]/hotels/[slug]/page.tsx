@@ -103,7 +103,7 @@ export default async function HotelPage({
   const structuredData = generateHotelStructuredData(hotel, locale);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[var(--background)]">
       {/* Add JSON-LD structured data */}
       <script
         type="application/ld+json"
@@ -111,24 +111,24 @@ export default async function HotelPage({
       />
 
       {/* Hero Section with Image Gallery */}
-      <div className="bg-white">
+      <div className="bg-[var(--background-elevated)]">
         <div className="container mx-auto px-4 py-8">
           <div className="grid grid-cols-4 gap-2 h-[500px]">
-            <div className="col-span-2 row-span-2 relative rounded-lg overflow-hidden">
+            <div className="col-span-2 row-span-2 relative rounded-xl overflow-hidden">
               <Image
                 src={hotel.images[0]}
                 alt={hotel.name}
                 fill
-                className="object-cover hover:scale-105 transition-transform duration-300"
+                className="object-cover hover:scale-105 transition-transform duration-500"
               />
             </div>
             {hotel.images.slice(1, 5).map((image, index) => (
-              <div key={index} className="relative rounded-lg overflow-hidden bg-gray-200">
+              <div key={index} className="relative rounded-xl overflow-hidden bg-[var(--color-sand)]">
                 <Image
                   src={image}
                   alt={`${hotel.name} - Photo ${index + 2}`}
                   fill
-                  className="object-cover hover:scale-105 transition-transform duration-300"
+                  className="object-cover hover:scale-105 transition-transform duration-500"
                 />
               </div>
             ))}
@@ -143,86 +143,86 @@ export default async function HotelPage({
           <div className="lg:col-span-2 space-y-6">
             {/* Header */}
             <div>
-              <div className="flex items-center gap-2 text-gray-600 mb-2">
+              <div className="flex items-center gap-2 text-[var(--foreground-muted)] mb-2">
                 <MapPin className="w-4 h-4" />
                 <span>{hotel.address}, {hotel.city}, {hotel.country}</span>
               </div>
-              <h1 className="text-4xl font-bold text-gray-900 mb-3">
+              <h1 className="font-serif text-4xl font-medium text-[var(--foreground)] mb-3">
                 {hotel.name}
               </h1>
               <div className="flex items-center gap-4">
                 <div className="flex items-center gap-1">
-                  <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-                  <span className="font-semibold text-gray-900">{hotel.rating}</span>
-                  <span className="text-gray-600">({hotel.reviewCount} reviews)</span>
+                  <Star className="w-5 h-5 fill-[var(--color-warning)] text-[var(--color-warning)]" />
+                  <span className="font-semibold text-[var(--foreground)]">{hotel.rating}</span>
+                  <span className="text-[var(--foreground-muted)]">({hotel.reviewCount} reviews)</span>
                 </div>
               </div>
             </div>
 
             {/* Description */}
-            <div className="bg-white rounded-lg p-6 shadow-sm">
-              <h2 className="text-2xl font-semibold mb-4">About this hotel</h2>
-              <p className="text-gray-700 leading-relaxed">{hotel.description}</p>
+            <div className="card bg-[var(--background-elevated)] rounded-xl p-6 border border-[var(--color-sand)]">
+              <h2 className="font-serif text-2xl font-medium text-[var(--foreground)] mb-4">About this hotel</h2>
+              <p className="text-[var(--foreground-muted)] leading-relaxed">{hotel.description}</p>
             </div>
 
             {/* Amenities */}
-            <div className="bg-white rounded-lg p-6 shadow-sm">
-              <h2 className="text-2xl font-semibold mb-4">Amenities</h2>
+            <div className="card bg-[var(--background-elevated)] rounded-xl p-6 border border-[var(--color-sand)]">
+              <h2 className="font-serif text-2xl font-medium text-[var(--foreground)] mb-4">Amenities</h2>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="flex items-center gap-2 text-gray-700">
-                  <Wifi className="w-5 h-5 text-blue-600" />
+                <div className="flex items-center gap-2 text-[var(--foreground-muted)]">
+                  <Wifi className="w-5 h-5 text-[var(--color-terracotta)]" />
                   <span>Free WiFi</span>
                 </div>
-                <div className="flex items-center gap-2 text-gray-700">
-                  <Coffee className="w-5 h-5 text-blue-600" />
+                <div className="flex items-center gap-2 text-[var(--foreground-muted)]">
+                  <Coffee className="w-5 h-5 text-[var(--color-terracotta)]" />
                   <span>Breakfast Included</span>
                 </div>
-                <div className="flex items-center gap-2 text-gray-700">
-                  <Utensils className="w-5 h-5 text-blue-600" />
+                <div className="flex items-center gap-2 text-[var(--foreground-muted)]">
+                  <Utensils className="w-5 h-5 text-[var(--color-terracotta)]" />
                   <span>Restaurant & Bar</span>
                 </div>
-                <div className="flex items-center gap-2 text-gray-700">
-                  <Dumbbell className="w-5 h-5 text-blue-600" />
+                <div className="flex items-center gap-2 text-[var(--foreground-muted)]">
+                  <Dumbbell className="w-5 h-5 text-[var(--color-terracotta)]" />
                   <span>Fitness Center</span>
                 </div>
               </div>
             </div>
 
             {/* Room Types */}
-            <div className="bg-white rounded-lg p-6 shadow-sm">
-              <h2 className="text-2xl font-semibold mb-6">Available Rooms</h2>
+            <div className="card bg-[var(--background-elevated)] rounded-xl p-6 border border-[var(--color-sand)]">
+              <h2 className="font-serif text-2xl font-medium text-[var(--foreground)] mb-6">Available Rooms</h2>
               <div className="space-y-4">
                 {hotel.rooms.map((room) => (
                   <div
                     key={room.id}
-                    className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
+                    className="border border-[var(--color-sand)] rounded-xl p-4 hover:border-[var(--color-terracotta)] hover:shadow-md transition-all duration-300"
                   >
                     <div className="flex gap-4">
-                      <div className="relative w-48 h-32 rounded-lg overflow-hidden flex-shrink-0 bg-gray-200">
+                      <div className="relative w-48 h-32 rounded-lg overflow-hidden flex-shrink-0 bg-[var(--color-sand)]">
                         <Image
                           src={room.image}
                           alt={room.name}
                           fill
-                          className="object-cover"
+                          className="object-cover transition-transform duration-500 hover:scale-105"
                         />
                       </div>
                       <div className="flex-1">
-                        <h3 className="text-xl font-semibold mb-2">{room.name}</h3>
-                        <p className="text-gray-600 mb-3">{room.description}</p>
-                        <div className="flex items-center gap-2 text-gray-600 mb-4">
+                        <h3 className="font-serif text-xl font-medium text-[var(--foreground)] mb-2">{room.name}</h3>
+                        <p className="text-[var(--foreground-muted)] mb-3">{room.description}</p>
+                        <div className="flex items-center gap-2 text-[var(--foreground-muted)] mb-4">
                           <Users className="w-4 h-4" />
                           <span>Max {room.maxGuests} guests</span>
                         </div>
                         <div className="flex items-center justify-between">
                           <div>
-                            <span className="text-3xl font-bold text-gray-900">
+                            <span className="font-serif text-3xl font-medium text-[var(--color-terracotta)]">
                               ${room.price}
                             </span>
-                            <span className="text-gray-600"> / night</span>
+                            <span className="text-[var(--foreground-muted)]"> / night</span>
                           </div>
                           <Link
                             href={`/${locale}/hotels/${slug}/rooms?roomType=${room.id}`}
-                            className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                            className="px-6 py-2.5 bg-[var(--color-charcoal)] text-[var(--color-pearl)] rounded-lg hover:bg-[var(--color-slate)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md font-medium"
                           >
                             Select
                           </Link>
@@ -235,15 +235,15 @@ export default async function HotelPage({
             </div>
 
             {/* Contact */}
-            <div className="bg-white rounded-lg p-6 shadow-sm">
-              <h2 className="text-2xl font-semibold mb-4">Contact</h2>
+            <div className="card bg-[var(--background-elevated)] rounded-xl p-6 border border-[var(--color-sand)]">
+              <h2 className="font-serif text-2xl font-medium text-[var(--foreground)] mb-4">Contact</h2>
               <div className="space-y-3">
-                <div className="flex items-center gap-3 text-gray-700">
-                  <Phone className="w-5 h-5 text-blue-600" />
+                <div className="flex items-center gap-3 text-[var(--foreground-muted)]">
+                  <Phone className="w-5 h-5 text-[var(--color-terracotta)]" />
                   <span>{hotel.phone}</span>
                 </div>
-                <div className="flex items-center gap-3 text-gray-700">
-                  <Mail className="w-5 h-5 text-blue-600" />
+                <div className="flex items-center gap-3 text-[var(--foreground-muted)]">
+                  <Mail className="w-5 h-5 text-[var(--color-terracotta)]" />
                   <span>{hotel.email}</span>
                 </div>
               </div>

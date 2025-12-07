@@ -12,8 +12,8 @@ export default function LoginPage() {
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h2 className="text-2xl font-bold text-gray-900">{t('signInTitle')}</h2>
-        <p className="mt-2 text-sm text-gray-600">{t('signInSubtitle')}</p>
+        <h2 className="font-serif text-2xl font-medium text-[var(--foreground)]">{t('signInTitle')}</h2>
+        <p className="mt-2 text-sm text-[var(--foreground-muted)]">{t('signInSubtitle')}</p>
       </div>
 
       <LoginForm />
