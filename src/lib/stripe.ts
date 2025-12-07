@@ -10,22 +10,46 @@
 
 import Stripe from 'stripe';
 
-if (!process.env.STRIPE_SECRET_KEY) {
-  throw new Error(
-    'STRIPE_SECRET_KEY is not defined. Please add it to your environment variables.'
-  );
+/**
+ * Lazy-initialized Stripe instance to avoid build-time errors
+ * when STRIPE_SECRET_KEY is not yet available
+ */
+let stripeInstance: Stripe | null = null;
+
+/**
+ * Get the Stripe instance, initializing it if needed
+ * Throws an error if STRIPE_SECRET_KEY is not defined at runtime
+ */
+function getStripe(): Stripe {
+  if (stripeInstance) {
+    return stripeInstance;
+  }
+
+  if (!process.env.STRIPE_SECRET_KEY) {
+    throw new Error(
+      'STRIPE_SECRET_KEY is not defined. Please add it to your environment variables.'
+    );
+  }
+
+  stripeInstance = new Stripe(process.env.STRIPE_SECRET_KEY, {
+    apiVersion: '2025-11-17.clover',
+    typescript: true,
+    appInfo: {
+      name: 'Hotelius',
+      version: '0.1.0',
+    },
+  });
+
+  return stripeInstance;
 }
 
 /**
- * Server-side Stripe instance
+ * Server-side Stripe instance (lazy-initialized)
  * Configured with the latest API version and TypeScript support
  */
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: '2024-11-20.acacia',
-  typescript: true,
-  appInfo: {
-    name: 'Hotelius',
-    version: '0.1.0',
+export const stripe = new Proxy({} as Stripe, {
+  get(_, prop) {
+    return getStripe()[prop as keyof Stripe];
   },
 });
 

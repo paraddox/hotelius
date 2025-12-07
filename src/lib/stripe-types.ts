@@ -235,7 +235,7 @@ export type StripeMetadata<T> = T extends { metadata: infer M } ? M : never;
  */
 export const isSubscriptionEvent = (
   event: Stripe.Event
-): event is SubscriptionWebhookEvent => {
+): boolean => {
   return event.type.startsWith('customer.subscription.');
 };
 
@@ -244,7 +244,7 @@ export const isSubscriptionEvent = (
  */
 export const isPaymentIntentEvent = (
   event: Stripe.Event
-): event is PaymentIntentWebhookEvent => {
+): boolean => {
   return event.type.startsWith('payment_intent.');
 };
 
@@ -253,7 +253,7 @@ export const isPaymentIntentEvent = (
  */
 export const isAccountEvent = (
   event: Stripe.Event
-): event is AccountWebhookEvent => {
+): boolean => {
   return event.type.startsWith('account.');
 };
 
@@ -262,7 +262,7 @@ export const isAccountEvent = (
  */
 export const isInvoiceEvent = (
   event: Stripe.Event
-): event is InvoiceWebhookEvent => {
+): boolean => {
   return event.type.startsWith('invoice.');
 };
 
@@ -271,6 +271,6 @@ export const isInvoiceEvent = (
  */
 export const isChargeEvent = (
   event: Stripe.Event
-): event is ChargeWebhookEvent => {
+): boolean => {
   return event.type.startsWith('charge.');
 };

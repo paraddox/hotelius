@@ -19,12 +19,8 @@ const ratePlanSchema = z.object({
   pricePerNight: z.number()
     .min(1000, 'Price must be at least $10.00')
     .max(100000000, 'Price is too high'),
-  validFrom: z.date({
-    required_error: 'Start date is required',
-  }),
-  validTo: z.date({
-    required_error: 'End date is required',
-  }),
+  validFrom: z.date({ message: 'Start date is required' }),
+  validTo: z.date({ message: 'End date is required' }),
   priority: z.number()
     .min(1, 'Priority must be at least 1')
     .max(100, 'Priority must be at most 100'),

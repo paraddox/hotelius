@@ -1,4 +1,4 @@
-import { createSharedPathnamesNavigation } from 'next-intl/navigation';
+import { createNavigation } from 'next-intl/navigation';
 import { locales } from '@/i18n/config';
 
 /**
@@ -10,4 +10,4 @@ import { locales } from '@/i18n/config';
  * - usePathname: Get the current pathname without the locale prefix
  * - useRouter: Router with locale-aware push/replace methods
  */
-export const { Link, redirect, usePathname, useRouter } = createSharedPathnamesNavigation({ locales });
+export const { Link, redirect, usePathname, useRouter } = createNavigation({ locales });

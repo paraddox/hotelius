@@ -134,7 +134,7 @@ export async function GET(request: NextRequest) {
 
     // Apply status filter
     if (status && status !== '') {
-      query = query.eq('status', status);
+      query = query.eq('status', status as any);
     }
 
     // Apply date range filter

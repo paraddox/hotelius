@@ -19,11 +19,11 @@ import { createRoomType, updateRoomType, deleteRoomType } from '@/lib/api/room-t
 
 // Zod schema for room type validation
 const roomTypeSchema = z.object({
-  name: z.record(z.string().min(1)).refine(
+  name: z.record(z.string(), z.string().min(1)).refine(
     (data) => data.en && data.en.length >= 3,
     { message: 'English name must be at least 3 characters' }
   ),
-  description: z.record(z.string().min(1)).refine(
+  description: z.record(z.string(), z.string().min(1)).refine(
     (data) => data.en && data.en.length >= 10,
     { message: 'English description must be at least 10 characters' }
   ),
@@ -179,7 +179,7 @@ export function RoomTypeForm({ mode, hotelId, defaultValues, onSuccess }: RoomTy
                 label="Room Type Name"
                 value={field.value}
                 onChange={field.onChange}
-                error={errors.name?.message}
+                error={errors.name?.message as string | undefined}
                 required
                 placeholder={{
                   en: 'e.g., Deluxe Room',
@@ -199,7 +199,7 @@ export function RoomTypeForm({ mode, hotelId, defaultValues, onSuccess }: RoomTy
                 type="textarea"
                 value={field.value}
                 onChange={field.onChange}
-                error={errors.description?.message}
+                error={errors.description?.message as string | undefined}
                 required
                 rows={4}
                 maxLength={500}

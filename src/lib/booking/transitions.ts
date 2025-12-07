@@ -147,8 +147,9 @@ async function validatePermission(
     .eq('id', booking.hotel_id)
     .single();
 
-  const isAdmin = profile?.role === 'admin';
-  const isHotelOwner = hotel?.owner_id === user.id;
+  const isSuperAdmin = profile?.role === 'super_admin';
+  const isHotelOwner = hotel?.owner_id === user.id || profile?.role === 'hotel_owner';
+  const isHotelStaff = profile?.role === 'hotel_staff';
   const isGuest = booking.guest_id === user.id;
 
   // Different actions have different permission requirements
@@ -158,9 +159,9 @@ async function validatePermission(
       case 'check_in':
       case 'check_out':
       case 'mark_no_show':
-        return isAdmin || isHotelOwner;
+        return isSuperAdmin || isHotelOwner || isHotelStaff;
       case 'cancel':
-        return isAdmin || isHotelOwner || isGuest;
+        return isSuperAdmin || isHotelOwner || isHotelStaff || isGuest;
       default:
         return false;
     }

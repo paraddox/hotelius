@@ -16,7 +16,7 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { SubscriptionCard } from '@/components/dashboard/billing/SubscriptionCard';
 import { PricingPlans } from '@/components/dashboard/billing/PricingPlans';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Receipt, CreditCard, AlertCircle } from 'lucide-react';
 import type { SubscriptionStatusDetails } from '@/lib/stripe/subscriptions';
@@ -253,7 +253,7 @@ export function BillingPageClient({
         </TabsContent>
 
         {/* Plans Tab */}
-        <TabsContent value="plans" id="pricing-plans">
+        <TabsContent value="plans">
           <PricingPlans
             plans={plans}
             currentPlanId={currentPlanId}

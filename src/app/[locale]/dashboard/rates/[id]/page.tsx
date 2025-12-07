@@ -17,7 +17,7 @@ const mockRatePlans = {
     priority: 1,
     minimumStay: 1,
     dayOfWeekRestrictions: null,
-    status: 'active',
+    status: 'active' as const,
   },
   '2': {
     id: '2',
@@ -29,7 +29,7 @@ const mockRatePlans = {
     priority: 2,
     minimumStay: 2,
     dayOfWeekRestrictions: [5, 6],
-    status: 'active',
+    status: 'active' as const,
   },
 };
 
@@ -52,6 +52,13 @@ export default async function EditRatePlanPage({ params }: EditRatePlanPageProps
     notFound();
   }
 
+  // Convert date strings to Date objects for the form
+  const ratePlanWithDates = {
+    ...ratePlan,
+    validFrom: new Date(ratePlan.validFrom),
+    validTo: new Date(ratePlan.validTo),
+  };
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -72,7 +79,7 @@ export default async function EditRatePlanPage({ params }: EditRatePlanPageProps
       {/* Form */}
       <div className="bg-white shadow-sm rounded-lg border border-[#E8E0D5]">
         <div className="px-4 py-5 sm:p-6">
-          <RatePlanForm mode="edit" defaultValues={ratePlan} />
+          <RatePlanForm mode="edit" defaultValues={ratePlanWithDates} />
         </div>
       </div>
     </div>

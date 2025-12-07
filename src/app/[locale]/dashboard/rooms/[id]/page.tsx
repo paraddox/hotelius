@@ -42,7 +42,7 @@ export default function EditRoomPage() {
     roomNumber: string;
     floor: number;
     roomTypeId: string;
-    status: 'available' | 'maintenance' | 'inactive';
+    status: 'available' | 'occupied' | 'maintenance' | 'out_of_service';
     notes?: string;
   }) => {
     await updateRoom(roomId, {
@@ -95,7 +95,7 @@ export default function EditRoomPage() {
     roomNumber: room.roomNumber,
     floor: room.floor,
     roomTypeId: room.roomTypeId,
-    status: room.status as 'available' | 'maintenance' | 'inactive',
+    status: room.status,
     notes: room.notes || '',
   };
 

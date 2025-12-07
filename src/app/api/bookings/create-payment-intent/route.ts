@@ -61,13 +61,13 @@ export async function POST(req: NextRequest) {
         id,
         guest_id,
         hotel_id,
-        total_price,
+        total_price_cents,
         currency,
         check_in_date,
         check_out_date,
         status,
         payment_status,
-        payment_intent_id,
+        stripe_payment_intent_id,
         hotels (
           id,
           name,
@@ -94,7 +94,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Check if booking already has a payment intent
-    if (booking.payment_intent_id && booking.payment_status === 'paid') {
+    if (booking.stripe_payment_intent_id && booking.payment_status === 'paid') {
       return NextResponse.json(
         { error: 'Booking has already been paid' },
         { status: 400 }
@@ -117,8 +117,8 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    // Calculate amounts
-    const totalAmount = Math.round(booking.total_price * 100) // Convert to cents
+    // Calculate amounts (total_price_cents is already in cents)
+    const totalAmount = booking.total_price_cents
     const platformFee = calculatePlatformFee(totalAmount)
 
     // Create payment metadata
@@ -137,14 +137,14 @@ export async function POST(req: NextRequest) {
       currency: booking.currency.toLowerCase(),
       connectedAccountId: hotel.stripe_account_id,
       applicationFeeAmount: platformFee,
-      metadata,
+      metadata: metadata as unknown as Record<string, string>,
     })
 
     // Update booking with payment intent ID
     const { error: updateError } = await supabase
       .from('bookings')
       .update({
-        payment_intent_id: paymentIntent.id,
+        stripe_payment_intent_id: paymentIntent.id,
         updated_at: new Date().toISOString(),
       })
       .eq('id', bookingId)

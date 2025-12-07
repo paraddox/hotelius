@@ -46,7 +46,7 @@ async function checkClosedDates(
   // Check for closed dates that overlap with the requested stay
   // Check both hotel-wide closures (room_type_id IS NULL) and room-type-specific closures
   const query = supabase
-    .from('closed_dates')
+    .from('closed_dates' as any)
     .select('closed_range, reason, room_type_id')
     .eq('hotel_id', hotelId)
     .eq('is_active', true)
@@ -64,8 +64,8 @@ async function checkClosedDates(
   }
 
   // Filter to relevant closures: hotel-wide OR specific to this room type
-  const relevantClosures = closedDates.filter(
-    (cd) => cd.room_type_id === null || cd.room_type_id === roomTypeId
+  const relevantClosures = (closedDates as any[]).filter(
+    (cd: any) => cd.room_type_id === null || cd.room_type_id === roomTypeId
   );
 
   if (relevantClosures.length === 0) {
@@ -73,7 +73,7 @@ async function checkClosedDates(
   }
 
   // Parse the closed ranges for response
-  const closedRanges = relevantClosures.map((cd) => {
+  const closedRanges = relevantClosures.map((cd: any) => {
     const range = cd.closed_range;
     // PostgreSQL daterange format: "[2024-01-01,2024-01-10)"
     const matches = range.match(/[\[\(](.+?),(.+?)[\]\)]/);
@@ -120,7 +120,7 @@ async function getRatePlanRestrictions(
 
   // Get all active rate plans for this room type
   const { data: ratePlans, error } = await supabase
-    .from('rate_plans')
+    .from('rate_plans' as any)
     .select('*')
     .eq('hotel_id', hotelId)
     .eq('room_type_id', roomTypeId)
@@ -132,9 +132,9 @@ async function getRatePlanRestrictions(
   }
 
   // Find the first matching rate plan based on priority
-  for (const plan of ratePlans) {
+  for (const plan of (ratePlans as any[])) {
     // Check if check-in date is within validity range
-    const validityRange = plan.validity_range;
+    const validityRange = (plan as any).validity_range;
     const matches = validityRange.match(/[\[\(](.+?),(.+?)[\]\)]/);
     if (!matches) continue;
 
@@ -146,30 +146,31 @@ async function getRatePlanRestrictions(
     }
 
     // Check advance booking restrictions
+    const p = plan as any;
     if (
-      plan.min_advance_booking_days &&
-      daysInAdvance < plan.min_advance_booking_days
+      p.min_advance_booking_days &&
+      daysInAdvance < p.min_advance_booking_days
     ) {
       continue;
     }
     if (
-      plan.max_advance_booking_days &&
-      daysInAdvance > plan.max_advance_booking_days
+      p.max_advance_booking_days &&
+      daysInAdvance > p.max_advance_booking_days
     ) {
       continue;
     }
 
     // Check day of week
-    if (plan.applicable_days && !plan.applicable_days.includes(checkInDay)) {
+    if (p.applicable_days && !p.applicable_days.includes(checkInDay)) {
       continue;
     }
 
     // This rate plan matches - return its restrictions
     return {
-      minStayNights: plan.min_stay_nights || null,
-      maxStayNights: plan.max_stay_nights || null,
-      minAdvanceBookingDays: plan.min_advance_booking_days || null,
-      maxAdvanceBookingDays: plan.max_advance_booking_days || null,
+      minStayNights: p.min_stay_nights || null,
+      maxStayNights: p.max_stay_nights || null,
+      minAdvanceBookingDays: p.min_advance_booking_days || null,
+      maxAdvanceBookingDays: p.max_advance_booking_days || null,
     };
   }
 

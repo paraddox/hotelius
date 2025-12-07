@@ -5,7 +5,7 @@ import { Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'danger';
+  variant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'danger' | 'default' | 'outline';
   size?: 'sm' | 'md' | 'lg';
   isLoading?: boolean;
 }
@@ -30,7 +30,19 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         hover:shadow-[0_4px_12px_rgba(44,44,44,0.15)]
         focus-visible:ring-[#2C2C2C]
       `,
+      default: `
+        bg-[#2C2C2C] text-white
+        hover:bg-[#4A4A4A] hover:-translate-y-0.5
+        hover:shadow-[0_4px_12px_rgba(44,44,44,0.15)]
+        focus-visible:ring-[#2C2C2C]
+      `,
       secondary: `
+        bg-transparent text-[#2C2C2C]
+        border border-[#E8E0D5]
+        hover:bg-[#F0EBE3] hover:border-[#C4A484]
+        focus-visible:ring-[#C4A484]
+      `,
+      outline: `
         bg-transparent text-[#2C2C2C]
         border border-[#E8E0D5]
         hover:bg-[#F0EBE3] hover:border-[#C4A484]

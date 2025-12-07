@@ -87,7 +87,7 @@ export async function POST(req: NextRequest) {
 
     // Create Checkout session
     const session = await stripe.checkout.sessions.create({
-      customer: customerId,
+      customer: customerId as string,
       mode: 'subscription',
       payment_method_types: ['card'],
       line_items: [
@@ -99,10 +99,10 @@ export async function POST(req: NextRequest) {
       success_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/settings/billing?success=true`,
       cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/settings/billing?canceled=true`,
       subscription_data: {
-        metadata,
+        metadata: metadata as unknown as Record<string, string>,
         trial_period_days: 14, // Optional: 14-day free trial
       },
-      metadata,
+      metadata: metadata as unknown as Record<string, string>,
     })
 
     return NextResponse.json({

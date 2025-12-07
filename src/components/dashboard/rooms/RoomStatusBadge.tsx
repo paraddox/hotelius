@@ -1,6 +1,7 @@
 import { Badge } from '@/components/ui/Badge';
+import type { RoomStatus as DatabaseRoomStatus } from '@/types/database';
 
-export type RoomStatus = 'available' | 'occupied' | 'maintenance' | 'cleaning' | 'inactive';
+export type RoomStatus = DatabaseRoomStatus;
 
 interface RoomStatusBadgeProps {
   status: RoomStatus;
@@ -20,13 +21,9 @@ const statusConfig: Record<RoomStatus, { variant: 'success' | 'info' | 'error' |
     variant: 'error',
     label: 'Maintenance',
   },
-  cleaning: {
-    variant: 'warning',
-    label: 'Cleaning',
-  },
-  inactive: {
+  out_of_service: {
     variant: 'default',
-    label: 'Inactive',
+    label: 'Out of Service',
   },
 };
 

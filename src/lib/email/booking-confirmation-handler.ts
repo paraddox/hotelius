@@ -30,19 +30,18 @@ async function fetchBookingWithDetails(bookingId: string) {
       tax_cents,
       currency,
       special_requests,
-      payment_intent_id,
+      stripe_payment_intent_id,
       guest_id,
       hotel_id,
       room_type_id,
       hotels (
         id,
         name,
-        address,
+        address_line1,
         city,
         country,
         phone,
-        email,
-        image_url
+        email
       ),
       room_types (
         id,

@@ -80,7 +80,7 @@ export async function POST(req: NextRequest) {
     const account = await createConnectAccount({
       email: hotel.email || user.email || '',
       country,
-      metadata,
+      metadata: metadata as unknown as Record<string, string>,
     })
 
     // Update hotel with Connect account ID

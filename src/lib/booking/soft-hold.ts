@@ -170,6 +170,13 @@ export async function extendSoftHold(
   }
 
   // Check if hold has already expired
+  if (!booking.soft_hold_expires_at) {
+    throw new SoftHoldError(
+      'No soft hold found on this booking',
+      'NO_HOLD'
+    );
+  }
+
   const currentExpiry = new Date(booking.soft_hold_expires_at);
   const now = new Date();
 
@@ -282,7 +289,7 @@ export async function isSoftHoldExpired(
   }
 
   // Only pending bookings have soft holds
-  if (booking.status !== BOOKING_STATES.PENDING) {
+  if (booking.status !== BOOKING_STATES.PENDING || !booking.soft_hold_expires_at) {
     return false;
   }
 

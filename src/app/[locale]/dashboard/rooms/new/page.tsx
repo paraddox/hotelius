@@ -13,7 +13,7 @@ export default function NewRoomPage() {
     roomNumber: string;
     floor: number;
     roomTypeId: string;
-    status: 'available' | 'maintenance' | 'inactive';
+    status: 'available' | 'occupied' | 'maintenance' | 'out_of_service';
     notes?: string;
   }) => {
     await createRoom({

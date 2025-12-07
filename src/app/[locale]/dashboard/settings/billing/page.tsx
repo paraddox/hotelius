@@ -25,7 +25,7 @@ export default async function BillingSettingsPage({
   // Get user's hotel
   const { data: hotel, error: hotelError } = await supabase
     .from('hotels')
-    .select('id, name, owner_id, subscription_status, stripe_customer_id')
+    .select('id, name, owner_id')
     .eq('owner_id', user.id)
     .single();
 

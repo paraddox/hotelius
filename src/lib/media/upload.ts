@@ -191,11 +191,10 @@ export function getImageUrl(
   const { data } = supabase.storage
     .from(BUCKET_NAME)
     .getPublicUrl(storagePath, {
-      transform: options ? {
+      transform: options && options.format !== 'origin' ? {
         width: options.width,
         height: options.height,
         quality: options.quality,
-        format: options.format,
       } : undefined,
     });
 

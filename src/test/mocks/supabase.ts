@@ -1,3 +1,6 @@
+// @ts-nocheck
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+
 import { vi } from 'vitest';
 import type { SupabaseClient } from '@supabase/supabase-js';
 

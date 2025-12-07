@@ -83,19 +83,21 @@ export async function fetchRooms(
         id,
         hotel_id,
         room_number,
-        floor_number,
-        room_type,
-        description,
-        is_available,
+        floor,
+        room_type_id,
+        notes,
+        status,
+        is_active,
         created_at,
         updated_at
       `)
       .eq('hotel_id', hotelId)
-      .order('floor_number', { ascending: true })
+      .eq('is_active', true)
+      .order('floor', { ascending: true })
       .order('room_number', { ascending: true });
 
     if (filters?.floor !== undefined) {
-      query = query.eq('floor_number', filters.floor);
+      query = query.eq('floor', filters.floor);
     }
 
     if (filters?.search) {
@@ -114,11 +116,11 @@ export async function fetchRooms(
       id: room.id,
       hotelId: room.hotel_id,
       roomNumber: room.room_number,
-      floor: room.floor_number || 1,
-      roomTypeId: room.room_type,
-      status: determineRoomStatus(room.is_available),
-      notes: room.description || undefined,
-      isAvailable: room.is_available,
+      floor: room.floor || 1,
+      roomTypeId: room.room_type_id,
+      status: room.status as Room['status'],
+      notes: room.notes || undefined,
+      isAvailable: room.status === 'available',
       createdAt: room.created_at,
       updatedAt: room.updated_at,
     }));
@@ -144,10 +146,11 @@ export async function fetchRoomById(id: string): Promise<RoomWithBookings> {
         id,
         hotel_id,
         room_number,
-        floor_number,
-        room_type,
-        description,
-        is_available,
+        floor,
+        room_type_id,
+        notes,
+        status,
+        is_active,
         created_at,
         updated_at
       `)
@@ -173,8 +176,7 @@ export async function fetchRoomById(id: string): Promise<RoomWithBookings> {
         status,
         guest_id,
         profiles:guest_id (
-          first_name,
-          last_name
+          full_name
         )
       `)
       .eq('room_id', id)
@@ -190,9 +192,7 @@ export async function fetchRoomById(id: string): Promise<RoomWithBookings> {
       for (const booking of bookings) {
         const bookingData = {
           id: booking.id,
-          guestName: booking.profiles
-            ? `${booking.profiles.first_name} ${booking.profiles.last_name}`
-            : 'Unknown Guest',
+          guestName: (booking.profiles as any)?.full_name || 'Unknown Guest',
           checkIn: booking.check_in_date,
           checkOut: booking.check_out_date,
           status: booking.status,
@@ -215,11 +215,11 @@ export async function fetchRoomById(id: string): Promise<RoomWithBookings> {
       id: room.id,
       hotelId: room.hotel_id,
       roomNumber: room.room_number,
-      floor: room.floor_number || 1,
-      roomTypeId: room.room_type,
-      status: determineRoomStatus(room.is_available, currentBooking),
-      notes: room.description || undefined,
-      isAvailable: room.is_available,
+      floor: room.floor || 1,
+      roomTypeId: room.room_type_id,
+      status: room.status as Room['status'],
+      notes: room.notes || undefined,
+      isAvailable: room.status === 'available',
       createdAt: room.created_at,
       updatedAt: room.updated_at,
       currentBooking,
@@ -245,14 +245,11 @@ export async function createRoom(data: CreateRoomData): Promise<Room> {
       .insert({
         hotel_id: data.hotelId,
         room_number: data.roomNumber,
-        floor_number: data.floor,
-        room_type: data.roomTypeId,
-        description: data.notes || null,
-        is_available: data.status !== 'inactive',
-        // Use default values from database for other fields
-        max_occupancy: 2,
-        price_per_night: 0, // Will be set by rate plans
-        currency: 'USD',
+        floor: data.floor,
+        room_type_id: data.roomTypeId,
+        notes: data.notes || null,
+        status: data.status || 'available',
+        is_active: true,
       })
       .select()
       .single();
@@ -266,11 +263,11 @@ export async function createRoom(data: CreateRoomData): Promise<Room> {
       id: room.id,
       hotelId: room.hotel_id,
       roomNumber: room.room_number,
-      floor: room.floor_number || 1,
-      roomTypeId: room.room_type,
-      status: data.status || 'available',
-      notes: room.description || undefined,
-      isAvailable: room.is_available,
+      floor: room.floor || 1,
+      roomTypeId: room.room_type_id,
+      status: room.status as Room['status'],
+      notes: room.notes || undefined,
+      isAvailable: room.status === 'available',
       createdAt: room.created_at,
       updatedAt: room.updated_at,
     };
@@ -298,10 +295,10 @@ export async function updateRoom(
     };
 
     if (data.roomNumber !== undefined) updateData.room_number = data.roomNumber;
-    if (data.floor !== undefined) updateData.floor_number = data.floor;
-    if (data.roomTypeId !== undefined) updateData.room_type = data.roomTypeId;
-    if (data.notes !== undefined) updateData.description = data.notes || null;
-    if (data.status !== undefined) updateData.is_available = data.status !== 'inactive';
+    if (data.floor !== undefined) updateData.floor = data.floor;
+    if (data.roomTypeId !== undefined) updateData.room_type_id = data.roomTypeId;
+    if (data.notes !== undefined) updateData.notes = data.notes || null;
+    if (data.status !== undefined) updateData.status = data.status;
 
     const { data: room, error } = await supabase
       .from('rooms')
@@ -319,11 +316,11 @@ export async function updateRoom(
       id: room.id,
       hotelId: room.hotel_id,
       roomNumber: room.room_number,
-      floor: room.floor_number || 1,
-      roomTypeId: room.room_type,
-      status: data.status || determineRoomStatus(room.is_available),
-      notes: room.description || undefined,
-      isAvailable: room.is_available,
+      floor: room.floor || 1,
+      roomTypeId: room.room_type_id,
+      status: room.status as Room['status'],
+      notes: room.notes || undefined,
+      isAvailable: room.status === 'available',
       createdAt: room.created_at,
       updatedAt: room.updated_at,
     };
@@ -394,23 +391,21 @@ export async function fetchRoomTypes(hotelId: string): Promise<Array<{ value: st
   try {
     const supabase = createClient();
 
-    // Get unique room types from rooms table
+    // Get room types from room_types table
     const { data, error } = await supabase
-      .from('rooms')
-      .select('room_type')
-      .eq('hotel_id', hotelId);
+      .from('room_types')
+      .select('id, name_default')
+      .eq('hotel_id', hotelId)
+      .eq('is_active', true);
 
     if (error) {
       console.error('Error fetching room types:', error);
       throw new Error(`Failed to fetch room types: ${error.message}`);
     }
 
-    // Extract unique room types
-    const uniqueTypes = [...new Set(data?.map(r => r.room_type) || [])];
-
-    return uniqueTypes.map(type => ({
-      value: type,
-      label: type,
+    return (data || []).map(type => ({
+      value: type.id,
+      label: type.name_default,
     }));
   } catch (error) {
     console.error('Error fetching room types:', error);
@@ -428,7 +423,7 @@ export async function fetchRoomTypes(hotelId: string): Promise<Array<{ value: st
  * Helper function to determine room status
  */
 function determineRoomStatus(isAvailable: boolean, currentBooking?: any): RoomStatus {
-  if (!isAvailable) return 'inactive';
+  if (!isAvailable) return 'out_of_service';
   if (currentBooking) return 'occupied';
   return 'available';
 }

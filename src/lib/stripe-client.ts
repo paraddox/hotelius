@@ -11,12 +11,6 @@
 
 import { loadStripe, Stripe } from '@stripe/stripe-js';
 
-if (!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY) {
-  throw new Error(
-    'NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY is not defined. Please add it to your environment variables.'
-  );
-}
-
 /**
  * Cached Stripe promise to ensure we only instantiate Stripe.js once
  * This improves performance by reusing the same instance across the application
@@ -47,9 +41,12 @@ let stripePromise: Promise<Stripe | null>;
  */
 export const getStripe = (): Promise<Stripe | null> => {
   if (!stripePromise) {
-    stripePromise = loadStripe(
-      process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
-    );
+    const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
+    if (!publishableKey) {
+      console.error('NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY is not defined');
+      return Promise.resolve(null);
+    }
+    stripePromise = loadStripe(publishableKey);
   }
   return stripePromise;
 };
@@ -74,12 +71,14 @@ export const getStripe = (): Promise<Stripe | null> => {
 export const getStripeForConnectedAccount = (
   connectedAccountId: string
 ): Promise<Stripe | null> => {
-  return loadStripe(
-    process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!,
-    {
-      stripeAccount: connectedAccountId,
-    }
-  );
+  const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
+  if (!publishableKey) {
+    console.error('NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY is not defined');
+    return Promise.resolve(null);
+  }
+  return loadStripe(publishableKey, {
+    stripeAccount: connectedAccountId,
+  });
 };
 
 /**

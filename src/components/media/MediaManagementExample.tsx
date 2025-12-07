@@ -17,7 +17,6 @@ import {
   ImageGallery,
   ImageCropper,
   ASPECT_RATIOS,
-  type FileWithPreview,
   type GalleryImage,
   type CropArea,
 } from '@/components/media';
@@ -38,7 +37,6 @@ export function MediaManagementExample({
   initialImages = [],
 }: MediaManagementExampleProps) {
   const [images, setImages] = useState<GalleryImage[]>(initialImages);
-  const [selectedFiles, setSelectedFiles] = useState<FileWithPreview[]>([]);
   const [cropperOpen, setCropperOpen] = useState(false);
   const [selectedImageForCrop, setSelectedImageForCrop] = useState<string | null>(null);
 
@@ -69,27 +67,6 @@ export function MediaManagementExample({
       console.error('Upload error:', error);
     },
   });
-
-  // Handle file selection from ImageUploader
-  const handleFilesSelected = async (files: FileWithPreview[]) => {
-    setSelectedFiles(files);
-
-    // Convert FileWithPreview to File array and upload
-    const fileArray = files.map((f) => f as File);
-    const urls = await upload(fileArray);
-
-    // Add uploaded images to gallery
-    const newImages: GalleryImage[] = urls.map((url, index) => ({
-      id: `${Date.now()}-${index}`,
-      url,
-      alt: files[index].name,
-      isPrimary: images.length === 0 && index === 0, // First image is primary if no images exist
-      order: images.length + index,
-    }));
-
-    setImages((prev) => [...prev, ...newImages]);
-    setSelectedFiles([]);
-  };
 
   // Handle image deletion from gallery
   const handleDeleteImage = async (imageId: string) => {
@@ -177,10 +154,23 @@ export function MediaManagementExample({
           Upload Images
         </h2>
         <ImageUploader
-          onFilesSelected={handleFilesSelected}
+          hotelId={hotelId}
+          type={roomTypeId ? 'room-type' : 'hotel'}
+          roomTypeId={roomTypeId}
           maxFiles={10}
-          uploadProgress={progress}
-          uploadedFiles={new Set(uploadedUrls)}
+          onUploadComplete={(results) => {
+            const newImages: GalleryImage[] = results.map((result, index) => ({
+              id: `${Date.now()}-${index}`,
+              url: result.url,
+              alt: `Image ${images.length + index + 1}`,
+              isPrimary: images.length === 0 && index === 0,
+              order: images.length + index,
+            }));
+            setImages((prev) => [...prev, ...newImages]);
+          }}
+          onUploadError={(error) => {
+            console.error('Upload error:', error);
+          }}
         />
       </div>
 

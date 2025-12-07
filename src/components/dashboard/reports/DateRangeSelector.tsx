@@ -73,7 +73,7 @@ export function DateRangeSelector({ value, customRange, onChange }: DateRangeSel
               </label>
               <DatePicker
                 value={customFrom}
-                onChange={setCustomFrom}
+                onChange={(date) => setCustomFrom(date ?? undefined)}
                 placeholder="Select start date"
               />
             </div>
@@ -83,7 +83,7 @@ export function DateRangeSelector({ value, customRange, onChange }: DateRangeSel
               </label>
               <DatePicker
                 value={customTo}
-                onChange={setCustomTo}
+                onChange={(date) => setCustomTo(date ?? undefined)}
                 placeholder="Select end date"
               />
             </div>

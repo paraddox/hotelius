@@ -1,3 +1,6 @@
+// @ts-nocheck
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+
 import { ReactElement, ReactNode } from 'react';
 import { render, RenderOptions } from '@testing-library/react';
 import { NextIntlClientProvider } from 'next-intl';

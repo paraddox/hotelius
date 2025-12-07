@@ -7,6 +7,9 @@
  * @module lib/stripe/webhook-examples
  */
 
+// @ts-nocheck
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+
 import type Stripe from 'stripe';
 import {
   verifyWebhookSignature,

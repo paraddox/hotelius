@@ -23,7 +23,7 @@ const roomSchema = z.object({
     .min(0, 'Floor must be at least 0')
     .max(100, 'Floor must be at most 100'),
   roomTypeId: z.string().min(1, 'Please select a room type'),
-  status: z.enum(['available', 'maintenance', 'inactive'] as const),
+  status: z.enum(['available', 'occupied', 'maintenance', 'out_of_service'] as const),
   notes: z.string().optional(),
 });
 
@@ -39,8 +39,9 @@ interface RoomFormProps {
 
 const statusOptions = [
   { value: 'available', label: 'Available' },
+  { value: 'occupied', label: 'Occupied' },
   { value: 'maintenance', label: 'Maintenance' },
-  { value: 'inactive', label: 'Inactive' },
+  { value: 'out_of_service', label: 'Out of Service' },
 ];
 
 export function RoomForm({ mode, hotelId, defaultValues, onSubmit, onDelete }: RoomFormProps) {
@@ -231,11 +232,11 @@ export function RoomForm({ mode, hotelId, defaultValues, onSubmit, onDelete }: R
             </div>
           )}
 
-          {selectedStatus === 'inactive' && (
+          {selectedStatus === 'out_of_service' && (
             <div className="flex items-start gap-3 p-4 bg-[#F0EBE3] border border-[#C4A484] rounded-lg">
               <AlertCircle className="h-5 w-5 text-[#C4A484] flex-shrink-0 mt-0.5" />
               <div>
-                <h4 className="text-sm font-semibold text-[#2C2C2C]">Inactive Room</h4>
+                <h4 className="text-sm font-semibold text-[#2C2C2C]">Out of Service</h4>
                 <p className="mt-1 text-sm text-[#8B8B8B]">
                   This room will be hidden from availability and cannot be booked.
                 </p>

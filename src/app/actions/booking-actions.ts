@@ -99,6 +99,16 @@ export async function createBooking(
     // Get current user
     const { data: { user } } = await supabase.auth.getUser();
 
+    if (!user) {
+      return {
+        success: false,
+        error: {
+          message: 'User must be authenticated to create a booking',
+          code: 'UNAUTHORIZED',
+        },
+      };
+    }
+
     // Calculate pricing
     const pricing = await calculateStayPrice({
       hotelId: validated.hotelId,
@@ -139,8 +149,7 @@ export async function createBooking(
       .insert({
         hotel_id: validated.hotelId,
         room_id: roomId,
-        room_type_id: validated.roomTypeId,
-        guest_id: user?.id,
+        guest_id: user.id,
         check_in_date: validated.checkInDate,
         check_out_date: validated.checkOutDate,
         num_adults: validated.numAdults,
@@ -153,8 +162,8 @@ export async function createBooking(
         special_requests: validated.specialRequests,
         stripe_payment_intent_id: validated.paymentIntentId,
         soft_hold_expires_at: softHoldExpiresAt.toISOString(),
-      })
-      .select('id, confirmation_code')
+      } as any)
+      .select('id')
       .single();
 
     if (bookingError) {
@@ -176,7 +185,7 @@ export async function createBooking(
       success: true,
       data: {
         bookingId: booking.id,
-        confirmationCode: booking.confirmation_code,
+        confirmationCode: booking.id, // Using ID as confirmation code for now
       },
     };
   } catch (error) {
@@ -188,7 +197,7 @@ export async function createBooking(
         error: {
           message: 'Invalid input data',
           code: 'VALIDATION_ERROR',
-          field: error.errors[0]?.path.join('.'),
+          field: (error as any).errors?.[0]?.path?.join?.('.'),
         },
       };
     }

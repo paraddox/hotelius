@@ -280,7 +280,7 @@ export interface StripeTablesExtension {
 }
 
 // Extended hotels table with Stripe fields
-export interface ExtendedHotelsTable extends BaseDatabase['public']['Tables']['hotels'] {
+export type ExtendedHotelsTable = {
   Row: BaseDatabase['public']['Tables']['hotels']['Row'] & {
     stripe_customer_id: string | null
     stripe_account_id: string | null

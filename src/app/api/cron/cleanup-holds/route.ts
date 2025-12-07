@@ -9,7 +9,7 @@
  * {
  *   "crons": [{
  *     "path": "/api/cron/cleanup-holds",
- *     "schedule": "*/5 * * * *"
+ *     "schedule": "every 5 minutes"
  *   }]
  * }
  *
@@ -64,8 +64,8 @@ async function cleanupExpiredHolds(): Promise<{
   // Find all pending bookings with expired soft holds
   const { data: expiredBookings, error: fetchError } = await supabase
     .from('bookings')
-    .select('id, confirmation_code, soft_hold_expires_at')
-    .eq('status', 'pending')
+    .select('id, soft_hold_expires_at')
+    .eq('status', 'pending' as any)
     .not('soft_hold_expires_at', 'is', null)
     .lt('soft_hold_expires_at', now)
     .order('soft_hold_expires_at', { ascending: true });
@@ -91,21 +91,21 @@ async function cleanupExpiredHolds(): Promise<{
 
   // Expire each booking
   let expiredCount = 0;
-  for (const booking of expiredBookings) {
+  for (const booking of expiredBookings as any[]) {
     try {
       // Use the expireBooking action which handles state transitions properly
       await expireBooking(booking.id);
       expiredCount++;
       console.log(
-        `Expired booking ${booking.confirmation_code} (${booking.id})`
+        `Expired booking ${booking.id}`
       );
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       console.error(
-        `Failed to expire booking ${booking.confirmation_code}:`,
+        `Failed to expire booking ${booking.id}:`,
         errorMessage
       );
-      errors.push(`Booking ${booking.confirmation_code}: ${errorMessage}`);
+      errors.push(`Booking ${booking.id}: ${errorMessage}`);
     }
   }
 

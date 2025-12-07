@@ -12,3 +12,8 @@ export type { UploadFile } from './UploadProgress';
 export type { ImagePreviewProps } from './ImagePreview';
 export type { ImageGalleryProps, GalleryImage } from './ImageGallery';
 export type { ImageCropperProps, CropArea } from './ImageCropper';
+
+// File with preview type for drag-and-drop
+export interface FileWithPreview extends File {
+  preview?: string;
+}

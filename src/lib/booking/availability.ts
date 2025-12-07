@@ -55,7 +55,8 @@ export interface RoomAvailability {
   room_id: string;
   room_number: string;
   room_type_id: string;
-  is_available: boolean;
+  status: string;
+  is_active: boolean;
   current_booking_id?: string;
 }
 
@@ -74,22 +75,28 @@ export async function checkAvailability(params: {
 }> {
   const supabase = await createServerClient();
 
-  // Get total rooms of this type
-  const { data: roomType, error: roomTypeError } = await supabase
-    .from('room_types')
-    .select('total_rooms')
-    .eq('id', params.roomTypeId)
+  // Get total rooms of this type by counting from rooms table
+  const { count: totalRooms, error: roomsError } = await supabase
+    .from('rooms')
+    .select('*', { count: 'exact', head: true })
+    .eq('room_type_id', params.roomTypeId)
     .eq('hotel_id', params.hotelId)
-    .single();
+    .eq('is_active', true)
+    .in('status', ['available', 'occupied', 'maintenance']);
 
-  if (roomTypeError || !roomType) {
+  if (roomsError) {
     throw new AvailabilityError(
-      'Room type not found',
-      'ROOM_TYPE_NOT_FOUND'
+      'Failed to get room count',
+      'ROOM_COUNT_FAILED'
     );
   }
 
-  const totalRooms = roomType.total_rooms;
+  if (!totalRooms || totalRooms === 0) {
+    throw new AvailabilityError(
+      'No rooms found for this room type',
+      'NO_ROOMS_FOUND'
+    );
+  }
 
   // Count rooms that are booked (overlapping with requested dates)
   // Include pending bookings with active soft holds and all confirmed/checked-in bookings
@@ -182,7 +189,21 @@ export async function getAvailableRooms(params: {
     });
 
     return {
-      ...roomType,
+      id: roomType.id,
+      name: roomType.name_default,
+      description: typeof roomType.description === 'object' && roomType.description !== null && 'en' in roomType.description
+        ? (roomType.description as any).en
+        : roomType.name_default,
+      base_price_cents: roomType.base_price_cents,
+      currency: roomType.currency,
+      max_adults: roomType.max_adults,
+      max_children: roomType.max_children,
+      max_occupancy: roomType.max_occupancy,
+      size_sqm: roomType.size_sqm || 0,
+      beds: roomType.bed_configuration,
+      amenities: Array.isArray(roomType.amenities) ? roomType.amenities.map(a => String(a)) : [],
+      images: [], // Images would need to be fetched from media table
+      total_rooms: availability.totalRooms,
       available_rooms: availability.availableCount,
       booked_rooms: availability.totalRooms - availability.availableCount,
     };
@@ -268,11 +289,11 @@ export async function isRoomAvailable(params: {
   // Check if room exists and is available
   const { data: room, error: roomError } = await supabase
     .from('rooms')
-    .select('is_available, hotel_id, room_type_id')
+    .select('status, hotel_id, room_type_id, is_active')
     .eq('id', params.roomId)
     .single();
 
-  if (roomError || !room || !room.is_available) {
+  if (roomError || !room || !room.is_active || room.status === 'out_of_service') {
     return false;
   }
 
@@ -315,21 +336,28 @@ export async function getAvailabilityCalendar(params: {
 }[]> {
   const supabase = await createServerClient();
 
-  // Get total rooms
-  const { data: roomType } = await supabase
-    .from('room_types')
-    .select('total_rooms')
-    .eq('id', params.roomTypeId)
-    .single();
+  // Get total rooms by counting from rooms table
+  const { count: totalRooms, error: roomsError } = await supabase
+    .from('rooms')
+    .select('*', { count: 'exact', head: true })
+    .eq('room_type_id', params.roomTypeId)
+    .eq('hotel_id', params.hotelId)
+    .eq('is_active', true)
+    .in('status', ['available', 'occupied', 'maintenance']);
 
-  if (!roomType) {
+  if (roomsError) {
     throw new AvailabilityError(
-      'Room type not found',
-      'ROOM_TYPE_NOT_FOUND'
+      'Failed to get room count',
+      'ROOM_COUNT_FAILED'
     );
   }
 
-  const totalRooms = roomType.total_rooms;
+  if (!totalRooms || totalRooms === 0) {
+    throw new AvailabilityError(
+      'No rooms found for this room type',
+      'NO_ROOMS_FOUND'
+    );
+  }
   const calendar: { date: string; available: number; booked: number; total: number }[] = [];
 
   // Generate date range

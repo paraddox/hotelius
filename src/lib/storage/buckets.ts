@@ -37,13 +37,11 @@ export function getImageUrl(
   const supabase = createClient();
 
   const { data } = supabase.storage.from(bucket).getPublicUrl(path, {
-    transform: transform
+    transform: transform && transform.format !== 'origin'
       ? {
           width: transform.width,
           height: transform.height,
           quality: transform.quality,
-          format: transform.format,
-          resize: transform.resize,
         }
       : undefined,
   });

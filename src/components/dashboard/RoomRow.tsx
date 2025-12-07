@@ -54,10 +54,14 @@ export function RoomRow({ room, dates, bookings, onBookingClick }: RoomRowProps)
             <div className="text-xs text-gray-500">{room.type}</div>
           </div>
           {room.status === 'maintenance' && (
-            <Wrench className="h-4 w-4 text-orange-500" title="Maintenance" />
+            <span title="Maintenance">
+              <Wrench className="h-4 w-4 text-orange-500" />
+            </span>
           )}
           {room.status === 'out-of-service' && (
-            <AlertCircle className="h-4 w-4 text-red-500" title="Out of Service" />
+            <span title="Out of Service">
+              <AlertCircle className="h-4 w-4 text-red-500" />
+            </span>
           )}
         </div>
       </div>

@@ -108,10 +108,10 @@ export async function fetchDashboardMetrics(
   // Fetch current period bookings
   const { data: currentBookings, error: currentError } = await supabase
     .from('bookings')
-    .select('total_price, room_id, check_in, check_out')
-    .eq('tenant_id', tenantId)
-    .gte('check_in', from.toISOString())
-    .lte('check_in', to.toISOString())
+    .select('total_price_cents, room_id, check_in_date, check_out_date')
+    .eq('hotel_id', tenantId)
+    .gte('check_in_date', from.toISOString().split('T')[0])
+    .lte('check_in_date', to.toISOString().split('T')[0])
     .in('status', ['confirmed', 'checked_in', 'checked_out']);
 
   if (currentError) {
@@ -122,10 +122,10 @@ export async function fetchDashboardMetrics(
   // Fetch previous period bookings
   const { data: previousBookings, error: previousError } = await supabase
     .from('bookings')
-    .select('total_price, room_id, check_in, check_out')
-    .eq('tenant_id', tenantId)
-    .gte('check_in', previousFrom.toISOString())
-    .lte('check_in', previousTo.toISOString())
+    .select('total_price_cents, room_id, check_in_date, check_out_date')
+    .eq('hotel_id', tenantId)
+    .gte('check_in_date', previousFrom.toISOString().split('T')[0])
+    .lte('check_in_date', previousTo.toISOString().split('T')[0])
     .in('status', ['confirmed', 'checked_in', 'checked_out']);
 
   if (previousError) {
@@ -137,7 +137,7 @@ export async function fetchDashboardMetrics(
   const { data: rooms, error: roomsError } = await supabase
     .from('rooms')
     .select('id')
-    .eq('tenant_id', tenantId)
+    .eq('hotel_id', tenantId)
     .eq('is_active', true);
 
   if (roomsError) {
@@ -149,15 +149,15 @@ export async function fetchDashboardMetrics(
   const daysInPeriod = Math.ceil((to.getTime() - from.getTime()) / (1000 * 60 * 60 * 24));
   const availableRoomNights = totalRooms * daysInPeriod;
 
-  // Calculate current period metrics
-  const currentTotalRevenue = currentBookings?.reduce((sum, b) => sum + (b.total_price || 0), 0) || 0;
+  // Calculate current period metrics (convert cents to dollars)
+  const currentTotalRevenue = (currentBookings?.reduce((sum, b) => sum + (b.total_price_cents || 0), 0) || 0) / 100;
   const currentBookedRoomNights = currentBookings?.length || 0;
   const currentOccupancyRate = availableRoomNights > 0 ? (currentBookedRoomNights / availableRoomNights) * 100 : 0;
   const currentADR = currentBookedRoomNights > 0 ? currentTotalRevenue / currentBookedRoomNights : 0;
   const currentRevPAR = availableRoomNights > 0 ? currentTotalRevenue / availableRoomNights : 0;
 
-  // Calculate previous period metrics
-  const previousTotalRevenue = previousBookings?.reduce((sum, b) => sum + (b.total_price || 0), 0) || 0;
+  // Calculate previous period metrics (convert cents to dollars)
+  const previousTotalRevenue = (previousBookings?.reduce((sum, b) => sum + (b.total_price_cents || 0), 0) || 0) / 100;
   const previousBookedRoomNights = previousBookings?.length || 0;
   const previousOccupancyRate = availableRoomNights > 0 ? (previousBookedRoomNights / availableRoomNights) * 100 : 0;
   const previousADR = previousBookedRoomNights > 0 ? previousTotalRevenue / previousBookedRoomNights : 0;
@@ -187,7 +187,7 @@ export async function fetchOccupancyData(
   const { data: rooms, error: roomsError } = await supabase
     .from('rooms')
     .select('id')
-    .eq('tenant_id', tenantId)
+    .eq('hotel_id', tenantId)
     .eq('is_active', true);
 
   if (roomsError) {
@@ -200,10 +200,10 @@ export async function fetchOccupancyData(
   // Fetch bookings
   const { data: bookings, error: bookingsError } = await supabase
     .from('bookings')
-    .select('check_in, check_out')
-    .eq('tenant_id', tenantId)
-    .gte('check_in', from.toISOString())
-    .lte('check_in', to.toISOString())
+    .select('check_in_date, check_out_date')
+    .eq('hotel_id', tenantId)
+    .gte('check_in_date', from.toISOString().split('T')[0])
+    .lte('check_in_date', to.toISOString().split('T')[0])
     .in('status', ['confirmed', 'checked_in', 'checked_out']);
 
   if (bookingsError) {
@@ -218,9 +218,7 @@ export async function fetchOccupancyData(
   while (currentDate <= to) {
     const dateStr = currentDate.toISOString().split('T')[0];
     const bookedCount = bookings?.filter(b => {
-      const checkIn = new Date(b.check_in);
-      const checkInDate = checkIn.toISOString().split('T')[0];
-      return checkInDate === dateStr;
+      return b.check_in_date === dateStr;
     }).length || 0;
 
     const occupancy = totalRooms > 0 ? (bookedCount / totalRooms) * 100 : 0;
@@ -249,12 +247,13 @@ export async function fetchRevenueData(
   const { data: bookings, error } = await supabase
     .from('bookings')
     .select(`
-      total_price,
-      room:rooms!inner(room_type)
+      total_price_cents,
+      room_type_id,
+      room_types!inner(name_default)
     `)
-    .eq('tenant_id', tenantId)
-    .gte('check_in', from.toISOString())
-    .lte('check_in', to.toISOString())
+    .eq('hotel_id', tenantId)
+    .gte('check_in_date', from.toISOString().split('T')[0])
+    .lte('check_in_date', to.toISOString().split('T')[0])
     .in('status', ['confirmed', 'checked_in', 'checked_out']);
 
   if (error) {
@@ -267,8 +266,8 @@ export async function fetchRevenueData(
   let totalRevenue = 0;
 
   bookings?.forEach(booking => {
-    const roomType = (booking.room as any)?.room_type || 'Unknown';
-    const revenue = booking.total_price || 0;
+    const roomType = (booking.room_types as any)?.name_default || 'Unknown';
+    const revenue = (booking.total_price_cents || 0) / 100;
     revenueByType.set(roomType, (revenueByType.get(roomType) || 0) + revenue);
     totalRevenue += revenue;
   });
@@ -300,7 +299,7 @@ export async function fetchBookingSourceData(
   const { data: bookings, error } = await supabase
     .from('bookings')
     .select('booking_source')
-    .eq('tenant_id', tenantId)
+    .eq('hotel_id', tenantId)
     .gte('check_in', from.toISOString())
     .lte('check_in', to.toISOString())
     .in('status', ['confirmed', 'checked_in', 'checked_out']);
@@ -348,12 +347,14 @@ export async function fetchTopRooms(
   const { data: bookings, error } = await supabase
     .from('bookings')
     .select(`
-      total_price,
-      room:rooms!inner(id, room_number, room_type)
+      total_price_cents,
+      room_id,
+      rooms!inner(id, room_number),
+      room_types!inner(name_default)
     `)
-    .eq('tenant_id', tenantId)
-    .gte('check_in', from.toISOString())
-    .lte('check_in', to.toISOString())
+    .eq('hotel_id', tenantId)
+    .gte('check_in_date', from.toISOString().split('T')[0])
+    .lte('check_in_date', to.toISOString().split('T')[0])
     .in('status', ['confirmed', 'checked_in', 'checked_out']);
 
   if (error) {
@@ -370,11 +371,11 @@ export async function fetchTopRooms(
   }>();
 
   bookings?.forEach(booking => {
-    const room = booking.room as any;
+    const room = booking.rooms as any;
+    const roomType = (booking.room_types as any)?.name_default || 'Unknown';
     const roomId = room?.id;
     const roomNumber = room?.room_number || 'Unknown';
-    const roomType = room?.room_type || 'Unknown';
-    const revenue = booking.total_price || 0;
+    const revenue = (booking.total_price_cents || 0) / 100;
 
     if (roomId) {
       const existing = roomStats.get(roomId);
