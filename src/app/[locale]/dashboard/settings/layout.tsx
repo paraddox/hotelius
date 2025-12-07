@@ -24,14 +24,14 @@ export default function SettingsLayout({
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
-        <p className="mt-2 text-sm text-gray-700">{t('subtitle')}</p>
+        <h1 className="text-2xl font-serif font-bold text-[var(--foreground)]">{t('title')}</h1>
+        <p className="mt-2 text-sm text-[var(--foreground-muted)]">{t('subtitle')}</p>
       </div>
 
       <div className="flex flex-col lg:flex-row gap-6">
         {/* Settings Navigation */}
         <nav className="lg:w-64 flex-shrink-0">
-          <ul className="space-y-1 bg-white rounded-lg shadow p-4 border border-gray-200">
+          <ul className="space-y-1 bg-[var(--background-elevated)] rounded-xl shadow p-4 border border-[var(--color-sand)] transition-all duration-200">
             {settingsNavigation.map((item) => {
               const isActive = item.exact
                 ? pathname === item.href
@@ -43,17 +43,17 @@ export default function SettingsLayout({
                   <Link
                     href={item.href}
                     className={`
-                      flex items-center gap-x-3 rounded-md px-3 py-2 text-sm font-medium transition-colors
+                      flex items-center gap-x-3 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-200
                       ${
                         isActive
-                          ? 'bg-blue-50 text-blue-600'
-                          : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600'
+                          ? 'bg-[var(--color-terracotta)]/10 text-[var(--color-terracotta-dark)]'
+                          : 'text-[var(--foreground-muted)] hover:bg-[var(--color-sand)]/30 hover:text-[var(--color-terracotta)]'
                       }
                     `}
                   >
                     <Icon
                       className={`h-5 w-5 ${
-                        isActive ? 'text-blue-600' : 'text-gray-400'
+                        isActive ? 'text-[var(--color-terracotta-dark)]' : 'text-[var(--foreground-muted)]'
                       }`}
                     />
                     {t(`nav.${item.name}`)}

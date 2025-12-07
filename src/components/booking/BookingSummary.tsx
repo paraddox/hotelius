@@ -28,12 +28,12 @@ export default function BookingSummary({
   total,
 }: BookingSummaryProps) {
   return (
-    <div className="bg-white rounded-lg shadow-lg p-6 sticky top-4">
-      <h3 className="text-xl font-semibold mb-4">Booking Summary</h3>
+    <div className="bg-[var(--background-elevated)] rounded-xl shadow-lg p-6 sticky top-4">
+      <h3 className="text-xl font-serif font-semibold mb-4">Booking Summary</h3>
 
       {/* Hotel & Room */}
       <div className="mb-6">
-        <div className="relative h-40 rounded-lg overflow-hidden mb-3 bg-gray-200">
+        <div className="relative h-40 rounded-xl overflow-hidden mb-3 bg-[var(--background)]">
           <Image
             src={room.image}
             alt={room.name}
@@ -41,19 +41,19 @@ export default function BookingSummary({
             className="object-cover"
           />
         </div>
-        <h4 className="font-semibold text-lg text-gray-900">{hotelName}</h4>
-        <p className="text-gray-600">{room.name}</p>
+        <h4 className="font-semibold text-lg text-[var(--foreground)]">{hotelName}</h4>
+        <p className="text-[var(--foreground-muted)]">{room.name}</p>
       </div>
 
       {/* Divider */}
-      <div className="border-t border-gray-200 my-4" />
+      <div className="border-t border-[var(--color-sand)] my-4" />
 
       {/* Booking Details */}
       <div className="space-y-3 mb-6">
         <div className="flex items-start gap-3">
-          <Calendar className="w-5 h-5 text-gray-400 mt-0.5" />
+          <Calendar className="w-5 h-5 text-[var(--foreground-muted)] mt-0.5" />
           <div className="flex-1">
-            <p className="text-sm text-gray-600">Check-in</p>
+            <p className="text-sm text-[var(--foreground-muted)]">Check-in</p>
             <p className="font-medium">
               {checkIn.toLocaleDateString('en-US', {
                 weekday: 'short',
@@ -65,9 +65,9 @@ export default function BookingSummary({
         </div>
 
         <div className="flex items-start gap-3">
-          <Calendar className="w-5 h-5 text-gray-400 mt-0.5" />
+          <Calendar className="w-5 h-5 text-[var(--foreground-muted)] mt-0.5" />
           <div className="flex-1">
-            <p className="text-sm text-gray-600">Check-out</p>
+            <p className="text-sm text-[var(--foreground-muted)]">Check-out</p>
             <p className="font-medium">
               {checkOut.toLocaleDateString('en-US', {
                 weekday: 'short',
@@ -79,9 +79,9 @@ export default function BookingSummary({
         </div>
 
         <div className="flex items-start gap-3">
-          <Users className="w-5 h-5 text-gray-400 mt-0.5" />
+          <Users className="w-5 h-5 text-[var(--foreground-muted)] mt-0.5" />
           <div className="flex-1">
-            <p className="text-sm text-gray-600">Guests</p>
+            <p className="text-sm text-[var(--foreground-muted)]">Guests</p>
             <p className="font-medium">
               {guests} {guests === 1 ? 'guest' : 'guests'}
             </p>
@@ -90,40 +90,40 @@ export default function BookingSummary({
       </div>
 
       {/* Divider */}
-      <div className="border-t border-gray-200 my-4" />
+      <div className="border-t border-[var(--color-sand)] my-4" />
 
       {/* Price Breakdown */}
       <div className="space-y-2 mb-4">
         <div className="flex justify-between text-sm">
-          <span className="text-gray-600">
+          <span className="text-[var(--foreground-muted)]">
             ${(subtotal / nights).toFixed(2)} x {nights}{' '}
             {nights === 1 ? 'night' : 'nights'}
           </span>
           <span className="font-medium">${subtotal.toFixed(2)}</span>
         </div>
         <div className="flex justify-between text-sm">
-          <span className="text-gray-600">Taxes & Fees</span>
+          <span className="text-[var(--foreground-muted)]">Taxes & Fees</span>
           <span className="font-medium">${tax.toFixed(2)}</span>
         </div>
       </div>
 
       {/* Divider */}
-      <div className="border-t border-gray-200 my-4" />
+      <div className="border-t border-[var(--color-sand)] my-4" />
 
       {/* Total */}
       <div className="flex justify-between items-baseline mb-6">
-        <span className="text-lg font-semibold">Total</span>
+        <span className="text-lg font-semibold text-[var(--foreground)]">Total</span>
         <div className="text-right">
-          <div className="text-2xl font-bold text-blue-600">
+          <div className="text-2xl font-serif font-bold text-[var(--color-terracotta)]">
             ${total.toFixed(2)}
           </div>
-          <div className="text-xs text-gray-500">USD</div>
+          <div className="text-xs text-[var(--foreground-muted)] opacity-70">USD</div>
         </div>
       </div>
 
       {/* Info */}
-      <div className="bg-blue-50 border border-blue-100 rounded-lg p-4">
-        <p className="text-sm text-gray-700">
+      <div className="bg-[var(--color-terracotta)] bg-opacity-10 border border-[var(--color-terracotta)] rounded-lg p-4">
+        <p className="text-sm text-[var(--foreground)]">
           <span className="font-medium">Free cancellation</span> up to 48 hours before
           check-in
         </p>

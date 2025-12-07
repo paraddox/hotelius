@@ -73,41 +73,41 @@ export default async function ConfirmationPage({
   const booking = await getBookingDetails(bookingId);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[var(--background)]">
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-3xl mx-auto">
           {/* Success Message */}
-          <div className="bg-white rounded-lg shadow-sm p-8 mb-6 text-center">
+          <div className="bg-[var(--background-elevated)] rounded-xl shadow-sm p-8 mb-6 text-center">
             <div className="flex justify-center mb-4">
-              <CheckCircle className="w-20 h-20 text-green-500" />
+              <CheckCircle className="w-20 h-20 text-[var(--color-success)]" />
             </div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            <h1 className="text-3xl font-serif font-bold text-[var(--foreground)] mb-2">
               Booking Confirmed!
             </h1>
-            <p className="text-gray-600 mb-6">
+            <p className="text-[var(--foreground-muted)] mb-6">
               Thank you for your reservation. A confirmation email has been sent to{' '}
               <span className="font-medium">{booking.guest.email}</span>
             </p>
-            <div className="inline-block bg-blue-50 border border-blue-200 rounded-lg px-6 py-3">
-              <p className="text-sm text-gray-600 mb-1">Booking Reference</p>
-              <p className="text-2xl font-bold text-blue-600">{booking.reference}</p>
+            <div className="inline-block bg-[var(--color-terracotta)] bg-opacity-10 border border-[var(--color-terracotta)] rounded-lg px-6 py-3">
+              <p className="text-sm text-[var(--foreground-muted)] mb-1">Booking Reference</p>
+              <p className="text-2xl font-serif font-bold text-[var(--color-terracotta)]">{booking.reference}</p>
             </div>
           </div>
 
           {/* Booking Details */}
-          <div className="bg-white rounded-lg shadow-sm p-8 mb-6">
-            <h2 className="text-2xl font-semibold mb-6">Booking Details</h2>
+          <div className="bg-[var(--background-elevated)] rounded-xl shadow-sm p-8 mb-6">
+            <h2 className="text-2xl font-serif font-semibold mb-6">Booking Details</h2>
 
             {/* Hotel Information */}
             <div className="mb-6 pb-6 border-b">
               <div className="flex items-start gap-3 mb-4">
-                <MapPin className="w-5 h-5 text-blue-600 mt-1" />
+                <MapPin className="w-5 h-5 text-[var(--color-terracotta)] mt-1" />
                 <div>
                   <h3 className="font-semibold text-lg">{booking.hotel.name}</h3>
-                  <p className="text-gray-600">
+                  <p className="text-[var(--foreground-muted)]">
                     {booking.hotel.address}, {booking.hotel.city}, {booking.hotel.country}
                   </p>
-                  <div className="flex gap-4 mt-2 text-sm text-gray-600">
+                  <div className="flex gap-4 mt-2 text-sm text-[var(--foreground-muted)]">
                     <div className="flex items-center gap-1">
                       <Phone className="w-4 h-4" />
                       <span>{booking.hotel.phone}</span>
@@ -124,8 +124,8 @@ export default async function ConfirmationPage({
             {/* Stay Information */}
             <div className="grid md:grid-cols-2 gap-6 mb-6 pb-6 border-b">
               <div>
-                <div className="flex items-center gap-2 text-gray-600 mb-2">
-                  <Calendar className="w-5 h-5 text-blue-600" />
+                <div className="flex items-center gap-2 text-[var(--foreground-muted)] mb-2">
+                  <Calendar className="w-5 h-5 text-[var(--color-terracotta)]" />
                   <span className="font-medium">Check-in</span>
                 </div>
                 <p className="text-lg font-semibold">
@@ -136,12 +136,12 @@ export default async function ConfirmationPage({
                     day: 'numeric',
                   })}
                 </p>
-                <p className="text-sm text-gray-600">From 3:00 PM</p>
+                <p className="text-sm text-[var(--foreground-muted)]">From 3:00 PM</p>
               </div>
 
               <div>
-                <div className="flex items-center gap-2 text-gray-600 mb-2">
-                  <Calendar className="w-5 h-5 text-blue-600" />
+                <div className="flex items-center gap-2 text-[var(--foreground-muted)] mb-2">
+                  <Calendar className="w-5 h-5 text-[var(--color-terracotta)]" />
                   <span className="font-medium">Check-out</span>
                 </div>
                 <p className="text-lg font-semibold">
@@ -152,27 +152,27 @@ export default async function ConfirmationPage({
                     day: 'numeric',
                   })}
                 </p>
-                <p className="text-sm text-gray-600">Until 11:00 AM</p>
+                <p className="text-sm text-[var(--foreground-muted)]">Until 11:00 AM</p>
               </div>
 
               <div>
-                <div className="flex items-center gap-2 text-gray-600 mb-2">
-                  <User className="w-5 h-5 text-blue-600" />
+                <div className="flex items-center gap-2 text-[var(--foreground-muted)] mb-2">
+                  <User className="w-5 h-5 text-[var(--color-terracotta)]" />
                   <span className="font-medium">Room Type</span>
                 </div>
                 <p className="text-lg font-semibold">{booking.room.name}</p>
-                <p className="text-sm text-gray-600">{booking.room.type}</p>
+                <p className="text-sm text-[var(--foreground-muted)]">{booking.room.type}</p>
               </div>
 
               <div>
-                <div className="flex items-center gap-2 text-gray-600 mb-2">
-                  <User className="w-5 h-5 text-blue-600" />
+                <div className="flex items-center gap-2 text-[var(--foreground-muted)] mb-2">
+                  <User className="w-5 h-5 text-[var(--color-terracotta)]" />
                   <span className="font-medium">Guests</span>
                 </div>
                 <p className="text-lg font-semibold">
                   {booking.guests} {booking.guests === 1 ? 'Guest' : 'Guests'}
                 </p>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-[var(--foreground-muted)]">
                   {booking.nights} {booking.nights === 1 ? 'Night' : 'Nights'}
                 </p>
               </div>
@@ -183,22 +183,22 @@ export default async function ConfirmationPage({
               <h3 className="font-semibold text-lg mb-3">Guest Information</h3>
               <div className="grid md:grid-cols-2 gap-4 text-sm">
                 <div>
-                  <p className="text-gray-600">Name</p>
+                  <p className="text-[var(--foreground-muted)]">Name</p>
                   <p className="font-medium">
                     {booking.guest.firstName} {booking.guest.lastName}
                   </p>
                 </div>
                 <div>
-                  <p className="text-gray-600">Email</p>
+                  <p className="text-[var(--foreground-muted)]">Email</p>
                   <p className="font-medium">{booking.guest.email}</p>
                 </div>
                 <div>
-                  <p className="text-gray-600">Phone</p>
+                  <p className="text-[var(--foreground-muted)]">Phone</p>
                   <p className="font-medium">{booking.guest.phone}</p>
                 </div>
                 {booking.specialRequests && (
                   <div className="md:col-span-2">
-                    <p className="text-gray-600">Special Requests</p>
+                    <p className="text-[var(--foreground-muted)]">Special Requests</p>
                     <p className="font-medium">{booking.specialRequests}</p>
                   </div>
                 )}
@@ -210,19 +210,19 @@ export default async function ConfirmationPage({
               <h3 className="font-semibold text-lg mb-3">Price Summary</h3>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-gray-600">
+                  <span className="text-[var(--foreground-muted)]">
                     ${booking.pricing.subtotal / booking.nights} x {booking.nights}{' '}
                     {booking.nights === 1 ? 'night' : 'nights'}
                   </span>
                   <span className="font-medium">${booking.pricing.subtotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Taxes & Fees</span>
+                  <span className="text-[var(--foreground-muted)]">Taxes & Fees</span>
                   <span className="font-medium">${booking.pricing.tax.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-lg font-bold pt-2 border-t">
                   <span>Total</span>
-                  <span className="text-blue-600">${booking.pricing.total.toFixed(2)}</span>
+                  <span className="text-[var(--color-terracotta)]">${booking.pricing.total.toFixed(2)}</span>
                 </div>
               </div>
             </div>
@@ -230,13 +230,13 @@ export default async function ConfirmationPage({
 
           {/* Actions */}
           <div className="flex flex-col sm:flex-row gap-4">
-            <button className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+            <button className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-[var(--background-elevated)] border border-[var(--color-sand)] text-[var(--foreground)] rounded-xl hover:bg-[var(--background)] transition-all duration-200">
               <Download className="w-5 h-5" />
               Download Confirmation
             </button>
             <Link
               href={`/${locale}/account/bookings/${booking.id}`}
-              className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-[var(--color-charcoal)] text-[var(--color-pearl)] rounded-lg hover:bg-[var(--color-slate)] transition-all duration-200"
             >
               <User className="w-5 h-5" />
               View in My Bookings
@@ -247,7 +247,7 @@ export default async function ConfirmationPage({
           <div className="text-center mt-8">
             <Link
               href={`/${locale}`}
-              className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700"
+              className="inline-flex items-center gap-2 text-[var(--color-terracotta)] hover:text-[var(--color-terracotta-dark)]"
             >
               <Home className="w-4 h-4" />
               Return to Home
@@ -255,9 +255,9 @@ export default async function ConfirmationPage({
           </div>
 
           {/* Important Information */}
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mt-6">
+          <div className="bg-[var(--color-terracotta)] bg-opacity-10 border border-[var(--color-terracotta)] rounded-lg p-6 mt-6">
             <h3 className="font-semibold text-lg mb-3">Important Information</h3>
-            <ul className="space-y-2 text-sm text-gray-700">
+            <ul className="space-y-2 text-sm text-[var(--foreground)]">
               <li>• Please bring a valid ID and the credit card used for booking at check-in</li>
               <li>• Check-in time: 3:00 PM | Check-out time: 11:00 AM</li>
               <li>• Free cancellation up to 48 hours before check-in</li>

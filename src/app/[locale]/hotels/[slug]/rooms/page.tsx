@@ -119,26 +119,26 @@ export default async function RoomsPage({
       : 0;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[var(--background)]">
       {/* Header */}
-      <div className="bg-white border-b">
+      <div className="bg-[var(--background-elevated)] border-b">
         <div className="container mx-auto px-4 py-6">
           <Link
             href={`/${locale}/hotels/${slug}`}
-            className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 mb-4"
+            className="inline-flex items-center gap-2 text-[var(--color-terracotta)] hover:text-[var(--color-terracotta-dark)] mb-4"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to hotel
           </Link>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">{hotelName}</h1>
+          <h1 className="text-3xl font-serif font-bold text-[var(--foreground)] mb-2">{hotelName}</h1>
           {checkInDate && checkOutDate && (
-            <div className="flex flex-wrap items-center gap-4 text-gray-600">
+            <div className="flex flex-wrap items-center gap-4 text-[var(--foreground-muted)]">
               <div className="flex items-center gap-2">
                 <Calendar className="w-4 h-4" />
                 <span>
                   {checkInDate.toLocaleDateString()} - {checkOutDate.toLocaleDateString()}
                 </span>
-                <span className="text-gray-500">({nights} {nights === 1 ? 'night' : 'nights'})</span>
+                <span className="text-[var(--foreground-muted)] opacity-70">({nights} {nights === 1 ? 'night' : 'nights'})</span>
               </div>
               <div className="flex items-center gap-2">
                 <Users className="w-4 h-4" />
@@ -155,21 +155,21 @@ export default async function RoomsPage({
           {/* Left Column - Room List */}
           <div className="lg:col-span-2 space-y-6">
             {!checkInDate || !checkOutDate ? (
-              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
-                <p className="text-yellow-800">
+              <div className="bg-[var(--color-warning)] bg-opacity-10 border border-[var(--color-warning)] rounded-xl p-6">
+                <p className="text-[var(--foreground)]">
                   Please select check-in and check-out dates to see available rooms and pricing.
                 </p>
               </div>
             ) : rooms.length === 0 ? (
-              <div className="bg-white rounded-lg p-8 text-center">
-                <p className="text-gray-600 text-lg">
+              <div className="bg-[var(--background-elevated)] rounded-xl p-8 text-center">
+                <p className="text-[var(--foreground-muted)] text-lg">
                   No rooms available for the selected dates. Please try different dates.
                 </p>
               </div>
             ) : (
               <>
                 <div className="flex items-center justify-between">
-                  <h2 className="text-2xl font-semibold text-gray-900">
+                  <h2 className="text-2xl font-serif font-semibold text-[var(--foreground)]">
                     Available Rooms ({rooms.length})
                   </h2>
                 </div>

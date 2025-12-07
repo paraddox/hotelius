@@ -29,8 +29,8 @@ export function RevenueChart({ data, type = 'area', period = 'daily' }: RevenueC
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-white p-4 border border-gray-200 rounded-lg shadow-lg">
-          <p className="font-semibold text-gray-900 mb-2">{label}</p>
+        <div className="p-4 rounded-lg shadow-lg" style={{ backgroundColor: 'var(--background)', borderWidth: '1px', borderColor: 'var(--color-sand)' }}>
+          <p className="font-semibold mb-2" style={{ color: 'var(--foreground)' }}>{label}</p>
           {payload.map((entry: any, index: number) => (
             <p key={index} className="text-sm" style={{ color: entry.color }}>
               {entry.name}: {entry.name === 'Revenue' ? `$${entry.value.toLocaleString()}` : entry.value}
@@ -51,24 +51,24 @@ export function RevenueChart({ data, type = 'area', period = 'daily' }: RevenueC
 
   if (type === 'bar') {
     return (
-      <div className="w-full h-96 bg-white p-6 rounded-lg border border-gray-200">
+      <div className="w-full h-96 p-6 rounded-lg" style={{ backgroundColor: 'var(--background)', borderWidth: '1px', borderColor: 'var(--color-sand)' }}>
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={data}>
             <defs>
               <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#d97706" stopOpacity={0.8}/>
-                <stop offset="95%" stopColor="#d97706" stopOpacity={0.3}/>
+                <stop offset="5%" stopColor="var(--color-terracotta)" stopOpacity={0.8}/>
+                <stop offset="95%" stopColor="var(--color-terracotta)" stopOpacity={0.3}/>
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--color-sand)" />
             <XAxis
               dataKey="date"
-              tick={{ fill: '#6b7280', fontSize: 12 }}
-              tickLine={{ stroke: '#d1d5db' }}
+              tick={{ fill: 'var(--foreground-muted)', fontSize: 12 }}
+              tickLine={{ stroke: 'var(--color-sand)' }}
             />
             <YAxis
-              tick={{ fill: '#6b7280', fontSize: 12 }}
-              tickLine={{ stroke: '#d1d5db' }}
+              tick={{ fill: 'var(--foreground-muted)', fontSize: 12 }}
+              tickLine={{ stroke: 'var(--color-sand)' }}
               tickFormatter={formatYAxis}
             />
             <Tooltip content={<CustomTooltip />} />
@@ -89,36 +89,36 @@ export function RevenueChart({ data, type = 'area', period = 'daily' }: RevenueC
   }
 
   return (
-    <div className="w-full h-96 bg-white p-6 rounded-lg border border-gray-200">
+    <div className="w-full h-96 p-6 rounded-lg" style={{ backgroundColor: 'var(--background)', borderWidth: '1px', borderColor: 'var(--color-sand)' }}>
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart data={data}>
           <defs>
             <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#d97706" stopOpacity={0.8}/>
-              <stop offset="95%" stopColor="#d97706" stopOpacity={0.1}/>
+              <stop offset="5%" stopColor="var(--color-terracotta)" stopOpacity={0.8}/>
+              <stop offset="95%" stopColor="var(--color-terracotta)" stopOpacity={0.1}/>
             </linearGradient>
             <linearGradient id="colorBookings" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#059669" stopOpacity={0.8}/>
-              <stop offset="95%" stopColor="#059669" stopOpacity={0.1}/>
+              <stop offset="5%" stopColor="var(--color-success)" stopOpacity={0.8}/>
+              <stop offset="95%" stopColor="var(--color-success)" stopOpacity={0.1}/>
             </linearGradient>
           </defs>
-          <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+          <CartesianGrid strokeDasharray="3 3" stroke="var(--color-sand)" />
           <XAxis
             dataKey="date"
-            tick={{ fill: '#6b7280', fontSize: 12 }}
-            tickLine={{ stroke: '#d1d5db' }}
+            tick={{ fill: 'var(--foreground-muted)', fontSize: 12 }}
+            tickLine={{ stroke: 'var(--color-sand)' }}
           />
           <YAxis
             yAxisId="left"
-            tick={{ fill: '#6b7280', fontSize: 12 }}
-            tickLine={{ stroke: '#d1d5db' }}
+            tick={{ fill: 'var(--foreground-muted)', fontSize: 12 }}
+            tickLine={{ stroke: 'var(--color-sand)' }}
             tickFormatter={formatYAxis}
           />
           <YAxis
             yAxisId="right"
             orientation="right"
-            tick={{ fill: '#6b7280', fontSize: 12 }}
-            tickLine={{ stroke: '#d1d5db' }}
+            tick={{ fill: 'var(--foreground-muted)', fontSize: 12 }}
+            tickLine={{ stroke: 'var(--color-sand)' }}
           />
           <Tooltip content={<CustomTooltip />} />
           <Legend
@@ -130,7 +130,7 @@ export function RevenueChart({ data, type = 'area', period = 'daily' }: RevenueC
             type="monotone"
             dataKey="revenue"
             name="Revenue"
-            stroke="#d97706"
+            stroke="var(--color-terracotta)"
             strokeWidth={3}
             fillOpacity={1}
             fill="url(#colorRevenue)"
@@ -140,7 +140,7 @@ export function RevenueChart({ data, type = 'area', period = 'daily' }: RevenueC
             type="monotone"
             dataKey="bookings"
             name="Bookings"
-            stroke="#059669"
+            stroke="var(--color-success)"
             strokeWidth={2}
             fillOpacity={1}
             fill="url(#colorBookings)"

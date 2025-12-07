@@ -49,14 +49,14 @@ export default async function BookingDetailPage({
       <div>
         <Link
           href="/dashboard/bookings"
-          className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-700 mb-4"
+          className="inline-flex items-center gap-2 text-sm font-medium text-[var(--foreground-muted)] hover:text-[var(--foreground)] transition-colors mb-4"
         >
           <ArrowLeft className="h-4 w-4" />
           {t('backToBookings')}
         </Link>
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">
+            <h1 className="font-serif text-2xl font-medium text-[var(--foreground)]">
               {t('title')} {mockBookingDetail.id}
             </h1>
             <Breadcrumb
@@ -70,14 +70,14 @@ export default async function BookingDetailPage({
           <div className="flex gap-3">
             <button
               type="button"
-              className="inline-flex items-center gap-2 rounded-md bg-white px-4 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+              className="inline-flex items-center gap-2 rounded-lg bg-[var(--background-elevated)] px-4 py-2 text-sm font-medium text-[var(--foreground)] border border-[var(--color-sand)] hover:bg-[var(--color-cream)] hover:-translate-y-0.5 hover:shadow-[var(--shadow-soft)] transition-all duration-200"
             >
               <Mail className="h-4 w-4" />
               {t('actions.sendEmail')}
             </button>
             <button
               type="button"
-              className="inline-flex items-center gap-2 rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500"
+              className="inline-flex items-center gap-2 rounded-lg bg-[var(--color-charcoal)] px-4 py-2 text-sm font-medium text-[var(--color-pearl)] hover:bg-[var(--color-slate)] hover:-translate-y-0.5 hover:shadow-[var(--shadow-soft)] transition-all duration-200"
             >
               <Edit className="h-4 w-4" />
               {t('actions.edit')}
@@ -90,36 +90,36 @@ export default async function BookingDetailPage({
         {/* Main Content */}
         <div className="lg:col-span-2 space-y-6">
           {/* Guest Information */}
-          <div className="bg-white shadow rounded-lg">
+          <div className="bg-[var(--background-elevated)] shadow-[var(--shadow-soft)] rounded-xl border border-[var(--color-sand)]">
             <div className="px-4 py-5 sm:p-6">
-              <h2 className="text-lg font-medium text-gray-900 mb-4">{t('sections.guestInfo')}</h2>
+              <h2 className="font-serif text-lg font-medium text-[var(--foreground)] mb-4">{t('sections.guestInfo')}</h2>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div className="flex items-start gap-3">
-                  <User className="h-5 w-5 text-gray-400 mt-0.5" />
+                  <User className="h-5 w-5 text-[var(--color-terracotta)] mt-0.5" />
                   <div>
-                    <p className="text-sm font-medium text-gray-500">{t('fields.guestName')}</p>
-                    <p className="mt-1 text-sm text-gray-900">{mockBookingDetail.guestName}</p>
+                    <p className="text-sm font-medium text-[var(--foreground-muted)]">{t('fields.guestName')}</p>
+                    <p className="mt-1 text-sm text-[var(--foreground)]">{mockBookingDetail.guestName}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <Mail className="h-5 w-5 text-gray-400 mt-0.5" />
+                  <Mail className="h-5 w-5 text-[var(--color-terracotta)] mt-0.5" />
                   <div>
-                    <p className="text-sm font-medium text-gray-500">{t('fields.email')}</p>
-                    <p className="mt-1 text-sm text-gray-900">{mockBookingDetail.email}</p>
+                    <p className="text-sm font-medium text-[var(--foreground-muted)]">{t('fields.email')}</p>
+                    <p className="mt-1 text-sm text-[var(--foreground)]">{mockBookingDetail.email}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <Phone className="h-5 w-5 text-gray-400 mt-0.5" />
+                  <Phone className="h-5 w-5 text-[var(--color-terracotta)] mt-0.5" />
                   <div>
-                    <p className="text-sm font-medium text-gray-500">{t('fields.phone')}</p>
-                    <p className="mt-1 text-sm text-gray-900">{mockBookingDetail.phone}</p>
+                    <p className="text-sm font-medium text-[var(--foreground-muted)]">{t('fields.phone')}</p>
+                    <p className="mt-1 text-sm text-[var(--foreground)]">{mockBookingDetail.phone}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <User className="h-5 w-5 text-gray-400 mt-0.5" />
+                  <User className="h-5 w-5 text-[var(--color-terracotta)] mt-0.5" />
                   <div>
-                    <p className="text-sm font-medium text-gray-500">{t('fields.guests')}</p>
-                    <p className="mt-1 text-sm text-gray-900">
+                    <p className="text-sm font-medium text-[var(--foreground-muted)]">{t('fields.guests')}</p>
+                    <p className="mt-1 text-sm text-[var(--foreground)]">
                       {mockBookingDetail.adults} {t('adults')}, {mockBookingDetail.children} {t('children')}
                     </p>
                   </div>
@@ -129,67 +129,67 @@ export default async function BookingDetailPage({
           </div>
 
           {/* Booking Details */}
-          <div className="bg-white shadow rounded-lg">
+          <div className="bg-[var(--background-elevated)] shadow-[var(--shadow-soft)] rounded-xl border border-[var(--color-sand)]">
             <div className="px-4 py-5 sm:p-6">
-              <h2 className="text-lg font-medium text-gray-900 mb-4">{t('sections.bookingDetails')}</h2>
+              <h2 className="font-serif text-lg font-medium text-[var(--foreground)] mb-4">{t('sections.bookingDetails')}</h2>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div className="flex items-start gap-3">
-                  <MapPin className="h-5 w-5 text-gray-400 mt-0.5" />
+                  <MapPin className="h-5 w-5 text-[var(--color-terracotta)] mt-0.5" />
                   <div>
-                    <p className="text-sm font-medium text-gray-500">{t('fields.room')}</p>
-                    <p className="mt-1 text-sm text-gray-900">{mockBookingDetail.roomType}</p>
-                    <p className="text-xs text-gray-500">Room {mockBookingDetail.roomNumber}</p>
+                    <p className="text-sm font-medium text-[var(--foreground-muted)]">{t('fields.room')}</p>
+                    <p className="mt-1 text-sm text-[var(--foreground)]">{mockBookingDetail.roomType}</p>
+                    <p className="text-xs text-[var(--foreground-muted)]">Room {mockBookingDetail.roomNumber}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <Calendar className="h-5 w-5 text-gray-400 mt-0.5" />
+                  <Calendar className="h-5 w-5 text-[var(--color-terracotta)] mt-0.5" />
                   <div>
-                    <p className="text-sm font-medium text-gray-500">{t('fields.nights')}</p>
-                    <p className="mt-1 text-sm text-gray-900">{mockBookingDetail.nights} {t('nights')}</p>
+                    <p className="text-sm font-medium text-[var(--foreground-muted)]">{t('fields.nights')}</p>
+                    <p className="mt-1 text-sm text-[var(--foreground)]">{mockBookingDetail.nights} {t('nights')}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <Calendar className="h-5 w-5 text-gray-400 mt-0.5" />
+                  <Calendar className="h-5 w-5 text-[var(--color-terracotta)] mt-0.5" />
                   <div>
-                    <p className="text-sm font-medium text-gray-500">{t('fields.checkIn')}</p>
-                    <p className="mt-1 text-sm text-gray-900">{mockBookingDetail.checkIn}</p>
-                    <p className="text-xs text-gray-500">{mockBookingDetail.checkInTime}</p>
+                    <p className="text-sm font-medium text-[var(--foreground-muted)]">{t('fields.checkIn')}</p>
+                    <p className="mt-1 text-sm text-[var(--foreground)]">{mockBookingDetail.checkIn}</p>
+                    <p className="text-xs text-[var(--foreground-muted)]">{mockBookingDetail.checkInTime}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <Calendar className="h-5 w-5 text-gray-400 mt-0.5" />
+                  <Calendar className="h-5 w-5 text-[var(--color-terracotta)] mt-0.5" />
                   <div>
-                    <p className="text-sm font-medium text-gray-500">{t('fields.checkOut')}</p>
-                    <p className="mt-1 text-sm text-gray-900">{mockBookingDetail.checkOut}</p>
-                    <p className="text-xs text-gray-500">{mockBookingDetail.checkOutTime}</p>
+                    <p className="text-sm font-medium text-[var(--foreground-muted)]">{t('fields.checkOut')}</p>
+                    <p className="mt-1 text-sm text-[var(--foreground)]">{mockBookingDetail.checkOut}</p>
+                    <p className="text-xs text-[var(--foreground-muted)]">{mockBookingDetail.checkOutTime}</p>
                   </div>
                 </div>
               </div>
 
               {mockBookingDetail.specialRequests && (
-                <div className="mt-4 pt-4 border-t border-gray-200">
-                  <p className="text-sm font-medium text-gray-500">{t('fields.specialRequests')}</p>
-                  <p className="mt-1 text-sm text-gray-900">{mockBookingDetail.specialRequests}</p>
+                <div className="mt-4 pt-4 border-t border-[var(--color-sand)]">
+                  <p className="text-sm font-medium text-[var(--foreground-muted)]">{t('fields.specialRequests')}</p>
+                  <p className="mt-1 text-sm text-[var(--foreground)]">{mockBookingDetail.specialRequests}</p>
                 </div>
               )}
             </div>
           </div>
 
           {/* Price Breakdown */}
-          <div className="bg-white shadow rounded-lg">
+          <div className="bg-[var(--background-elevated)] shadow-[var(--shadow-soft)] rounded-xl border border-[var(--color-sand)]">
             <div className="px-4 py-5 sm:p-6">
-              <h2 className="text-lg font-medium text-gray-900 mb-4">{t('sections.priceBreakdown')}</h2>
+              <h2 className="font-serif text-lg font-medium text-[var(--foreground)] mb-4">{t('sections.priceBreakdown')}</h2>
               <div className="space-y-2">
                 {mockBookingDetail.priceBreakdown.map((item, index) => (
                   <div key={index} className="flex justify-between text-sm">
-                    <span className="text-gray-600">{item.date}</span>
-                    <span className="font-medium text-gray-900">${item.rate}</span>
+                    <span className="text-[var(--foreground-muted)]">{item.date}</span>
+                    <span className="font-medium text-[var(--foreground)]">${item.rate}</span>
                   </div>
                 ))}
-                <div className="pt-3 border-t border-gray-200">
+                <div className="pt-3 border-t border-[var(--color-sand)]">
                   <div className="flex justify-between">
-                    <span className="text-base font-semibold text-gray-900">{t('fields.total')}</span>
-                    <span className="text-base font-semibold text-gray-900">${mockBookingDetail.totalAmount}</span>
+                    <span className="text-base font-semibold text-[var(--foreground)]">{t('fields.total')}</span>
+                    <span className="text-base font-semibold text-[var(--color-terracotta)]">${mockBookingDetail.totalAmount}</span>
                   </div>
                 </div>
               </div>
@@ -200,29 +200,29 @@ export default async function BookingDetailPage({
         {/* Sidebar */}
         <div className="space-y-6">
           {/* Status Card */}
-          <div className="bg-white shadow rounded-lg">
+          <div className="bg-[var(--background-elevated)] shadow-[var(--shadow-soft)] rounded-xl border border-[var(--color-sand)]">
             <div className="px-4 py-5 sm:p-6">
-              <h3 className="text-sm font-medium text-gray-500 mb-3">{t('fields.status')}</h3>
-              <span className="inline-flex rounded-full bg-green-100 px-3 py-1 text-sm font-semibold text-green-800">
+              <h3 className="text-sm font-medium text-[var(--foreground-muted)] mb-3">{t('fields.status')}</h3>
+              <span className="inline-flex rounded-full bg-[rgba(74,124,89,0.1)] px-3 py-1 text-sm font-semibold text-[var(--color-success)]">
                 {mockBookingDetail.status}
               </span>
 
               <div className="mt-4 space-y-3">
                 <button
                   type="button"
-                  className="w-full inline-flex justify-center items-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500"
+                  className="w-full inline-flex justify-center items-center rounded-lg bg-[var(--color-charcoal)] px-3 py-2.5 text-sm font-medium text-[var(--color-pearl)] hover:bg-[var(--color-slate)] hover:-translate-y-0.5 hover:shadow-[var(--shadow-soft)] transition-all duration-200"
                 >
                   {t('actions.checkIn')}
                 </button>
                 <button
                   type="button"
-                  className="w-full inline-flex justify-center items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                  className="w-full inline-flex justify-center items-center rounded-lg bg-[var(--background-elevated)] px-3 py-2.5 text-sm font-medium text-[var(--foreground)] border border-[var(--color-sand)] hover:bg-[var(--color-cream)] transition-all duration-200"
                 >
                   {t('actions.modify')}
                 </button>
                 <button
                   type="button"
-                  className="w-full inline-flex justify-center items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-red-600 shadow-sm ring-1 ring-inset ring-red-300 hover:bg-red-50"
+                  className="w-full inline-flex justify-center items-center rounded-lg bg-[var(--background-elevated)] px-3 py-2.5 text-sm font-medium text-[var(--color-error)] border border-[var(--color-error)] hover:bg-[rgba(196,92,92,0.1)] transition-all duration-200"
                 >
                   {t('actions.cancel')}
                 </button>
@@ -231,44 +231,44 @@ export default async function BookingDetailPage({
           </div>
 
           {/* Payment Information */}
-          <div className="bg-white shadow rounded-lg">
+          <div className="bg-[var(--background-elevated)] shadow-[var(--shadow-soft)] rounded-xl border border-[var(--color-sand)]">
             <div className="px-4 py-5 sm:p-6">
-              <h3 className="text-sm font-medium text-gray-500 mb-3">{t('sections.payment')}</h3>
+              <h3 className="text-sm font-medium text-[var(--foreground-muted)] mb-3">{t('sections.payment')}</h3>
               <div className="space-y-3">
                 <div>
-                  <p className="text-xs text-gray-500">{t('fields.paymentStatus')}</p>
-                  <span className="inline-flex rounded-full bg-green-100 px-2 py-0.5 text-xs font-semibold text-green-800 mt-1">
+                  <p className="text-xs text-[var(--foreground-muted)]">{t('fields.paymentStatus')}</p>
+                  <span className="inline-flex rounded-full bg-[rgba(74,124,89,0.1)] px-2 py-0.5 text-xs font-semibold text-[var(--color-success)] mt-1">
                     {mockBookingDetail.paymentStatus}
                   </span>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500">{t('fields.paymentMethod')}</p>
-                  <p className="text-sm text-gray-900 mt-1">{mockBookingDetail.paymentMethod}</p>
+                  <p className="text-xs text-[var(--foreground-muted)]">{t('fields.paymentMethod')}</p>
+                  <p className="text-sm text-[var(--foreground)] mt-1">{mockBookingDetail.paymentMethod}</p>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500">{t('fields.transactionId')}</p>
-                  <p className="text-sm text-gray-900 font-mono mt-1">{mockBookingDetail.transactionId}</p>
+                  <p className="text-xs text-[var(--foreground-muted)]">{t('fields.transactionId')}</p>
+                  <p className="text-sm text-[var(--foreground)] font-mono mt-1">{mockBookingDetail.transactionId}</p>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500">{t('fields.amount')}</p>
-                  <p className="text-lg font-semibold text-gray-900 mt-1">${mockBookingDetail.totalAmount}</p>
+                  <p className="text-xs text-[var(--foreground-muted)]">{t('fields.amount')}</p>
+                  <p className="text-lg font-semibold text-[var(--color-terracotta)] mt-1">${mockBookingDetail.totalAmount}</p>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Timeline */}
-          <div className="bg-white shadow rounded-lg">
+          <div className="bg-[var(--background-elevated)] shadow-[var(--shadow-soft)] rounded-xl border border-[var(--color-sand)]">
             <div className="px-4 py-5 sm:p-6">
-              <h3 className="text-sm font-medium text-gray-500 mb-3">{t('sections.timeline')}</h3>
+              <h3 className="text-sm font-medium text-[var(--foreground-muted)] mb-3">{t('sections.timeline')}</h3>
               <div className="space-y-3">
                 <div>
-                  <p className="text-xs text-gray-500">{t('timeline.created')}</p>
-                  <p className="text-sm text-gray-900 mt-1">{mockBookingDetail.createdAt}</p>
+                  <p className="text-xs text-[var(--foreground-muted)]">{t('timeline.created')}</p>
+                  <p className="text-sm text-[var(--foreground)] mt-1">{mockBookingDetail.createdAt}</p>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500">{t('timeline.confirmed')}</p>
-                  <p className="text-sm text-gray-900 mt-1">{mockBookingDetail.confirmedAt}</p>
+                  <p className="text-xs text-[var(--foreground-muted)]">{t('timeline.confirmed')}</p>
+                  <p className="text-sm text-[var(--foreground)] mt-1">{mockBookingDetail.confirmedAt}</p>
                 </div>
               </div>
             </div>

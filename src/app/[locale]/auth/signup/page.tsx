@@ -12,8 +12,8 @@ export default function SignUpPage() {
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h2 className="text-2xl font-bold text-gray-900">{t('signUpTitle')}</h2>
-        <p className="mt-2 text-sm text-gray-600">{t('signUpSubtitle')}</p>
+        <h2 className="font-serif text-2xl font-medium text-[var(--foreground)]">{t('signUpTitle')}</h2>
+        <p className="mt-2 text-sm text-[var(--foreground-muted)]">{t('signUpSubtitle')}</p>
       </div>
 
       <SignUpForm />

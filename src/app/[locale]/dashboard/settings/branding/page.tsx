@@ -14,63 +14,63 @@ export default async function SettingsBrandingPage() {
   const t = await getTranslations('dashboard.settings.branding');
 
   return (
-    <div className="bg-white shadow rounded-lg">
+    <div className="bg-[var(--background-elevated)] shadow rounded-xl border border-[var(--color-sand)] transition-all duration-200">
       <div className="px-4 py-5 sm:p-6">
-        <h2 className="text-lg font-medium text-gray-900 mb-6">{t('title')}</h2>
+        <h2 className="text-lg font-serif font-medium text-[var(--foreground)] mb-6">{t('title')}</h2>
 
         <form className="space-y-6">
           {/* Logo Upload */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-[var(--foreground)] mb-2">
               {t('fields.logo')}
             </label>
             <div className="mt-1 flex items-center gap-4">
-              <div className="h-24 w-24 rounded-lg border-2 border-dashed border-gray-300 flex items-center justify-center bg-gray-50">
+              <div className="h-24 w-24 rounded-lg border-2 border-dashed border-[var(--color-sand)] flex items-center justify-center bg-[var(--background)]">
                 {mockBrandingData.logo ? (
                   <img src={mockBrandingData.logo} alt="Logo" className="h-full w-full object-cover rounded-lg" />
                 ) : (
-                  <Image className="h-8 w-8 text-gray-400" />
+                  <Image className="h-8 w-8 text-[var(--foreground-muted)]" />
                 )}
               </div>
               <button
                 type="button"
-                className="inline-flex items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                className="inline-flex items-center gap-2 rounded-lg bg-[var(--background-elevated)] px-3 py-2 text-sm font-semibold text-[var(--foreground)] shadow-sm ring-1 ring-inset ring-[var(--color-sand)] hover:bg-[var(--color-sand)]/30 transition-all duration-200"
               >
                 <Upload className="h-4 w-4" />
                 {t('actions.uploadLogo')}
               </button>
             </div>
-            <p className="mt-2 text-xs text-gray-500">{t('fields.logoHint')}</p>
+            <p className="mt-2 text-xs text-[var(--foreground-muted)]">{t('fields.logoHint')}</p>
           </div>
 
           {/* Favicon Upload */}
-          <div className="border-t border-gray-200 pt-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+          <div className="border-t border-[var(--color-sand)] pt-6">
+            <label className="block text-sm font-medium text-[var(--foreground)] mb-2">
               {t('fields.favicon')}
             </label>
             <div className="mt-1 flex items-center gap-4">
-              <div className="h-16 w-16 rounded border-2 border-dashed border-gray-300 flex items-center justify-center bg-gray-50">
-                <Image className="h-6 w-6 text-gray-400" />
+              <div className="h-16 w-16 rounded border-2 border-dashed border-[var(--color-sand)] flex items-center justify-center bg-[var(--background)]">
+                <Image className="h-6 w-6 text-[var(--foreground-muted)]" />
               </div>
               <button
                 type="button"
-                className="inline-flex items-center gap-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                className="inline-flex items-center gap-2 rounded-lg bg-[var(--background-elevated)] px-3 py-2 text-sm font-semibold text-[var(--foreground)] shadow-sm ring-1 ring-inset ring-[var(--color-sand)] hover:bg-[var(--color-sand)]/30 transition-all duration-200"
               >
                 <Upload className="h-4 w-4" />
                 {t('actions.uploadFavicon')}
               </button>
             </div>
-            <p className="mt-2 text-xs text-gray-500">{t('fields.faviconHint')}</p>
+            <p className="mt-2 text-xs text-[var(--foreground-muted)]">{t('fields.faviconHint')}</p>
           </div>
 
           {/* Color Scheme */}
-          <div className="border-t border-gray-200 pt-6">
-            <h3 className="text-base font-medium text-gray-900 mb-4">
+          <div className="border-t border-[var(--color-sand)] pt-6">
+            <h3 className="text-base font-serif font-medium text-[var(--foreground)] mb-4">
               {t('sections.colors')}
             </h3>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               <div>
-                <label htmlFor="primaryColor" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="primaryColor" className="block text-sm font-medium text-[var(--foreground)]">
                   {t('fields.primaryColor')}
                 </label>
                 <div className="mt-1 flex items-center gap-3">
@@ -79,18 +79,18 @@ export default async function SettingsBrandingPage() {
                     name="primaryColor"
                     id="primaryColor"
                     defaultValue={mockBrandingData.primaryColor}
-                    className="h-10 w-20 rounded border border-gray-300 cursor-pointer"
+                    className="h-10 w-20 rounded-lg border border-[var(--color-sand)] cursor-pointer transition-all duration-200"
                   />
                   <input
                     type="text"
                     defaultValue={mockBrandingData.primaryColor}
-                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-3 py-2 border"
+                    className="block w-full rounded-lg border-[var(--color-sand)] shadow-sm focus:border-[var(--color-terracotta)] focus:ring-[var(--color-terracotta)] sm:text-sm px-3 py-2 border bg-[var(--background)] text-[var(--foreground)] transition-all duration-200"
                   />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="secondaryColor" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="secondaryColor" className="block text-sm font-medium text-[var(--foreground)]">
                   {t('fields.secondaryColor')}
                 </label>
                 <div className="mt-1 flex items-center gap-3">
@@ -99,23 +99,23 @@ export default async function SettingsBrandingPage() {
                     name="secondaryColor"
                     id="secondaryColor"
                     defaultValue={mockBrandingData.secondaryColor}
-                    className="h-10 w-20 rounded border border-gray-300 cursor-pointer"
+                    className="h-10 w-20 rounded-lg border border-[var(--color-sand)] cursor-pointer transition-all duration-200"
                   />
                   <input
                     type="text"
                     defaultValue={mockBrandingData.secondaryColor}
-                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-3 py-2 border"
+                    className="block w-full rounded-lg border-[var(--color-sand)] shadow-sm focus:border-[var(--color-terracotta)] focus:ring-[var(--color-terracotta)] sm:text-sm px-3 py-2 border bg-[var(--background)] text-[var(--foreground)] transition-all duration-200"
                   />
                 </div>
               </div>
             </div>
-            <p className="mt-3 text-sm text-gray-500">{t('fields.colorsHint')}</p>
+            <p className="mt-3 text-sm text-[var(--foreground-muted)]">{t('fields.colorsHint')}</p>
           </div>
 
-          <div className="flex justify-end pt-6 border-t border-gray-200">
+          <div className="flex justify-end pt-6 border-t border-[var(--color-sand)]">
             <button
               type="submit"
-              className="inline-flex items-center gap-2 rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+              className="inline-flex items-center gap-2 rounded-lg bg-[var(--color-charcoal)] px-4 py-2 text-sm font-semibold text-[var(--color-pearl)] shadow-sm hover:bg-[var(--color-slate)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-charcoal)] transition-all duration-200"
             >
               <Save className="h-4 w-4" />
               {t('actions.save')}

@@ -168,8 +168,8 @@ export default function ConnectOnboarding({
     <Card>
       <CardHeader>
         <div className="flex items-center gap-3">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50 border border-blue-200">
-            <CreditCard className="h-6 w-6 text-blue-600" />
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[rgba(196,164,132,0.15)] border border-[var(--color-terracotta)]">
+            <CreditCard className="h-6 w-6 text-[var(--color-terracotta)]" />
           </div>
           <div>
             <CardTitle>Set Up Payments</CardTitle>

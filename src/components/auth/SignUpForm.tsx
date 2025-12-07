@@ -45,7 +45,7 @@ export function SignUpForm() {
 
     const { error: signUpError } = await signUp(data.email, data.password, {
       full_name: data.fullName,
-      role: 'guest', // Default role for new sign-ups
+      role: 'guest',
     })
 
     if (signUpError) {
@@ -57,7 +57,6 @@ export function SignUpForm() {
     setSuccess(true)
     setIsLoading(false)
 
-    // Redirect to login after a short delay
     setTimeout(() => {
       router.push('/auth/login')
     }, 2000)
@@ -67,127 +66,127 @@ export function SignUpForm() {
     return (
       <div className="text-center space-y-4">
         <div className="flex justify-center">
-          <div className="rounded-full bg-green-100 p-3">
-            <CheckCircle className="w-8 h-8 text-green-600" />
+          <div className="rounded-full bg-[rgba(74,124,89,0.1)] p-3">
+            <CheckCircle className="w-8 h-8 text-[var(--color-success)]" />
           </div>
         </div>
-        <h3 className="text-lg font-medium text-gray-900">{t('signUpSuccess')}</h3>
-        <p className="text-sm text-gray-600">{t('signUpSuccessMessage')}</p>
+        <h3 className="font-serif text-lg font-medium text-[var(--foreground)]">{t('signUpSuccess')}</h3>
+        <p className="text-sm text-[var(--foreground-muted)]">{t('signUpSuccessMessage')}</p>
       </div>
     )
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
       {error && (
-        <div className="flex items-center gap-2 p-4 text-sm text-red-800 bg-red-50 border border-red-200 rounded-lg">
+        <div className="flex items-center gap-2 p-4 text-sm text-[var(--color-error)] bg-[rgba(196,92,92,0.1)] border border-[var(--color-error)] rounded-lg">
           <AlertCircle className="w-5 h-5 flex-shrink-0" />
           <p>{error}</p>
         </div>
       )}
 
       <div>
-        <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 mb-2">
+        <label htmlFor="fullName" className="block text-xs font-semibold uppercase tracking-wider text-[var(--foreground-muted)] mb-2">
           {t('fullName')}
         </label>
         <div className="relative">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <User className="h-5 w-5 text-gray-400" />
+            <User className="h-5 w-5 text-[var(--foreground-muted)]" />
           </div>
           <input
             id="fullName"
             type="text"
             autoComplete="name"
             {...register('fullName')}
-            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="block w-full pl-10 pr-3 py-2.5 border border-[var(--color-sand)] rounded-lg bg-[var(--background-elevated)] text-[var(--foreground)] focus:ring-2 focus:ring-[rgba(196,164,132,0.15)] focus:border-[var(--color-terracotta)] transition-all duration-150"
             placeholder={t('fullNamePlaceholder')}
           />
         </div>
         {errors.fullName && (
-          <p className="mt-1 text-sm text-red-600">{errors.fullName.message}</p>
+          <p className="mt-1 text-sm text-[var(--color-error)]">{errors.fullName.message}</p>
         )}
       </div>
 
       <div>
-        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+        <label htmlFor="email" className="block text-xs font-semibold uppercase tracking-wider text-[var(--foreground-muted)] mb-2">
           {t('email')}
         </label>
         <div className="relative">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <Mail className="h-5 w-5 text-gray-400" />
+            <Mail className="h-5 w-5 text-[var(--foreground-muted)]" />
           </div>
           <input
             id="email"
             type="email"
             autoComplete="email"
             {...register('email')}
-            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="block w-full pl-10 pr-3 py-2.5 border border-[var(--color-sand)] rounded-lg bg-[var(--background-elevated)] text-[var(--foreground)] focus:ring-2 focus:ring-[rgba(196,164,132,0.15)] focus:border-[var(--color-terracotta)] transition-all duration-150"
             placeholder={t('emailPlaceholder')}
           />
         </div>
         {errors.email && (
-          <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
+          <p className="mt-1 text-sm text-[var(--color-error)]">{errors.email.message}</p>
         )}
       </div>
 
       <div>
-        <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+        <label htmlFor="password" className="block text-xs font-semibold uppercase tracking-wider text-[var(--foreground-muted)] mb-2">
           {t('password')}
         </label>
         <div className="relative">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <Lock className="h-5 w-5 text-gray-400" />
+            <Lock className="h-5 w-5 text-[var(--foreground-muted)]" />
           </div>
           <input
             id="password"
             type="password"
             autoComplete="new-password"
             {...register('password')}
-            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="block w-full pl-10 pr-3 py-2.5 border border-[var(--color-sand)] rounded-lg bg-[var(--background-elevated)] text-[var(--foreground)] focus:ring-2 focus:ring-[rgba(196,164,132,0.15)] focus:border-[var(--color-terracotta)] transition-all duration-150"
             placeholder={t('passwordPlaceholder')}
           />
         </div>
         {errors.password && (
-          <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
+          <p className="mt-1 text-sm text-[var(--color-error)]">{errors.password.message}</p>
         )}
       </div>
 
       <div>
-        <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
+        <label htmlFor="confirmPassword" className="block text-xs font-semibold uppercase tracking-wider text-[var(--foreground-muted)] mb-2">
           {t('confirmPassword')}
         </label>
         <div className="relative">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <Lock className="h-5 w-5 text-gray-400" />
+            <Lock className="h-5 w-5 text-[var(--foreground-muted)]" />
           </div>
           <input
             id="confirmPassword"
             type="password"
             autoComplete="new-password"
             {...register('confirmPassword')}
-            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="block w-full pl-10 pr-3 py-2.5 border border-[var(--color-sand)] rounded-lg bg-[var(--background-elevated)] text-[var(--foreground)] focus:ring-2 focus:ring-[rgba(196,164,132,0.15)] focus:border-[var(--color-terracotta)] transition-all duration-150"
             placeholder={t('confirmPasswordPlaceholder')}
           />
         </div>
         {errors.confirmPassword && (
-          <p className="mt-1 text-sm text-red-600">{errors.confirmPassword.message}</p>
+          <p className="mt-1 text-sm text-[var(--color-error)]">{errors.confirmPassword.message}</p>
         )}
       </div>
 
       <button
         type="submit"
         disabled={isLoading}
-        className="w-full flex justify-center items-center gap-2 py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full flex justify-center items-center gap-2 py-2.5 px-4 border border-transparent rounded-lg text-sm font-medium text-[var(--color-pearl)] bg-[var(--color-charcoal)] hover:bg-[var(--color-slate)] hover:-translate-y-0.5 hover:shadow-[var(--shadow-soft)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-charcoal)] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
       >
         {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
         {isLoading ? t('signingUp') : t('signUp')}
       </button>
 
       <div className="text-center text-sm">
-        <span className="text-gray-600">{t('alreadyHaveAccount')} </span>
+        <span className="text-[var(--foreground-muted)]">{t('alreadyHaveAccount')} </span>
         <Link
           href="/auth/login"
-          className="font-medium text-blue-600 hover:text-blue-500"
+          className="font-medium text-[var(--color-terracotta)] hover:text-[var(--color-terracotta-dark)] transition-colors"
         >
           {t('signIn')}
         </Link>

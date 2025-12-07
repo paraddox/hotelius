@@ -29,15 +29,15 @@ export default async function AccountPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-[var(--background-elevated)] rounded-xl shadow-sm p-6">
         <div className="flex justify-between items-start">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">My Profile</h1>
-            <p className="text-gray-600">
+            <h1 className="text-3xl font-serif font-bold text-[var(--foreground)] mb-2">My Profile</h1>
+            <p className="text-[var(--foreground-muted)]">
               Manage your personal information and preferences
             </p>
           </div>
-          <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+          <button className="flex items-center gap-2 px-4 py-2 bg-[var(--color-charcoal)] text-[var(--color-pearl)] rounded-lg hover:opacity-90 transition-all">
             <Edit className="w-4 h-4" />
             Edit Profile
           </button>
@@ -46,60 +46,60 @@ export default async function AccountPage() {
 
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white rounded-lg shadow-sm p-6">
+        <div className="bg-[var(--background-elevated)] rounded-xl shadow-sm p-6">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-              <Calendar className="w-6 h-6 text-blue-600" />
+            <div className="w-12 h-12 bg-[var(--color-terracotta)]/10 rounded-lg flex items-center justify-center">
+              <Calendar className="w-6 h-6 text-[var(--color-terracotta)]" />
             </div>
             <div>
-              <p className="text-2xl font-bold text-gray-900">{user.totalBookings}</p>
-              <p className="text-gray-600 text-sm">Total Bookings</p>
+              <p className="text-2xl font-bold text-[var(--foreground)]">{user.totalBookings}</p>
+              <p className="text-[var(--foreground-muted)] text-sm">Total Bookings</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-sm p-6">
+        <div className="bg-[var(--background-elevated)] rounded-xl shadow-sm p-6">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-              <Calendar className="w-6 h-6 text-green-600" />
+            <div className="w-12 h-12 bg-[var(--color-success)]/10 rounded-lg flex items-center justify-center">
+              <Calendar className="w-6 h-6 text-[var(--color-success)]" />
             </div>
             <div>
-              <p className="text-2xl font-bold text-gray-900">{user.upcomingBookings}</p>
-              <p className="text-gray-600 text-sm">Upcoming Trips</p>
+              <p className="text-2xl font-bold text-[var(--foreground)]">{user.upcomingBookings}</p>
+              <p className="text-[var(--foreground-muted)] text-sm">Upcoming Trips</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-sm p-6">
+        <div className="bg-[var(--background-elevated)] rounded-xl shadow-sm p-6">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-              <Calendar className="w-6 h-6 text-purple-600" />
+            <div className="w-12 h-12 bg-[var(--color-terracotta)]/10 rounded-lg flex items-center justify-center">
+              <Calendar className="w-6 h-6 text-[var(--color-terracotta)]" />
             </div>
             <div>
-              <p className="text-2xl font-bold text-gray-900">
+              <p className="text-2xl font-bold text-[var(--foreground)]">
                 {new Date().getFullYear() - user.joinedDate.getFullYear()}
               </p>
-              <p className="text-gray-600 text-sm">Years with us</p>
+              <p className="text-[var(--foreground-muted)] text-sm">Years with us</p>
             </div>
           </div>
         </div>
       </div>
 
       {/* Personal Information */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
-        <h2 className="text-xl font-semibold mb-6">Personal Information</h2>
+      <div className="bg-[var(--background-elevated)] rounded-xl shadow-sm p-6">
+        <h2 className="text-xl font-serif font-semibold mb-6 text-[var(--foreground)]">Personal Information</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <p className="text-sm text-gray-600 mb-1">Full Name</p>
-            <p className="font-medium text-gray-900">
+            <p className="text-sm text-[var(--foreground-muted)] mb-1">Full Name</p>
+            <p className="font-medium text-[var(--foreground)]">
               {user.firstName} {user.lastName}
             </p>
           </div>
 
           <div>
-            <p className="text-sm text-gray-600 mb-1">Date of Birth</p>
-            <p className="font-medium text-gray-900">
+            <p className="text-sm text-[var(--foreground-muted)] mb-1">Date of Birth</p>
+            <p className="font-medium text-[var(--foreground)]">
               {new Date(user.dateOfBirth).toLocaleDateString('en-US', {
                 year: 'numeric',
                 month: 'long',
@@ -109,33 +109,33 @@ export default async function AccountPage() {
           </div>
 
           <div>
-            <div className="flex items-center gap-2 text-sm text-gray-600 mb-1">
+            <div className="flex items-center gap-2 text-sm text-[var(--foreground-muted)] mb-1">
               <Mail className="w-4 h-4" />
               Email Address
             </div>
-            <p className="font-medium text-gray-900">{user.email}</p>
+            <p className="font-medium text-[var(--foreground)]">{user.email}</p>
           </div>
 
           <div>
-            <div className="flex items-center gap-2 text-sm text-gray-600 mb-1">
+            <div className="flex items-center gap-2 text-sm text-[var(--foreground-muted)] mb-1">
               <Phone className="w-4 h-4" />
               Phone Number
             </div>
-            <p className="font-medium text-gray-900">{user.phone}</p>
+            <p className="font-medium text-[var(--foreground)]">{user.phone}</p>
           </div>
         </div>
       </div>
 
       {/* Address */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
-        <h2 className="text-xl font-semibold mb-6">
+      <div className="bg-[var(--background-elevated)] rounded-xl shadow-sm p-6">
+        <h2 className="text-xl font-serif font-semibold mb-6 text-[var(--foreground)]">
           <div className="flex items-center gap-2">
             <MapPin className="w-5 h-5" />
             Address
           </div>
         </h2>
 
-        <div className="space-y-1 text-gray-900">
+        <div className="space-y-1 text-[var(--foreground)]">
           <p className="font-medium">{user.address.street}</p>
           <p>
             {user.address.city}, {user.address.state} {user.address.zip}
@@ -145,13 +145,13 @@ export default async function AccountPage() {
       </div>
 
       {/* Account Information */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
-        <h2 className="text-xl font-semibold mb-6">Account Information</h2>
+      <div className="bg-[var(--background-elevated)] rounded-xl shadow-sm p-6">
+        <h2 className="text-xl font-serif font-semibold mb-6 text-[var(--foreground)]">Account Information</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <p className="text-sm text-gray-600 mb-1">Member Since</p>
-            <p className="font-medium text-gray-900">
+            <p className="text-sm text-[var(--foreground-muted)] mb-1">Member Since</p>
+            <p className="font-medium text-[var(--foreground)]">
               {user.joinedDate.toLocaleDateString('en-US', {
                 year: 'numeric',
                 month: 'long',
@@ -161,8 +161,8 @@ export default async function AccountPage() {
           </div>
 
           <div>
-            <p className="text-sm text-gray-600 mb-1">Account Status</p>
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+            <p className="text-sm text-[var(--foreground-muted)] mb-1">Account Status</p>
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-[var(--color-success)]/10 text-[var(--color-success)]">
               Active
             </span>
           </div>

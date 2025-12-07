@@ -31,13 +31,13 @@ export function CalendarHeader({
   };
 
   return (
-    <div className="bg-white border-b border-gray-200 px-6 py-4">
+    <div className="px-6 py-4" style={{ backgroundColor: 'var(--background)', borderBottom: '1px solid var(--color-sand)' }}>
       <div className="flex items-center justify-between">
         {/* Date Range Display */}
         <div className="flex items-center space-x-4">
           <div className="flex items-center space-x-2">
-            <Calendar className="h-5 w-5 text-gray-400" />
-            <h2 className="text-lg font-semibold text-gray-900">
+            <Calendar className="h-5 w-5" style={{ color: 'var(--foreground-muted)' }} />
+            <h2 className="text-lg font-semibold font-serif" style={{ color: 'var(--foreground)' }}>
               {format(startDate, 'MMM d, yyyy')} - {format(endDate, 'MMM d, yyyy')}
             </h2>
           </div>
@@ -46,20 +46,47 @@ export function CalendarHeader({
           <div className="flex items-center space-x-2">
             <button
               onClick={handlePrevious}
-              className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors"
+              className="p-2 rounded-md transition-all duration-200"
+              style={{ color: 'var(--foreground-muted)' }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = 'var(--foreground)';
+                e.currentTarget.style.backgroundColor = 'var(--background-elevated)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = 'var(--foreground-muted)';
+                e.currentTarget.style.backgroundColor = 'transparent';
+              }}
               title="Previous"
             >
               <ChevronLeft className="h-5 w-5" />
             </button>
             <button
               onClick={handleToday}
-              className="px-3 py-1.5 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors border border-gray-300"
+              className="px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200"
+              style={{ color: 'var(--foreground-muted)', borderWidth: '1px', borderColor: 'var(--color-sand)' }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = 'var(--foreground)';
+                e.currentTarget.style.backgroundColor = 'var(--background-elevated)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = 'var(--foreground-muted)';
+                e.currentTarget.style.backgroundColor = 'transparent';
+              }}
             >
               Today
             </button>
             <button
               onClick={handleNext}
-              className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors"
+              className="p-2 rounded-md transition-all duration-200"
+              style={{ color: 'var(--foreground-muted)' }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = 'var(--foreground)';
+                e.currentTarget.style.backgroundColor = 'var(--background-elevated)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = 'var(--foreground-muted)';
+                e.currentTarget.style.backgroundColor = 'transparent';
+              }}
               title="Next"
             >
               <ChevronRight className="h-5 w-5" />
@@ -69,44 +96,44 @@ export function CalendarHeader({
 
         {/* View Options */}
         <div className="flex items-center space-x-2">
-          <span className="text-sm text-gray-600 mr-2">View:</span>
+          <span className="text-sm mr-2" style={{ color: 'var(--foreground-muted)' }}>View:</span>
           <div className="inline-flex rounded-md shadow-sm" role="group">
             <button
               onClick={() => onViewDaysChange(7)}
-              className={`
-                px-4 py-2 text-sm font-medium rounded-l-md border
-                ${
-                  viewDays === 7
-                    ? 'bg-blue-600 text-white border-blue-600'
-                    : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
-                }
-              `}
+              className="px-4 py-2 text-sm font-medium rounded-l-md transition-all duration-200"
+              style={{
+                backgroundColor: viewDays === 7 ? 'var(--color-terracotta)' : 'var(--background)',
+                color: viewDays === 7 ? 'white' : 'var(--foreground)',
+                borderWidth: '1px',
+                borderColor: viewDays === 7 ? 'var(--color-terracotta)' : 'var(--color-sand)'
+              }}
             >
               7 Days
             </button>
             <button
               onClick={() => onViewDaysChange(14)}
-              className={`
-                px-4 py-2 text-sm font-medium border-t border-b
-                ${
-                  viewDays === 14
-                    ? 'bg-blue-600 text-white border-blue-600'
-                    : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
-                }
-              `}
+              className="px-4 py-2 text-sm font-medium transition-all duration-200"
+              style={{
+                backgroundColor: viewDays === 14 ? 'var(--color-terracotta)' : 'var(--background)',
+                color: viewDays === 14 ? 'white' : 'var(--foreground)',
+                borderTopWidth: '1px',
+                borderBottomWidth: '1px',
+                borderLeftWidth: '0',
+                borderRightWidth: '0',
+                borderColor: viewDays === 14 ? 'var(--color-terracotta)' : 'var(--color-sand)'
+              }}
             >
               14 Days
             </button>
             <button
               onClick={() => onViewDaysChange(30)}
-              className={`
-                px-4 py-2 text-sm font-medium rounded-r-md border
-                ${
-                  viewDays === 30
-                    ? 'bg-blue-600 text-white border-blue-600'
-                    : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
-                }
-              `}
+              className="px-4 py-2 text-sm font-medium rounded-r-md transition-all duration-200"
+              style={{
+                backgroundColor: viewDays === 30 ? 'var(--color-terracotta)' : 'var(--background)',
+                color: viewDays === 30 ? 'white' : 'var(--foreground)',
+                borderWidth: '1px',
+                borderColor: viewDays === 30 ? 'var(--color-terracotta)' : 'var(--color-sand)'
+              }}
             >
               30 Days
             </button>

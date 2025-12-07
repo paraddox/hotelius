@@ -166,8 +166,8 @@ export function BillingPageClient({
     <div className="space-y-6">
       {/* Page Header */}
       <div>
-        <h1 className="text-3xl font-bold">Billing & Subscription</h1>
-        <p className="mt-2 text-muted-foreground">
+        <h1 className="text-3xl font-serif font-bold text-[var(--foreground)]">Billing & Subscription</h1>
+        <p className="mt-2 text-[var(--foreground-muted)]">
           Manage your subscription, billing information, and invoices
         </p>
       </div>
@@ -202,14 +202,14 @@ export function BillingPageClient({
               <CardDescription>View and update your billing details</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-[var(--foreground-muted)]">
                 Manage your payment methods, billing address, and view past invoices in the billing
                 portal.
               </p>
               <button
                 onClick={handleManageSubscription}
                 disabled={isLoading || !subscription.isActive}
-                className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:opacity-50 disabled:cursor-not-allowed"
+                className="inline-flex items-center gap-2 rounded-lg bg-[var(--color-charcoal)] px-4 py-2 text-sm font-semibold text-[var(--color-pearl)] shadow-sm hover:bg-[var(--color-slate)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-charcoal)] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
               >
                 <CreditCard className="h-4 w-4" />
                 Open Billing Portal
@@ -227,21 +227,21 @@ export function BillingPageClient({
             </CardHeader>
             <CardContent className="space-y-3">
               <div>
-                <p className="text-sm font-medium">Billing questions?</p>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm font-medium text-[var(--foreground)]">Billing questions?</p>
+                <p className="text-sm text-[var(--foreground-muted)]">
                   Contact our support team at{' '}
-                  <a href="mailto:billing@hotelius.com" className="text-primary hover:underline">
+                  <a href="mailto:billing@hotelius.com" className="text-[var(--color-terracotta)] hover:text-[var(--color-terracotta-dark)] hover:underline transition-all duration-200">
                     billing@hotelius.com
                   </a>
                 </p>
               </div>
               <div>
-                <p className="text-sm font-medium">Want to upgrade?</p>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm font-medium text-[var(--foreground)]">Want to upgrade?</p>
+                <p className="text-sm text-[var(--foreground-muted)]">
                   Check out our{' '}
                   <button
                     onClick={handleUpgrade}
-                    className="text-primary hover:underline focus:outline-none"
+                    className="text-[var(--color-terracotta)] hover:text-[var(--color-terracotta-dark)] hover:underline focus:outline-none transition-all duration-200"
                   >
                     pricing plans
                   </button>{' '}

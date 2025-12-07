@@ -45,22 +45,22 @@ export function RoomRow({ room, dates, bookings, onBookingClick }: RoomRowProps)
   const roomBookings = bookings.filter(b => b.roomNumber === room.number);
 
   return (
-    <div className="flex border-b border-gray-200 hover:bg-gray-50">
+    <div className="flex transition-all duration-200" style={{ borderBottom: '1px solid var(--color-sand)' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--background-elevated)'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}>
       {/* Room Info - Sticky Left Column */}
-      <div className="sticky left-0 z-10 bg-white border-r border-gray-200 flex-shrink-0 w-48">
+      <div className="sticky left-0 z-10 flex-shrink-0 w-48" style={{ backgroundColor: 'var(--background)', borderRight: '1px solid var(--color-sand)' }}>
         <div className="px-4 py-3 h-16 flex items-center justify-between">
           <div>
-            <div className="font-semibold text-gray-900">{room.number}</div>
-            <div className="text-xs text-gray-500">{room.type}</div>
+            <div className="font-semibold" style={{ color: 'var(--foreground)' }}>{room.number}</div>
+            <div className="text-xs" style={{ color: 'var(--foreground-muted)' }}>{room.type}</div>
           </div>
           {room.status === 'maintenance' && (
             <span title="Maintenance">
-              <Wrench className="h-4 w-4 text-orange-500" />
+              <Wrench className="h-4 w-4" style={{ color: 'var(--color-warning)' }} />
             </span>
           )}
           {room.status === 'out-of-service' && (
             <span title="Out of Service">
-              <AlertCircle className="h-4 w-4 text-red-500" />
+              <AlertCircle className="h-4 w-4" style={{ color: 'var(--color-error)' }} />
             </span>
           )}
         </div>
@@ -83,10 +83,15 @@ export function RoomRow({ room, dates, bookings, onBookingClick }: RoomRowProps)
               <div
                 key={date.toISOString()}
                 className={`
-                  border-r border-gray-100 flex items-center justify-center
-                  ${isUnavailable ? 'bg-gray-100 pattern-dots' : ''}
+                  flex items-center justify-center
+                  ${isUnavailable ? 'pattern-dots' : ''}
                 `}
-                style={{ minWidth: `${CELL_WIDTH}px`, width: `${CELL_WIDTH}px` }}
+                style={{
+                  minWidth: `${CELL_WIDTH}px`,
+                  width: `${CELL_WIDTH}px`,
+                  borderRight: '1px solid var(--color-sand)',
+                  backgroundColor: isUnavailable ? 'var(--background-elevated)' : 'transparent'
+                }}
               >
                 {/* Date cells are just containers - bookings are positioned absolutely */}
               </div>

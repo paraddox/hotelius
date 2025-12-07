@@ -132,15 +132,15 @@ export default function RevenueReportPage() {
         <div>
           <Link
             href="/dashboard/reports"
-            className="inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 mb-2"
+            className="inline-flex items-center text-sm font-medium text-[var(--foreground-muted)] hover:text-[var(--foreground)] transition-colors mb-2"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Reports
           </Link>
-          <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
-          <p className="mt-2 text-sm text-gray-700">{t('subtitle')}</p>
+          <h1 className="font-serif text-2xl font-medium text-[var(--foreground)]">{t('title')}</h1>
+          <p className="mt-2 text-sm text-[var(--foreground-muted)]">{t('subtitle')}</p>
         </div>
-        <button className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+        <button className="inline-flex items-center px-4 py-2.5 border border-[var(--color-sand)] rounded-lg text-sm font-medium text-[var(--foreground)] bg-[var(--background-elevated)] hover:bg-[var(--color-cream)] hover:-translate-y-0.5 hover:shadow-[var(--shadow-soft)] transition-all duration-200">
           Export Report
         </button>
       </div>
@@ -172,14 +172,14 @@ export default function RevenueReportPage() {
           value={revenuePerAvailableRoom}
           format="currency"
           icon={PieChart}
-          iconColor="text-blue-600"
+          iconColor="text-[var(--color-sage)]"
           description="RevPAR"
         />
         <ReportCard
           title="Total Bookings"
           value={totalBookings}
           icon={CreditCard}
-          iconColor="text-purple-600"
+          iconColor="text-[var(--color-terracotta-dark)]"
           trend={{ value: 8.3, isPositive: true }}
           description="Completed bookings"
         />
@@ -188,14 +188,14 @@ export default function RevenueReportPage() {
       {/* Revenue Trend Chart */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-gray-900">
+          <h2 className="font-serif text-lg font-medium text-[var(--foreground)]">
             {t('charts.trend')}
           </h2>
           <div className="flex space-x-2">
-            <button className="px-3 py-1 text-sm font-medium text-amber-700 bg-amber-50 rounded-md hover:bg-amber-100">
+            <button className="px-3 py-1.5 text-sm font-medium text-[var(--color-terracotta)] bg-[rgba(196,164,132,0.15)] rounded-lg hover:bg-[rgba(196,164,132,0.25)] transition-colors">
               Area
             </button>
-            <button className="px-3 py-1 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
+            <button className="px-3 py-1.5 text-sm font-medium text-[var(--foreground-muted)] bg-[var(--background-elevated)] border border-[var(--color-sand)] rounded-lg hover:bg-[var(--color-cream)] transition-colors">
               Bar
             </button>
           </div>
@@ -205,7 +205,7 @@ export default function RevenueReportPage() {
 
       {/* Revenue by Room Type */}
       <div className="space-y-4">
-        <h2 className="text-lg font-semibold text-gray-900">
+        <h2 className="font-serif text-lg font-medium text-[var(--foreground)]">
           {t('tables.byRoomType')}
         </h2>
         <ReportTable
@@ -217,7 +217,7 @@ export default function RevenueReportPage() {
 
       {/* Payment Methods Breakdown */}
       <div className="space-y-4">
-        <h2 className="text-lg font-semibold text-gray-900">
+        <h2 className="font-serif text-lg font-medium text-[var(--foreground)]">
           {t('tables.paymentMethods')}
         </h2>
         <ReportTable
@@ -229,41 +229,41 @@ export default function RevenueReportPage() {
 
       {/* Insights */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 rounded-lg p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-3">
+        <div className="bg-gradient-to-r from-[rgba(135,168,120,0.1)] to-[rgba(74,124,89,0.1)] border border-[var(--color-sage)] rounded-xl p-6">
+          <h3 className="font-serif text-lg font-medium text-[var(--foreground)] mb-3">
             Revenue Insights
           </h3>
-          <ul className="space-y-2 text-sm text-gray-700">
+          <ul className="space-y-2 text-sm text-[var(--foreground-muted)]">
             <li className="flex items-start">
-              <span className="text-emerald-600 mr-2">•</span>
+              <span className="text-[var(--color-sage)] mr-2">•</span>
               <span>Revenue increased by 12.5% compared to previous period</span>
             </li>
             <li className="flex items-start">
-              <span className="text-emerald-600 mr-2">•</span>
+              <span className="text-[var(--color-sage)] mr-2">•</span>
               <span>Deluxe Suites generate the highest revenue at $37,800</span>
             </li>
             <li className="flex items-start">
-              <span className="text-emerald-600 mr-2">•</span>
+              <span className="text-[var(--color-sage)] mr-2">•</span>
               <span>ADR improved across all room categories</span>
             </li>
           </ul>
         </div>
 
-        <div className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-lg p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-3">
+        <div className="bg-gradient-to-r from-[var(--color-cream)] to-[rgba(196,164,132,0.1)] border border-[var(--color-sand)] rounded-xl p-6">
+          <h3 className="font-serif text-lg font-medium text-[var(--foreground)] mb-3">
             Recommendations
           </h3>
-          <ul className="space-y-2 text-sm text-gray-700">
+          <ul className="space-y-2 text-sm text-[var(--foreground-muted)]">
             <li className="flex items-start">
-              <span className="text-amber-600 mr-2">•</span>
+              <span className="text-[var(--color-terracotta)] mr-2">•</span>
               <span>Consider dynamic pricing for Standard Rooms during peak periods</span>
             </li>
             <li className="flex items-start">
-              <span className="text-amber-600 mr-2">•</span>
+              <span className="text-[var(--color-terracotta)] mr-2">•</span>
               <span>Promote Family Suites to increase their contribution to total revenue</span>
             </li>
             <li className="flex items-start">
-              <span className="text-amber-600 mr-2">•</span>
+              <span className="text-[var(--color-terracotta)] mr-2">•</span>
               <span>Optimize RevPAR by adjusting rates based on occupancy forecasts</span>
             </li>
           </ul>

@@ -12,7 +12,7 @@ export default function ResetPasswordPage() {
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h2 className="text-2xl font-bold text-gray-900">{t('resetPasswordTitle')}</h2>
+        <h2 className="text-2xl font-serif font-bold text-[var(--foreground)]">{t('resetPasswordTitle')}</h2>
       </div>
 
       <ResetPasswordForm />

@@ -35,54 +35,63 @@ export function ReportTable({ columns, data, title, description }: ReportTablePr
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+    <div className="rounded-lg shadow-sm overflow-hidden" style={{ backgroundColor: 'var(--background)', borderWidth: '1px', borderColor: 'var(--color-sand)' }}>
       {(title || description) && (
-        <div className="px-6 py-4 border-b border-gray-200">
+        <div className="px-6 py-4" style={{ borderBottom: '1px solid var(--color-sand)' }}>
           {title && (
-            <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
+            <h3 className="text-lg font-semibold font-serif" style={{ color: 'var(--foreground)' }}>{title}</h3>
           )}
           {description && (
-            <p className="mt-1 text-sm text-gray-500">{description}</p>
+            <p className="mt-1 text-sm" style={{ color: 'var(--foreground-muted)' }}>{description}</p>
           )}
         </div>
       )}
 
       <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
+        <table className="min-w-full" style={{ borderCollapse: 'separate', borderSpacing: 0 }}>
+          <thead style={{ backgroundColor: 'var(--background-elevated)' }}>
             <tr>
               {columns.map((column) => (
                 <th
                   key={column.key}
                   scope="col"
-                  className={`px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider ${getAlignmentClass(
+                  className={`px-6 py-3 text-xs font-medium uppercase tracking-wider ${getAlignmentClass(
                     column.align
                   )}`}
+                  style={{ color: 'var(--foreground-muted)', borderBottom: '1px solid var(--color-sand)' }}
                 >
                   {column.label}
                 </th>
               ))}
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody style={{ backgroundColor: 'var(--background)' }}>
             {data.length === 0 ? (
               <tr>
                 <td
                   colSpan={columns.length}
-                  className="px-6 py-8 text-center text-sm text-gray-500"
+                  className="px-6 py-8 text-center text-sm"
+                  style={{ color: 'var(--foreground-muted)' }}
                 >
                   No data available
                 </td>
               </tr>
             ) : (
               data.map((row, rowIndex) => (
-                <tr key={rowIndex} className="hover:bg-gray-50 transition-colors">
+                <tr
+                  key={rowIndex}
+                  className="transition-all duration-200"
+                  style={{ borderBottom: '1px solid var(--color-sand)' }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--background-elevated)'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                >
                   {columns.map((column) => (
                     <td
                       key={column.key}
-                      className={`px-6 py-4 whitespace-nowrap text-sm text-gray-900 ${getAlignmentClass(
+                      className={`px-6 py-4 whitespace-nowrap text-sm ${getAlignmentClass(
                         column.align
                       )}`}
+                      style={{ color: 'var(--foreground)' }}
                     >
                       {formatValue(row[column.key], column.format)}
                     </td>
@@ -95,8 +104,8 @@ export function ReportTable({ columns, data, title, description }: ReportTablePr
       </div>
 
       {data.length > 0 && (
-        <div className="bg-gray-50 px-6 py-3 border-t border-gray-200">
-          <p className="text-sm text-gray-600">
+        <div className="px-6 py-3" style={{ backgroundColor: 'var(--background-elevated)', borderTop: '1px solid var(--color-sand)' }}>
+          <p className="text-sm" style={{ color: 'var(--foreground-muted)' }}>
             Showing {data.length} {data.length === 1 ? 'entry' : 'entries'}
           </p>
         </div>

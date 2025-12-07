@@ -21,15 +21,15 @@ export default async function SettingsGeneralPage() {
   const t = await getTranslations('dashboard.settings.general');
 
   return (
-    <div className="bg-white shadow rounded-lg">
+    <div className="bg-[var(--background-elevated)] shadow rounded-xl border border-[var(--color-sand)] transition-all duration-200">
       <div className="px-4 py-5 sm:p-6">
-        <h2 className="text-lg font-medium text-gray-900 mb-6">{t('title')}</h2>
+        <h2 className="text-lg font-serif font-medium text-[var(--foreground)] mb-6">{t('title')}</h2>
 
         <form className="space-y-6">
           {/* Basic Information */}
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div className="sm:col-span-2">
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="name" className="block text-sm font-medium text-[var(--foreground)]">
                 {t('fields.name')}
               </label>
               <input
@@ -37,12 +37,12 @@ export default async function SettingsGeneralPage() {
                 name="name"
                 id="name"
                 defaultValue={mockHotelData.name}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-3 py-2 border"
+                className="mt-1 block w-full rounded-lg border-[var(--color-sand)] shadow-sm focus:border-[var(--color-terracotta)] focus:ring-[var(--color-terracotta)] sm:text-sm px-3 py-2 border bg-[var(--background)] text-[var(--foreground)] transition-all duration-200"
               />
             </div>
 
             <div className="sm:col-span-2">
-              <label htmlFor="description" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="description" className="block text-sm font-medium text-[var(--foreground)]">
                 {t('fields.description')}
               </label>
               <textarea
@@ -50,19 +50,19 @@ export default async function SettingsGeneralPage() {
                 id="description"
                 rows={3}
                 defaultValue={mockHotelData.description}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-3 py-2 border"
+                className="mt-1 block w-full rounded-lg border-[var(--color-sand)] shadow-sm focus:border-[var(--color-terracotta)] focus:ring-[var(--color-terracotta)] sm:text-sm px-3 py-2 border bg-[var(--background)] text-[var(--foreground)] transition-all duration-200"
               />
             </div>
 
             <div>
-              <label htmlFor="timezone" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="timezone" className="block text-sm font-medium text-[var(--foreground)]">
                 {t('fields.timezone')}
               </label>
               <select
                 name="timezone"
                 id="timezone"
                 defaultValue={mockHotelData.timezone}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-3 py-2 border"
+                className="mt-1 block w-full rounded-lg border-[var(--color-sand)] shadow-sm focus:border-[var(--color-terracotta)] focus:ring-[var(--color-terracotta)] sm:text-sm px-3 py-2 border bg-[var(--background)] text-[var(--foreground)] transition-all duration-200"
               >
                 <option value="America/New_York">Eastern Time (ET)</option>
                 <option value="America/Chicago">Central Time (CT)</option>
@@ -74,14 +74,14 @@ export default async function SettingsGeneralPage() {
             </div>
 
             <div>
-              <label htmlFor="currency" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="currency" className="block text-sm font-medium text-[var(--foreground)]">
                 {t('fields.currency')}
               </label>
               <select
                 name="currency"
                 id="currency"
                 defaultValue={mockHotelData.currency}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-3 py-2 border"
+                className="mt-1 block w-full rounded-lg border-[var(--color-sand)] shadow-sm focus:border-[var(--color-terracotta)] focus:ring-[var(--color-terracotta)] sm:text-sm px-3 py-2 border bg-[var(--background)] text-[var(--foreground)] transition-all duration-200"
               >
                 <option value="USD">USD - US Dollar</option>
                 <option value="EUR">EUR - Euro</option>
@@ -92,13 +92,13 @@ export default async function SettingsGeneralPage() {
           </div>
 
           {/* Contact Information */}
-          <div className="border-t border-gray-200 pt-6">
-            <h3 className="text-base font-medium text-gray-900 mb-4">
+          <div className="border-t border-[var(--color-sand)] pt-6">
+            <h3 className="text-base font-serif font-medium text-[var(--foreground)] mb-4">
               {t('sections.contact')}
             </h3>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="email" className="block text-sm font-medium text-[var(--foreground)]">
                   {t('fields.email')}
                 </label>
                 <input
@@ -106,12 +106,12 @@ export default async function SettingsGeneralPage() {
                   name="email"
                   id="email"
                   defaultValue={mockHotelData.email}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-3 py-2 border"
+                  className="mt-1 block w-full rounded-lg border-[var(--color-sand)] shadow-sm focus:border-[var(--color-terracotta)] focus:ring-[var(--color-terracotta)] sm:text-sm px-3 py-2 border bg-[var(--background)] text-[var(--foreground)] transition-all duration-200"
                 />
               </div>
 
               <div>
-                <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="phone" className="block text-sm font-medium text-[var(--foreground)]">
                   {t('fields.phone')}
                 </label>
                 <input
@@ -119,20 +119,20 @@ export default async function SettingsGeneralPage() {
                   name="phone"
                   id="phone"
                   defaultValue={mockHotelData.phone}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-3 py-2 border"
+                  className="mt-1 block w-full rounded-lg border-[var(--color-sand)] shadow-sm focus:border-[var(--color-terracotta)] focus:ring-[var(--color-terracotta)] sm:text-sm px-3 py-2 border bg-[var(--background)] text-[var(--foreground)] transition-all duration-200"
                 />
               </div>
             </div>
           </div>
 
           {/* Address */}
-          <div className="border-t border-gray-200 pt-6">
-            <h3 className="text-base font-medium text-gray-900 mb-4">
+          <div className="border-t border-[var(--color-sand)] pt-6">
+            <h3 className="text-base font-serif font-medium text-[var(--foreground)] mb-4">
               {t('sections.address')}
             </h3>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               <div className="sm:col-span-2">
-                <label htmlFor="address" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="address" className="block text-sm font-medium text-[var(--foreground)]">
                   {t('fields.address')}
                 </label>
                 <input
@@ -140,12 +140,12 @@ export default async function SettingsGeneralPage() {
                   name="address"
                   id="address"
                   defaultValue={mockHotelData.address}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-3 py-2 border"
+                  className="mt-1 block w-full rounded-lg border-[var(--color-sand)] shadow-sm focus:border-[var(--color-terracotta)] focus:ring-[var(--color-terracotta)] sm:text-sm px-3 py-2 border bg-[var(--background)] text-[var(--foreground)] transition-all duration-200"
                 />
               </div>
 
               <div>
-                <label htmlFor="city" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="city" className="block text-sm font-medium text-[var(--foreground)]">
                   {t('fields.city')}
                 </label>
                 <input
@@ -153,12 +153,12 @@ export default async function SettingsGeneralPage() {
                   name="city"
                   id="city"
                   defaultValue={mockHotelData.city}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-3 py-2 border"
+                  className="mt-1 block w-full rounded-lg border-[var(--color-sand)] shadow-sm focus:border-[var(--color-terracotta)] focus:ring-[var(--color-terracotta)] sm:text-sm px-3 py-2 border bg-[var(--background)] text-[var(--foreground)] transition-all duration-200"
                 />
               </div>
 
               <div>
-                <label htmlFor="zipCode" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="zipCode" className="block text-sm font-medium text-[var(--foreground)]">
                   {t('fields.zipCode')}
                 </label>
                 <input
@@ -166,12 +166,12 @@ export default async function SettingsGeneralPage() {
                   name="zipCode"
                   id="zipCode"
                   defaultValue={mockHotelData.zipCode}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-3 py-2 border"
+                  className="mt-1 block w-full rounded-lg border-[var(--color-sand)] shadow-sm focus:border-[var(--color-terracotta)] focus:ring-[var(--color-terracotta)] sm:text-sm px-3 py-2 border bg-[var(--background)] text-[var(--foreground)] transition-all duration-200"
                 />
               </div>
 
               <div className="sm:col-span-2">
-                <label htmlFor="country" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="country" className="block text-sm font-medium text-[var(--foreground)]">
                   {t('fields.country')}
                 </label>
                 <input
@@ -179,16 +179,16 @@ export default async function SettingsGeneralPage() {
                   name="country"
                   id="country"
                   defaultValue={mockHotelData.country}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-3 py-2 border"
+                  className="mt-1 block w-full rounded-lg border-[var(--color-sand)] shadow-sm focus:border-[var(--color-terracotta)] focus:ring-[var(--color-terracotta)] sm:text-sm px-3 py-2 border bg-[var(--background)] text-[var(--foreground)] transition-all duration-200"
                 />
               </div>
             </div>
           </div>
 
-          <div className="flex justify-end pt-6 border-t border-gray-200">
+          <div className="flex justify-end pt-6 border-t border-[var(--color-sand)]">
             <button
               type="submit"
-              className="inline-flex items-center gap-2 rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+              className="inline-flex items-center gap-2 rounded-lg bg-[var(--color-charcoal)] px-4 py-2 text-sm font-semibold text-[var(--color-pearl)] shadow-sm hover:bg-[var(--color-slate)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-charcoal)] transition-all duration-200"
             >
               <Save className="h-4 w-4" />
               {t('actions.save')}

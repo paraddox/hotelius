@@ -51,10 +51,10 @@ export default function RoomCard({
   });
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
+    <div className="bg-[var(--background-elevated)] rounded-xl shadow-sm border border-[var(--color-sand)] overflow-hidden hover:shadow-md transition-all duration-200">
       <div className="md:flex">
         {/* Room Image */}
-        <div className="md:w-1/3 relative h-64 md:h-auto bg-gray-200">
+        <div className="md:w-1/3 relative h-64 md:h-auto bg-[var(--background)]">
           <Image
             src={room.image}
             alt={room.name}
@@ -62,7 +62,7 @@ export default function RoomCard({
             className="object-cover"
           />
           {room.available <= 3 && (
-            <div className="absolute top-4 left-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+            <div className="absolute top-4 left-4 bg-[var(--color-error)] text-white px-3 py-1 rounded-full text-sm font-medium">
               Only {room.available} left
             </div>
           )}
@@ -72,15 +72,15 @@ export default function RoomCard({
         <div className="md:w-2/3 p-6">
           <div className="flex justify-between items-start mb-4">
             <div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">
+              <h3 className="text-2xl font-serif font-bold text-[var(--foreground)] mb-2">
                 {room.name}
               </h3>
-              <p className="text-gray-600 mb-4">{room.description}</p>
+              <p className="text-[var(--foreground-muted)] mb-4">{room.description}</p>
             </div>
           </div>
 
           {/* Room Features */}
-          <div className="flex flex-wrap gap-4 mb-4 text-sm text-gray-600">
+          <div className="flex flex-wrap gap-4 mb-4 text-sm text-[var(--foreground-muted)]">
             <div className="flex items-center gap-2">
               <Square className="w-4 h-4" />
               <span>{room.size} m²</span>
@@ -97,14 +97,14 @@ export default function RoomCard({
 
           {/* Amenities */}
           <div className="mb-6">
-            <p className="text-sm font-medium text-gray-700 mb-2">Amenities:</p>
+            <p className="text-sm font-medium text-[var(--foreground)] mb-2">Amenities:</p>
             <div className="flex flex-wrap gap-2">
               {room.amenities.slice(0, 6).map((amenity, index) => {
                 const Icon = amenityIcons[amenity];
                 return (
                   <div
                     key={index}
-                    className="flex items-center gap-1 text-sm text-gray-600 bg-gray-50 px-3 py-1 rounded-full"
+                    className="flex items-center gap-1 text-sm text-[var(--foreground-muted)] bg-[var(--background)] px-3 py-1 rounded-full"
                   >
                     {Icon && <Icon className="w-3 h-3" />}
                     <span>{amenity}</span>
@@ -112,7 +112,7 @@ export default function RoomCard({
                 );
               })}
               {room.amenities.length > 6 && (
-                <span className="text-sm text-blue-600">
+                <span className="text-sm text-[var(--color-terracotta)]">
                   +{room.amenities.length - 6} more
                 </span>
               )}
@@ -120,22 +120,22 @@ export default function RoomCard({
           </div>
 
           {/* Pricing and CTA */}
-          <div className="flex items-end justify-between pt-4 border-t">
+          <div className="flex items-end justify-between pt-4 border-t border-[var(--color-sand)]">
             <div>
               <div className="flex items-baseline gap-2">
-                <span className="text-3xl font-bold text-gray-900">
+                <span className="text-3xl font-serif font-bold text-[var(--foreground)]">
                   ${room.price}
                 </span>
-                <span className="text-gray-600">/ night</span>
+                <span className="text-[var(--foreground-muted)]">/ night</span>
               </div>
-              <p className="text-sm text-gray-600 mt-1">
+              <p className="text-sm text-[var(--foreground-muted)] mt-1">
                 ${totalPrice} total for {nights} {nights === 1 ? 'night' : 'nights'}
               </p>
-              <p className="text-xs text-gray-500 mt-1">Excludes taxes & fees</p>
+              <p className="text-xs text-[var(--foreground-muted)] opacity-70 mt-1">Excludes taxes & fees</p>
             </div>
             <Link
               href={`/${locale}/hotels/${hotelSlug}/book?${bookingUrl.toString()}`}
-              className="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium text-lg"
+              className="px-8 py-3 bg-[var(--color-charcoal)] text-[var(--color-pearl)] rounded-lg hover:bg-[var(--color-slate)] transition-all duration-200 font-medium text-lg"
             >
               Book Now
             </Link>

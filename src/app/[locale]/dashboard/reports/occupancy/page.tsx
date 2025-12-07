@@ -106,15 +106,15 @@ export default function OccupancyReportPage() {
         <div>
           <Link
             href="/dashboard/reports"
-            className="inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 mb-2"
+            className="inline-flex items-center text-sm font-medium text-[var(--foreground-muted)] hover:text-[var(--foreground)] transition-colors mb-2"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Reports
           </Link>
-          <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
-          <p className="mt-2 text-sm text-gray-700">{t('subtitle')}</p>
+          <h1 className="font-serif text-2xl font-medium text-[var(--foreground)]">{t('title')}</h1>
+          <p className="mt-2 text-sm text-[var(--foreground-muted)]">{t('subtitle')}</p>
         </div>
-        <button className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+        <button className="inline-flex items-center px-4 py-2.5 border border-[var(--color-sand)] rounded-lg text-sm font-medium text-[var(--foreground)] bg-[var(--background-elevated)] hover:bg-[var(--color-cream)] hover:-translate-y-0.5 hover:shadow-[var(--shadow-soft)] transition-all duration-200">
           Export Report
         </button>
       </div>
@@ -145,14 +145,14 @@ export default function OccupancyReportPage() {
           title="Booked Rooms"
           value={currentBookedRooms}
           icon={Bed}
-          iconColor="text-blue-600"
+          iconColor="text-[var(--color-sage)]"
           description={`of ${totalRooms} total rooms`}
         />
         <ReportCard
           title="Available Rooms"
           value={totalRooms - currentBookedRooms}
           icon={Users}
-          iconColor="text-purple-600"
+          iconColor="text-[var(--color-terracotta-dark)]"
           description="Ready for booking"
         />
       </div>
@@ -160,14 +160,14 @@ export default function OccupancyReportPage() {
       {/* Occupancy Trend Chart */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-gray-900">
+          <h2 className="font-serif text-lg font-medium text-[var(--foreground)]">
             {t('charts.trend')}
           </h2>
           <div className="flex space-x-2">
-            <button className="px-3 py-1 text-sm font-medium text-amber-700 bg-amber-50 rounded-md hover:bg-amber-100">
+            <button className="px-3 py-1.5 text-sm font-medium text-[var(--color-terracotta)] bg-[rgba(196,164,132,0.15)] rounded-lg hover:bg-[rgba(196,164,132,0.25)] transition-colors">
               Line
             </button>
-            <button className="px-3 py-1 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
+            <button className="px-3 py-1.5 text-sm font-medium text-[var(--foreground-muted)] bg-[var(--background-elevated)] border border-[var(--color-sand)] rounded-lg hover:bg-[var(--color-cream)] transition-colors">
               Bar
             </button>
           </div>
@@ -177,7 +177,7 @@ export default function OccupancyReportPage() {
 
       {/* Room Type Breakdown */}
       <div className="space-y-4">
-        <h2 className="text-lg font-semibold text-gray-900">
+        <h2 className="font-serif text-lg font-medium text-[var(--foreground)]">
           {t('tables.byRoomType')}
         </h2>
         <ReportTable
@@ -188,25 +188,25 @@ export default function OccupancyReportPage() {
       </div>
 
       {/* Insights */}
-      <div className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-lg p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-3">
+      <div className="bg-gradient-to-r from-[var(--color-cream)] to-[rgba(196,164,132,0.1)] border border-[var(--color-sand)] rounded-xl p-6">
+        <h3 className="font-serif text-lg font-medium text-[var(--foreground)] mb-3">
           Key Insights
         </h3>
-        <ul className="space-y-2 text-sm text-gray-700">
+        <ul className="space-y-2 text-sm text-[var(--foreground-muted)]">
           <li className="flex items-start">
-            <span className="text-amber-600 mr-2">•</span>
+            <span className="text-[var(--color-terracotta)] mr-2">•</span>
             <span>Deluxe Suites are performing exceptionally well with 90% occupancy rate</span>
           </li>
           <li className="flex items-start">
-            <span className="text-amber-600 mr-2">•</span>
+            <span className="text-[var(--color-terracotta)] mr-2">•</span>
             <span>Family Suites have room for improvement at 60% occupancy</span>
           </li>
           <li className="flex items-start">
-            <span className="text-amber-600 mr-2">•</span>
+            <span className="text-[var(--color-terracotta)] mr-2">•</span>
             <span>Overall occupancy increased by 5.2% compared to previous period</span>
           </li>
           <li className="flex items-start">
-            <span className="text-amber-600 mr-2">•</span>
+            <span className="text-[var(--color-terracotta)] mr-2">•</span>
             <span>Weekends show 15% higher occupancy than weekdays</span>
           </li>
         </ul>

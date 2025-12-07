@@ -156,12 +156,12 @@ export function TapeChart() {
       <div className="flex-1 overflow-auto">
         <div className="min-w-full inline-block">
           {/* Date Header Row */}
-          <div className="sticky top-0 z-20 bg-white border-b border-gray-300 shadow-sm">
+          <div className="sticky top-0 z-20 shadow-sm" style={{ backgroundColor: 'var(--background)', borderBottom: '1px solid var(--color-sand)' }}>
             <div className="flex">
               {/* Empty cell for room info column */}
-              <div className="sticky left-0 z-30 bg-white border-r border-gray-300 flex-shrink-0 w-48">
+              <div className="sticky left-0 z-30 flex-shrink-0 w-48" style={{ backgroundColor: 'var(--background)', borderRight: '1px solid var(--color-sand)' }}>
                 <div className="px-4 py-3 h-16 flex items-center">
-                  <span className="text-sm font-semibold text-gray-700">Room</span>
+                  <span className="text-sm font-semibold font-serif" style={{ color: 'var(--foreground)' }}>Room</span>
                 </div>
               </div>
 
@@ -172,19 +172,21 @@ export function TapeChart() {
                   return (
                     <div
                       key={date.toISOString()}
-                      className={`
-                        border-r border-gray-200 flex flex-col items-center justify-center py-2
-                        ${isCurrentDay ? 'bg-blue-50' : 'bg-gray-50'}
-                      `}
-                      style={{ minWidth: `${CELL_WIDTH}px`, width: `${CELL_WIDTH}px` }}
+                      className="flex flex-col items-center justify-center py-2"
+                      style={{
+                        minWidth: `${CELL_WIDTH}px`,
+                        width: `${CELL_WIDTH}px`,
+                        borderRight: '1px solid var(--color-sand)',
+                        backgroundColor: isCurrentDay ? 'var(--background-elevated)' : 'var(--background-elevated)'
+                      }}
                     >
-                      <div className={`text-xs font-medium ${isCurrentDay ? 'text-blue-600' : 'text-gray-500'}`}>
+                      <div className="text-xs font-medium" style={{ color: isCurrentDay ? 'var(--color-terracotta)' : 'var(--foreground-muted)' }}>
                         {format(date, 'EEE')}
                       </div>
-                      <div className={`text-lg font-semibold ${isCurrentDay ? 'text-blue-600' : 'text-gray-900'}`}>
+                      <div className="text-lg font-semibold" style={{ color: isCurrentDay ? 'var(--color-terracotta)' : 'var(--foreground)' }}>
                         {format(date, 'd')}
                       </div>
-                      <div className={`text-xs ${isCurrentDay ? 'text-blue-600' : 'text-gray-500'}`}>
+                      <div className="text-xs" style={{ color: isCurrentDay ? 'var(--color-terracotta)' : 'var(--foreground-muted)' }}>
                         {format(date, 'MMM')}
                       </div>
                     </div>
@@ -195,12 +197,12 @@ export function TapeChart() {
           </div>
 
           {/* Room Rows grouped by type */}
-          <div className="bg-white">
+          <div style={{ backgroundColor: 'var(--background)' }}>
             {Array.from(roomsByType.entries()).map(([roomType, rooms]) => (
               <div key={roomType}>
                 {/* Room Type Header */}
-                <div className="sticky left-0 z-10 bg-gray-100 border-b border-gray-300 px-4 py-2">
-                  <h3 className="text-sm font-semibold text-gray-700">{roomType}</h3>
+                <div className="sticky left-0 z-10 px-4 py-2" style={{ backgroundColor: 'var(--background-elevated)', borderBottom: '1px solid var(--color-sand)' }}>
+                  <h3 className="text-sm font-semibold font-serif" style={{ color: 'var(--foreground)' }}>{roomType}</h3>
                 </div>
 
                 {/* Rooms of this type */}
@@ -221,32 +223,33 @@ export function TapeChart() {
         {/* Today Indicator Line */}
         {dates.some(date => isToday(date)) && (
           <div
-            className="absolute top-0 bottom-0 w-0.5 bg-blue-500 pointer-events-none z-10"
+            className="absolute top-0 bottom-0 w-0.5 pointer-events-none z-10"
             style={{
               left: `${48 * 4 + dates.findIndex(date => isToday(date)) * CELL_WIDTH + CELL_WIDTH / 2}px`,
+              backgroundColor: 'var(--color-terracotta)'
             }}
           />
         )}
       </div>
 
       {/* Legend */}
-      <div className="border-t border-gray-200 bg-gray-50 px-6 py-4">
+      <div className="px-6 py-4" style={{ borderTop: '1px solid var(--color-sand)', backgroundColor: 'var(--background-elevated)' }}>
         <div className="flex items-center space-x-6 text-xs">
           <div className="flex items-center space-x-2">
-            <div className="w-4 h-4 bg-green-100 border-l-4 border-green-300 rounded"></div>
-            <span className="text-gray-600">Confirmed</span>
+            <div className="w-4 h-4 rounded" style={{ backgroundColor: 'hsl(var(--color-success) / 0.15)', borderLeft: '4px solid var(--color-success)' }}></div>
+            <span style={{ color: 'var(--foreground-muted)' }}>Confirmed</span>
           </div>
           <div className="flex items-center space-x-2">
-            <div className="w-4 h-4 bg-blue-100 border-l-4 border-blue-300 rounded"></div>
-            <span className="text-gray-600">Checked In</span>
+            <div className="w-4 h-4 rounded" style={{ backgroundColor: 'hsl(var(--color-terracotta) / 0.15)', borderLeft: '4px solid var(--color-terracotta)' }}></div>
+            <span style={{ color: 'var(--foreground-muted)' }}>Checked In</span>
           </div>
           <div className="flex items-center space-x-2">
-            <div className="w-4 h-4 bg-yellow-100 border-l-4 border-yellow-300 rounded"></div>
-            <span className="text-gray-600">Pending</span>
+            <div className="w-4 h-4 rounded" style={{ backgroundColor: 'hsl(var(--color-warning) / 0.15)', borderLeft: '4px solid var(--color-warning)' }}></div>
+            <span style={{ color: 'var(--foreground-muted)' }}>Pending</span>
           </div>
           <div className="flex items-center space-x-2">
-            <div className="w-4 h-4 bg-gray-100 border-l-4 border-gray-300 rounded"></div>
-            <span className="text-gray-600">Checked Out</span>
+            <div className="w-4 h-4 rounded" style={{ backgroundColor: 'var(--background-elevated)', borderLeft: '4px solid var(--color-sand)' }}></div>
+            <span style={{ color: 'var(--foreground-muted)' }}>Checked Out</span>
           </div>
         </div>
       </div>

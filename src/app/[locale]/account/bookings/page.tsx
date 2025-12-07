@@ -93,15 +93,15 @@ async function getUserBookings() {
 const statusConfig = {
   upcoming: {
     label: 'Upcoming',
-    color: 'bg-blue-100 text-blue-800',
+    color: 'bg-[var(--color-terracotta)]/10 text-[var(--color-terracotta)]',
   },
   completed: {
     label: 'Completed',
-    color: 'bg-green-100 text-green-800',
+    color: 'bg-[var(--color-success)]/10 text-[var(--color-success)]',
   },
   cancelled: {
     label: 'Cancelled',
-    color: 'bg-red-100 text-red-800',
+    color: 'bg-[var(--color-error)]/10 text-[var(--color-error)]',
   },
 };
 
@@ -114,15 +114,15 @@ export default async function BookingsPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">My Bookings</h1>
-        <p className="text-gray-600">View and manage your reservations</p>
+      <div className="bg-[var(--background-elevated)] rounded-xl shadow-sm p-6">
+        <h1 className="text-3xl font-serif font-bold text-[var(--foreground)] mb-2">My Bookings</h1>
+        <p className="text-[var(--foreground-muted)]">View and manage your reservations</p>
       </div>
 
       {/* Upcoming Bookings */}
       {upcomingBookings.length > 0 && (
         <div>
-          <h2 className="text-xl font-semibold mb-4">Upcoming Trips</h2>
+          <h2 className="text-xl font-serif font-semibold mb-4 text-[var(--foreground)]">Upcoming Trips</h2>
           <div className="space-y-4">
             {upcomingBookings.map((booking) => (
               <BookingCard key={booking.id} booking={booking} />
@@ -134,7 +134,7 @@ export default async function BookingsPage() {
       {/* Past Bookings */}
       {pastBookings.length > 0 && (
         <div>
-          <h2 className="text-xl font-semibold mb-4">Past & Cancelled</h2>
+          <h2 className="text-xl font-serif font-semibold mb-4 text-[var(--foreground)]">Past & Cancelled</h2>
           <div className="space-y-4">
             {pastBookings.map((booking) => (
               <BookingCard key={booking.id} booking={booking} />
@@ -145,17 +145,17 @@ export default async function BookingsPage() {
 
       {/* Empty State */}
       {bookings.length === 0 && (
-        <div className="bg-white rounded-lg shadow-sm p-12 text-center">
-          <Calendar className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-gray-900 mb-2">
+        <div className="bg-[var(--background-elevated)] rounded-xl shadow-sm p-12 text-center">
+          <Calendar className="w-16 h-16 text-[var(--foreground-muted)] mx-auto mb-4" />
+          <h3 className="text-xl font-serif font-semibold text-[var(--foreground)] mb-2">
             No bookings yet
           </h3>
-          <p className="text-gray-600 mb-6">
+          <p className="text-[var(--foreground-muted)] mb-6">
             Start planning your next adventure!
           </p>
           <Link
             href="/en"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--color-charcoal)] text-[var(--color-pearl)] rounded-lg hover:opacity-90 transition-all"
           >
             Browse Hotels
           </Link>
@@ -170,10 +170,10 @@ function BookingCard({ booking }: { booking: any }) {
 
   return (
     <Link href={`/en/account/bookings/${booking.id}`}>
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow overflow-hidden">
+      <div className="bg-[var(--background-elevated)] rounded-xl shadow-sm border border-[var(--color-sand)] hover:shadow-md transition-all overflow-hidden">
         <div className="md:flex">
           {/* Hotel Image */}
-          <div className="md:w-1/4 relative h-48 md:h-auto bg-gray-200">
+          <div className="md:w-1/4 relative h-48 md:h-auto bg-[var(--color-sand)]/20">
             <Image
               src={booking.hotel.image}
               alt={booking.hotel.name}
@@ -193,25 +193,25 @@ function BookingCard({ booking }: { booking: any }) {
           <div className="md:w-3/4 p-6">
             <div className="flex justify-between items-start mb-4">
               <div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-1">
+                <h3 className="text-xl font-serif font-semibold text-[var(--foreground)] mb-1">
                   {booking.hotel.name}
                 </h3>
-                <div className="flex items-center gap-2 text-gray-600 text-sm mb-2">
+                <div className="flex items-center gap-2 text-[var(--foreground-muted)] text-sm mb-2">
                   <MapPin className="w-4 h-4" />
                   <span>{booking.hotel.address}</span>
                 </div>
-                <p className="text-gray-600">{booking.room.name}</p>
+                <p className="text-[var(--foreground-muted)]">{booking.room.name}</p>
               </div>
-              <ChevronRight className="w-6 h-6 text-gray-400" />
+              <ChevronRight className="w-6 h-6 text-[var(--foreground-muted)]" />
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
               <div>
-                <div className="flex items-center gap-1 text-gray-600 text-sm mb-1">
+                <div className="flex items-center gap-1 text-[var(--foreground-muted)] text-sm mb-1">
                   <Calendar className="w-4 h-4" />
                   <span>Check-in</span>
                 </div>
-                <p className="font-medium">
+                <p className="font-medium text-[var(--foreground)]">
                   {booking.checkIn.toLocaleDateString('en-US', {
                     month: 'short',
                     day: 'numeric',
@@ -220,11 +220,11 @@ function BookingCard({ booking }: { booking: any }) {
               </div>
 
               <div>
-                <div className="flex items-center gap-1 text-gray-600 text-sm mb-1">
+                <div className="flex items-center gap-1 text-[var(--foreground-muted)] text-sm mb-1">
                   <Calendar className="w-4 h-4" />
                   <span>Check-out</span>
                 </div>
-                <p className="font-medium">
+                <p className="font-medium text-[var(--foreground)]">
                   {booking.checkOut.toLocaleDateString('en-US', {
                     month: 'short',
                     day: 'numeric',
@@ -233,38 +233,38 @@ function BookingCard({ booking }: { booking: any }) {
               </div>
 
               <div>
-                <div className="flex items-center gap-1 text-gray-600 text-sm mb-1">
+                <div className="flex items-center gap-1 text-[var(--foreground-muted)] text-sm mb-1">
                   <Users className="w-4 h-4" />
                   <span>Guests</span>
                 </div>
-                <p className="font-medium">{booking.guests}</p>
+                <p className="font-medium text-[var(--foreground)]">{booking.guests}</p>
               </div>
 
               <div>
-                <div className="flex items-center gap-1 text-gray-600 text-sm mb-1">
+                <div className="flex items-center gap-1 text-[var(--foreground-muted)] text-sm mb-1">
                   <Clock className="w-4 h-4" />
                   <span>Nights</span>
                 </div>
-                <p className="font-medium">{booking.nights}</p>
+                <p className="font-medium text-[var(--foreground)]">{booking.nights}</p>
               </div>
             </div>
 
-            <div className="flex justify-between items-center pt-4 border-t">
+            <div className="flex justify-between items-center pt-4 border-t border-[var(--color-sand)]">
               <div>
-                <p className="text-sm text-gray-600">Booking Reference</p>
-                <p className="font-mono font-medium">{booking.reference}</p>
+                <p className="text-sm text-[var(--foreground-muted)]">Booking Reference</p>
+                <p className="font-mono font-medium text-[var(--foreground)]">{booking.reference}</p>
               </div>
               <div className="text-right">
-                <p className="text-sm text-gray-600">Total Paid</p>
-                <p className="text-xl font-bold text-gray-900">
+                <p className="text-sm text-[var(--foreground-muted)]">Total Paid</p>
+                <p className="text-xl font-bold text-[var(--foreground)]">
                   ${booking.total.toFixed(2)}
                 </p>
               </div>
             </div>
 
             {booking.cancelledAt && (
-              <div className="mt-4 pt-4 border-t">
-                <p className="text-sm text-gray-600">
+              <div className="mt-4 pt-4 border-t border-[var(--color-sand)]">
+                <p className="text-sm text-[var(--foreground-muted)]">
                   Cancelled on{' '}
                   {booking.cancelledAt.toLocaleDateString('en-US', {
                     year: 'numeric',

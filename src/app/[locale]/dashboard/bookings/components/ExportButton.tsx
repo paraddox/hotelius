@@ -60,7 +60,7 @@ export default function ExportButton({ label, dateRange, status }: ExportButtonP
       type="button"
       onClick={handleExport}
       disabled={isExporting}
-      className="inline-flex items-center gap-2 rounded-md bg-white px-4 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+      className="inline-flex items-center gap-2 rounded-lg bg-[var(--background-elevated)] px-4 py-2 text-sm font-medium text-[var(--foreground)] border border-[var(--color-sand)] shadow-[var(--shadow-subtle)] hover:bg-[var(--color-cream)] hover:-translate-y-0.5 hover:shadow-[var(--shadow-soft)] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
     >
       <Download className={`h-4 w-4 ${isExporting ? 'animate-pulse' : ''}`} />
       {isExporting ? 'Exporting...' : label}

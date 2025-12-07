@@ -89,18 +89,18 @@ const mockBookings = [
 ];
 
 const statusColors = {
-  confirmed: 'bg-green-100 text-green-800',
-  pending: 'bg-yellow-100 text-yellow-800',
-  checked_in: 'bg-blue-100 text-blue-800',
-  checked_out: 'bg-gray-100 text-gray-800',
-  cancelled: 'bg-red-100 text-red-800',
+  confirmed: 'bg-[rgba(74,124,89,0.1)] text-[var(--color-success)]',
+  pending: 'bg-[rgba(196,164,132,0.15)] text-[var(--color-terracotta)]',
+  checked_in: 'bg-[rgba(135,168,120,0.1)] text-[var(--color-sage)]',
+  checked_out: 'bg-[var(--color-cream)] text-[var(--foreground-muted)]',
+  cancelled: 'bg-[rgba(196,92,92,0.1)] text-[var(--color-error)]',
 };
 
 const paymentStatusColors = {
-  paid: 'bg-green-100 text-green-800',
-  pending: 'bg-yellow-100 text-yellow-800',
-  refunded: 'bg-gray-100 text-gray-800',
-  failed: 'bg-red-100 text-red-800',
+  paid: 'bg-[rgba(74,124,89,0.1)] text-[var(--color-success)]',
+  pending: 'bg-[rgba(196,164,132,0.15)] text-[var(--color-terracotta)]',
+  refunded: 'bg-[var(--color-cream)] text-[var(--foreground-muted)]',
+  failed: 'bg-[rgba(196,92,92,0.1)] text-[var(--color-error)]',
 };
 
 export default async function BookingsPage() {
@@ -112,31 +112,31 @@ export default async function BookingsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
-          <p className="mt-2 text-sm text-gray-700">{t('subtitle')}</p>
+          <h1 className="font-serif text-2xl font-medium text-[var(--foreground)]">{t('title')}</h1>
+          <p className="mt-2 text-sm text-[var(--foreground-muted)]">{t('subtitle')}</p>
         </div>
         <ExportButton label={t('actions.export')} />
       </div>
 
       {/* Filters */}
-      <div className="bg-white shadow rounded-lg">
+      <div className="bg-[var(--background-elevated)] shadow-[var(--shadow-soft)] rounded-xl border border-[var(--color-sand)]">
         <div className="px-4 py-4 sm:px-6">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
             <div className="sm:col-span-2">
               <div className="relative">
                 <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                  <Search className="h-5 w-5 text-gray-400" />
+                  <Search className="h-5 w-5 text-[var(--foreground-muted)]" />
                 </div>
                 <input
                   type="text"
                   placeholder={t('filters.searchPlaceholder')}
-                  className="block w-full rounded-md border-gray-300 pl-10 focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-3 py-2 border"
+                  className="block w-full rounded-lg border border-[var(--color-sand)] bg-[var(--background)] pl-10 pr-3 py-2.5 text-[var(--foreground)] focus:ring-2 focus:ring-[rgba(196,164,132,0.15)] focus:border-[var(--color-terracotta)] transition-all duration-150 sm:text-sm"
                 />
               </div>
             </div>
 
             <div>
-              <select className="block w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-3 py-2 border">
+              <select className="block w-full rounded-lg border border-[var(--color-sand)] bg-[var(--background)] px-3 py-2.5 text-[var(--foreground)] focus:ring-2 focus:ring-[rgba(196,164,132,0.15)] focus:border-[var(--color-terracotta)] transition-all duration-150 sm:text-sm">
                 <option value="">{t('filters.allStatuses')}</option>
                 <option value="confirmed">{t('statuses.confirmed')}</option>
                 <option value="pending">{t('statuses.pending')}</option>
@@ -147,7 +147,7 @@ export default async function BookingsPage() {
             </div>
 
             <div>
-              <select className="block w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-3 py-2 border">
+              <select className="block w-full rounded-lg border border-[var(--color-sand)] bg-[var(--background)] px-3 py-2.5 text-[var(--foreground)] focus:ring-2 focus:ring-[rgba(196,164,132,0.15)] focus:border-[var(--color-terracotta)] transition-all duration-150 sm:text-sm">
                 <option value="">{t('filters.allDates')}</option>
                 <option value="today">{t('filters.today')}</option>
                 <option value="week">{t('filters.thisWeek')}</option>
@@ -159,59 +159,59 @@ export default async function BookingsPage() {
       </div>
 
       {/* Bookings Table */}
-      <div className="bg-white shadow rounded-lg overflow-hidden">
+      <div className="bg-[var(--background-elevated)] shadow-[var(--shadow-soft)] rounded-xl border border-[var(--color-sand)] overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+          <table className="min-w-full divide-y divide-[var(--color-sand)]">
+            <thead className="bg-[var(--color-cream)]">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[var(--foreground-muted)]">
                   {t('table.bookingId')}
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[var(--foreground-muted)]">
                   {t('table.guest')}
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[var(--foreground-muted)]">
                   {t('table.room')}
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[var(--foreground-muted)]">
                   {t('table.checkIn')}
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[var(--foreground-muted)]">
                   {t('table.checkOut')}
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[var(--foreground-muted)]">
                   {t('table.status')}
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[var(--foreground-muted)]">
                   {t('table.payment')}
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[var(--foreground-muted)]">
                   {t('table.total')}
                 </th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wider text-[var(--foreground-muted)]">
                   {t('table.actions')}
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-[var(--background-elevated)] divide-y divide-[var(--color-sand)]">
               {mockBookings.map((booking) => (
-                <tr key={booking.id} className="hover:bg-gray-50">
+                <tr key={booking.id} className="hover:bg-[var(--color-cream)] transition-colors">
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-gray-900">{booking.id}</div>
-                    <div className="text-xs text-gray-500">{booking.createdAt}</div>
+                    <div className="text-sm font-medium text-[var(--foreground)]">{booking.id}</div>
+                    <div className="text-xs text-[var(--foreground-muted)]">{booking.createdAt}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-gray-900">{booking.guestName}</div>
-                    <div className="text-xs text-gray-500">{booking.email}</div>
+                    <div className="text-sm font-medium text-[var(--foreground)]">{booking.guestName}</div>
+                    <div className="text-xs text-[var(--foreground-muted)]">{booking.email}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">{booking.roomType}</div>
-                    <div className="text-xs text-gray-500">Room {booking.roomNumber}</div>
+                    <div className="text-sm text-[var(--foreground)]">{booking.roomType}</div>
+                    <div className="text-xs text-[var(--foreground-muted)]">Room {booking.roomNumber}</div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--foreground-muted)]">
                     {booking.checkIn}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--foreground-muted)]">
                     {booking.checkOut}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
@@ -224,13 +224,13 @@ export default async function BookingsPage() {
                       {booking.paymentStatus}
                     </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-[var(--foreground)]">
                     ${booking.totalAmount}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <Link
                       href={`/dashboard/bookings/${booking.id}`}
-                      className="inline-flex items-center gap-1 text-blue-600 hover:text-blue-900"
+                      className="inline-flex items-center gap-1 text-[var(--color-terracotta)] hover:text-[var(--color-terracotta-dark)] transition-colors"
                     >
                       <Eye className="h-4 w-4" />
                       {t('actions.view')}
@@ -243,25 +243,25 @@ export default async function BookingsPage() {
         </div>
 
         {/* Pagination */}
-        <div className="bg-white px-4 py-3 border-t border-gray-200 sm:px-6">
+        <div className="bg-[var(--background-elevated)] px-4 py-3 border-t border-[var(--color-sand)] sm:px-6">
           <div className="flex items-center justify-between">
-            <div className="text-sm text-gray-700">
-              {t('pagination.showing')} <span className="font-medium">1</span> {t('pagination.to')}{' '}
-              <span className="font-medium">5</span> {t('pagination.of')}{' '}
-              <span className="font-medium">5</span> {t('pagination.results')}
+            <div className="text-sm text-[var(--foreground-muted)]">
+              {t('pagination.showing')} <span className="font-medium text-[var(--foreground)]">1</span> {t('pagination.to')}{' '}
+              <span className="font-medium text-[var(--foreground)]">5</span> {t('pagination.of')}{' '}
+              <span className="font-medium text-[var(--foreground)]">5</span> {t('pagination.results')}
             </div>
             <div className="flex gap-2">
               <button
                 type="button"
                 disabled
-                className="relative inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="relative inline-flex items-center rounded-lg bg-[var(--background-elevated)] px-3 py-2 text-sm font-medium text-[var(--foreground)] border border-[var(--color-sand)] hover:bg-[var(--color-cream)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 {t('pagination.previous')}
               </button>
               <button
                 type="button"
                 disabled
-                className="relative inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="relative inline-flex items-center rounded-lg bg-[var(--background-elevated)] px-3 py-2 text-sm font-medium text-[var(--foreground)] border border-[var(--color-sand)] hover:bg-[var(--color-cream)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 {t('pagination.next')}
               </button>

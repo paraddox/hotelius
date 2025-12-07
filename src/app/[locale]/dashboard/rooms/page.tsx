@@ -70,11 +70,11 @@ const mockRooms = [
 ];
 
 const statusColors = {
-  available: 'bg-green-100 text-green-800',
-  occupied: 'bg-blue-100 text-blue-800',
-  maintenance: 'bg-red-100 text-red-800',
-  cleaning: 'bg-yellow-100 text-yellow-800',
-  inactive: 'bg-gray-100 text-gray-800',
+  available: 'bg-[rgba(74,124,89,0.1)] text-[var(--color-success)]',
+  occupied: 'bg-[rgba(135,168,120,0.1)] text-[var(--color-sage)]',
+  maintenance: 'bg-[rgba(196,92,92,0.1)] text-[var(--color-error)]',
+  cleaning: 'bg-[rgba(196,164,132,0.15)] text-[var(--color-terracotta)]',
+  inactive: 'bg-[var(--color-cream)] text-[var(--foreground-muted)]',
 };
 
 const statusIcons = {
@@ -103,12 +103,12 @@ export default async function RoomsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
-          <p className="mt-2 text-sm text-gray-700">{t('subtitle')}</p>
+          <h1 className="font-serif text-2xl font-medium text-[var(--foreground)]">{t('title')}</h1>
+          <p className="mt-2 text-sm text-[var(--foreground-muted)]">{t('subtitle')}</p>
         </div>
         <Link
           href="/dashboard/rooms/new"
-          className="inline-flex items-center gap-2 rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500"
+          className="inline-flex items-center gap-2 rounded-lg bg-[var(--color-charcoal)] px-4 py-2.5 text-sm font-medium text-[var(--color-pearl)] hover:bg-[var(--color-slate)] hover:-translate-y-0.5 hover:shadow-[var(--shadow-soft)] transition-all duration-200"
         >
           <Plus className="h-4 w-4" />
           {t('actions.addNew')}
@@ -117,55 +117,55 @@ export default async function RoomsPage() {
 
       {/* Stats */}
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-5">
-        <div className="bg-white rounded-lg shadow p-4 border-l-4 border-green-500">
-          <p className="text-sm text-gray-600">{t('stats.available')}</p>
-          <p className="text-2xl font-bold text-gray-900">
+        <div className="bg-[var(--background-elevated)] rounded-xl shadow-[var(--shadow-soft)] p-4 border-l-4 border-[var(--color-success)]">
+          <p className="text-sm text-[var(--foreground-muted)]">{t('stats.available')}</p>
+          <p className="text-2xl font-bold text-[var(--foreground)]">
             {mockRooms.filter(r => r.status === 'available').length}
           </p>
         </div>
-        <div className="bg-white rounded-lg shadow p-4 border-l-4 border-blue-500">
-          <p className="text-sm text-gray-600">{t('stats.occupied')}</p>
-          <p className="text-2xl font-bold text-gray-900">
+        <div className="bg-[var(--background-elevated)] rounded-xl shadow-[var(--shadow-soft)] p-4 border-l-4 border-[var(--color-sage)]">
+          <p className="text-sm text-[var(--foreground-muted)]">{t('stats.occupied')}</p>
+          <p className="text-2xl font-bold text-[var(--foreground)]">
             {mockRooms.filter(r => r.status === 'occupied').length}
           </p>
         </div>
-        <div className="bg-white rounded-lg shadow p-4 border-l-4 border-yellow-500">
-          <p className="text-sm text-gray-600">{t('stats.cleaning')}</p>
-          <p className="text-2xl font-bold text-gray-900">
+        <div className="bg-[var(--background-elevated)] rounded-xl shadow-[var(--shadow-soft)] p-4 border-l-4 border-[var(--color-terracotta)]">
+          <p className="text-sm text-[var(--foreground-muted)]">{t('stats.cleaning')}</p>
+          <p className="text-2xl font-bold text-[var(--foreground)]">
             {mockRooms.filter(r => r.status === 'cleaning').length}
           </p>
         </div>
-        <div className="bg-white rounded-lg shadow p-4 border-l-4 border-red-500">
-          <p className="text-sm text-gray-600">{t('stats.maintenance')}</p>
-          <p className="text-2xl font-bold text-gray-900">
+        <div className="bg-[var(--background-elevated)] rounded-xl shadow-[var(--shadow-soft)] p-4 border-l-4 border-[var(--color-error)]">
+          <p className="text-sm text-[var(--foreground-muted)]">{t('stats.maintenance')}</p>
+          <p className="text-2xl font-bold text-[var(--foreground)]">
             {mockRooms.filter(r => r.status === 'maintenance').length}
           </p>
         </div>
-        <div className="bg-white rounded-lg shadow p-4 border-l-4 border-gray-500">
-          <p className="text-sm text-gray-600">{t('stats.total')}</p>
-          <p className="text-2xl font-bold text-gray-900">{mockRooms.length}</p>
+        <div className="bg-[var(--background-elevated)] rounded-xl shadow-[var(--shadow-soft)] p-4 border-l-4 border-[var(--foreground-muted)]">
+          <p className="text-sm text-[var(--foreground-muted)]">{t('stats.total')}</p>
+          <p className="text-2xl font-bold text-[var(--foreground)]">{mockRooms.length}</p>
         </div>
       </div>
 
       {/* Filters */}
-      <div className="bg-white shadow rounded-lg">
+      <div className="bg-[var(--background-elevated)] shadow-[var(--shadow-soft)] rounded-xl border border-[var(--color-sand)]">
         <div className="px-4 py-4 sm:px-6">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             <div className="sm:col-span-1">
               <div className="relative">
                 <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                  <Search className="h-5 w-5 text-gray-400" />
+                  <Search className="h-5 w-5 text-[var(--foreground-muted)]" />
                 </div>
                 <input
                   type="text"
                   placeholder={t('filters.searchPlaceholder')}
-                  className="block w-full rounded-md border-gray-300 pl-10 focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-3 py-2 border"
+                  className="block w-full rounded-lg border border-[var(--color-sand)] bg-[var(--background)] pl-10 pr-3 py-2.5 text-[var(--foreground)] focus:ring-2 focus:ring-[rgba(196,164,132,0.15)] focus:border-[var(--color-terracotta)] transition-all duration-150 sm:text-sm"
                 />
               </div>
             </div>
 
             <div>
-              <select className="block w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-3 py-2 border">
+              <select className="block w-full rounded-lg border border-[var(--color-sand)] bg-[var(--background)] px-3 py-2.5 text-[var(--foreground)] focus:ring-2 focus:ring-[rgba(196,164,132,0.15)] focus:border-[var(--color-terracotta)] transition-all duration-150 sm:text-sm">
                 <option value="">{t('filters.allRoomTypes')}</option>
                 <option value="standard">Standard Room</option>
                 <option value="deluxe">Deluxe Room</option>
@@ -174,7 +174,7 @@ export default async function RoomsPage() {
             </div>
 
             <div>
-              <select className="block w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-3 py-2 border">
+              <select className="block w-full rounded-lg border border-[var(--color-sand)] bg-[var(--background)] px-3 py-2.5 text-[var(--foreground)] focus:ring-2 focus:ring-[rgba(196,164,132,0.15)] focus:border-[var(--color-terracotta)] transition-all duration-150 sm:text-sm">
                 <option value="">{t('filters.allStatuses')}</option>
                 <option value="available">{t('statuses.available')}</option>
                 <option value="occupied">{t('statuses.occupied')}</option>
@@ -191,41 +191,41 @@ export default async function RoomsPage() {
         {Object.entries(roomsByFloor)
           .sort(([a], [b]) => Number(b) - Number(a))
           .map(([floor, rooms]) => (
-            <div key={floor} className="bg-white shadow rounded-lg">
+            <div key={floor} className="bg-[var(--background-elevated)] shadow-[var(--shadow-soft)] rounded-xl border border-[var(--color-sand)]">
               <div className="px-4 py-5 sm:p-6">
-                <h2 className="text-lg font-medium text-gray-900 mb-4">
+                <h2 className="font-serif text-lg font-medium text-[var(--foreground)] mb-4">
                   {t('floor')} {floor}
                 </h2>
                 <div className="overflow-hidden">
-                  <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
+                  <table className="min-w-full divide-y divide-[var(--color-sand)]">
+                    <thead className="bg-[var(--color-cream)]">
                       <tr>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[var(--foreground-muted)]">
                           {t('table.roomNumber')}
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[var(--foreground-muted)]">
                           {t('table.roomType')}
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[var(--foreground-muted)]">
                           {t('table.status')}
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[var(--foreground-muted)]">
                           {t('table.currentGuest')}
                         </th>
-                        <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th className="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wider text-[var(--foreground-muted)]">
                           {t('table.actions')}
                         </th>
                       </tr>
                     </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
+                    <tbody className="bg-[var(--background-elevated)] divide-y divide-[var(--color-sand)]">
                       {rooms.map((room) => (
-                        <tr key={room.id} className="hover:bg-gray-50">
+                        <tr key={room.id} className="hover:bg-[var(--color-cream)] transition-colors">
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="flex items-center">
-                              <div className="text-sm font-medium text-gray-900">{room.roomNumber}</div>
+                              <div className="text-sm font-medium text-[var(--foreground)]">{room.roomNumber}</div>
                             </div>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--foreground-muted)]">
                             {room.roomType}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
@@ -234,27 +234,27 @@ export default async function RoomsPage() {
                               {t(`statuses.${room.status}`)}
                             </span>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--foreground-muted)]">
                             {room.currentBooking ? (
                               <div>
-                                <div className="font-medium text-gray-900">{room.currentBooking.guestName}</div>
-                                <div className="text-xs text-gray-500">Until {room.currentBooking.checkOut}</div>
+                                <div className="font-medium text-[var(--foreground)]">{room.currentBooking.guestName}</div>
+                                <div className="text-xs text-[var(--foreground-muted)]">Until {room.currentBooking.checkOut}</div>
                               </div>
                             ) : (
-                              <span className="text-gray-400">-</span>
+                              <span className="text-[var(--foreground-muted)] opacity-50">-</span>
                             )}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <div className="flex justify-end gap-2">
                               <Link
                                 href={`/dashboard/rooms/${room.id}`}
-                                className="text-blue-600 hover:text-blue-900"
+                                className="text-[var(--color-terracotta)] hover:text-[var(--color-terracotta-dark)] transition-colors"
                               >
                                 <Edit className="h-4 w-4" />
                               </Link>
                               <button
                                 type="button"
-                                className="text-red-600 hover:text-red-900"
+                                className="text-[var(--color-error)] hover:opacity-75 transition-opacity"
                               >
                                 <Trash2 className="h-4 w-4" />
                               </button>

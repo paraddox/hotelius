@@ -78,11 +78,11 @@ export default function ConnectStatus({ hotelId, stripeAccountId }: ConnectStatu
     return (
       <Card>
         <CardContent className="py-8">
-          <div className="flex items-start gap-3 rounded-lg bg-red-50 border border-red-200 p-4">
-            <AlertCircle className="h-5 w-5 text-red-600 mt-0.5" />
+          <div className="flex items-start gap-3 rounded-xl bg-[rgba(196,92,92,0.1)] border border-[var(--color-error)] p-4">
+            <AlertCircle className="h-5 w-5 text-[var(--color-error)] mt-0.5" />
             <div>
-              <p className="text-sm font-medium text-red-800">Failed to load account status</p>
-              <p className="text-sm text-red-700 mt-1">{error || 'Unknown error'}</p>
+              <p className="text-sm font-medium text-[var(--color-error)]">Failed to load account status</p>
+              <p className="text-sm text-[var(--color-error)] opacity-80 mt-1">{error || 'Unknown error'}</p>
             </div>
           </div>
         </CardContent>
@@ -91,15 +91,15 @@ export default function ConnectStatus({ hotelId, stripeAccountId }: ConnectStatu
   }
 
   const StatusIcon = ({ enabled }: { enabled: boolean }) => {
-    if (enabled) return <CheckCircle className="h-5 w-5 text-green-600" />;
-    return <XCircle className="h-5 w-5 text-red-600" />;
+    if (enabled) return <CheckCircle className="h-5 w-5 text-[var(--color-success)]" />;
+    return <XCircle className="h-5 w-5 text-[var(--color-error)]" />;
   };
 
   const CapabilityBadge = ({ status: capStatus }: { status: 'active' | 'inactive' | 'pending' }) => {
     const colors = {
-      active: 'bg-green-50 border-green-200 text-green-700',
-      pending: 'bg-amber-50 border-amber-200 text-amber-700',
-      inactive: 'bg-gray-50 border-gray-200 text-gray-700',
+      active: 'bg-[rgba(74,124,89,0.1)] border-[var(--color-success)] text-[var(--color-success)]',
+      pending: 'bg-[rgba(196,164,132,0.15)] border-[var(--color-terracotta)] text-[var(--color-terracotta)]',
+      inactive: 'bg-[var(--color-cream)] border-[var(--color-sand)] text-[var(--foreground-muted)]',
     };
 
     const labels = {
@@ -122,13 +122,13 @@ export default function ConnectStatus({ hotelId, stripeAccountId }: ConnectStatu
           <div className="flex items-center gap-3">
             <div className={`flex h-12 w-12 items-center justify-center rounded-xl border ${
               status.chargesEnabled && status.payoutsEnabled
-                ? 'bg-green-50 border-green-200'
-                : 'bg-amber-50 border-amber-200'
+                ? 'bg-[rgba(74,124,89,0.1)] border-[var(--color-success)]'
+                : 'bg-[rgba(196,164,132,0.15)] border-[var(--color-terracotta)]'
             }`}>
               <CheckCircle className={`h-6 w-6 ${
                 status.chargesEnabled && status.payoutsEnabled
-                  ? 'text-green-600'
-                  : 'text-amber-600'
+                  ? 'text-[var(--color-success)]'
+                  : 'text-[var(--color-terracotta)]'
               }`} />
             </div>
             <div>

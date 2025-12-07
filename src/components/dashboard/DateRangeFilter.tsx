@@ -66,41 +66,49 @@ export function DateRangeFilter({ value, onChange, presets = true }: DateRangeFi
         <div className="flex flex-wrap gap-2">
           <button
             onClick={() => handlePresetChange('last7days')}
-            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-              selectedPreset === 'last7days'
-                ? 'bg-amber-600 text-white'
-                : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
-            }`}
+            className="px-4 py-2 rounded-md text-sm font-medium transition-all duration-200"
+            style={{
+              backgroundColor: selectedPreset === 'last7days' ? 'var(--color-terracotta)' : 'var(--background)',
+              color: selectedPreset === 'last7days' ? 'white' : 'var(--foreground)',
+              borderWidth: selectedPreset === 'last7days' ? '0' : '1px',
+              borderColor: 'var(--color-sand)'
+            }}
           >
             Last 7 Days
           </button>
           <button
             onClick={() => handlePresetChange('last30days')}
-            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-              selectedPreset === 'last30days'
-                ? 'bg-amber-600 text-white'
-                : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
-            }`}
+            className="px-4 py-2 rounded-md text-sm font-medium transition-all duration-200"
+            style={{
+              backgroundColor: selectedPreset === 'last30days' ? 'var(--color-terracotta)' : 'var(--background)',
+              color: selectedPreset === 'last30days' ? 'white' : 'var(--foreground)',
+              borderWidth: selectedPreset === 'last30days' ? '0' : '1px',
+              borderColor: 'var(--color-sand)'
+            }}
           >
             Last 30 Days
           </button>
           <button
             onClick={() => handlePresetChange('last90days')}
-            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-              selectedPreset === 'last90days'
-                ? 'bg-amber-600 text-white'
-                : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
-            }`}
+            className="px-4 py-2 rounded-md text-sm font-medium transition-all duration-200"
+            style={{
+              backgroundColor: selectedPreset === 'last90days' ? 'var(--color-terracotta)' : 'var(--background)',
+              color: selectedPreset === 'last90days' ? 'white' : 'var(--foreground)',
+              borderWidth: selectedPreset === 'last90days' ? '0' : '1px',
+              borderColor: 'var(--color-sand)'
+            }}
           >
             Last 90 Days
           </button>
           <button
             onClick={() => handlePresetChange('custom')}
-            className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-              selectedPreset === 'custom'
-                ? 'bg-amber-600 text-white'
-                : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
-            }`}
+            className="px-4 py-2 rounded-md text-sm font-medium transition-all duration-200"
+            style={{
+              backgroundColor: selectedPreset === 'custom' ? 'var(--color-terracotta)' : 'var(--background)',
+              color: selectedPreset === 'custom' ? 'white' : 'var(--foreground)',
+              borderWidth: selectedPreset === 'custom' ? '0' : '1px',
+              borderColor: 'var(--color-sand)'
+            }}
           >
             Custom Range
           </button>
@@ -108,9 +116,9 @@ export function DateRangeFilter({ value, onChange, presets = true }: DateRangeFi
       )}
 
       {(showCustom || !presets) && (
-        <div className="flex flex-col sm:flex-row gap-4 p-4 bg-white rounded-lg border border-gray-200">
+        <div className="flex flex-col sm:flex-row gap-4 p-4 rounded-lg" style={{ backgroundColor: 'var(--background)', borderWidth: '1px', borderColor: 'var(--color-sand)' }}>
           <div className="flex-1">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium mb-2" style={{ color: 'var(--foreground)' }}>
               From
             </label>
             <div className="relative">
@@ -118,13 +126,19 @@ export function DateRangeFilter({ value, onChange, presets = true }: DateRangeFi
                 type="date"
                 value={format(value.from, 'yyyy-MM-dd')}
                 onChange={(e) => handleCustomDateChange('from', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500"
+                className="w-full px-3 py-2 rounded-md shadow-sm transition-all duration-200"
+                style={{
+                  borderWidth: '1px',
+                  borderColor: 'var(--color-sand)',
+                  backgroundColor: 'var(--background)',
+                  color: 'var(--foreground)'
+                }}
               />
-              <Calendar className="absolute right-3 top-2.5 h-5 w-5 text-gray-400 pointer-events-none" />
+              <Calendar className="absolute right-3 top-2.5 h-5 w-5 pointer-events-none" style={{ color: 'var(--foreground-muted)' }} />
             </div>
           </div>
           <div className="flex-1">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium mb-2" style={{ color: 'var(--foreground)' }}>
               To
             </label>
             <div className="relative">
@@ -132,9 +146,15 @@ export function DateRangeFilter({ value, onChange, presets = true }: DateRangeFi
                 type="date"
                 value={format(value.to, 'yyyy-MM-dd')}
                 onChange={(e) => handleCustomDateChange('to', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500"
+                className="w-full px-3 py-2 rounded-md shadow-sm transition-all duration-200"
+                style={{
+                  borderWidth: '1px',
+                  borderColor: 'var(--color-sand)',
+                  backgroundColor: 'var(--background)',
+                  color: 'var(--foreground)'
+                }}
               />
-              <Calendar className="absolute right-3 top-2.5 h-5 w-5 text-gray-400 pointer-events-none" />
+              <Calendar className="absolute right-3 top-2.5 h-5 w-5 pointer-events-none" style={{ color: 'var(--foreground-muted)' }} />
             </div>
           </div>
         </div>

@@ -121,22 +121,22 @@ export default async function PaymentPage({
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[var(--background)]">
       {/* Header */}
-      <div className="bg-white border-b">
+      <div className="bg-[var(--background-elevated)] border-b">
         <div className="container mx-auto px-4 py-6">
           <Link
             href={`/${locale}/hotels/${slug}/book?roomId=${search.roomId}&checkIn=${search.checkIn}&checkOut=${search.checkOut}&guests=${search.guests}`}
-            className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 mb-4"
+            className="inline-flex items-center gap-2 text-[var(--color-terracotta)] hover:text-[var(--color-terracotta-dark)] mb-4"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to guest details
           </Link>
           <div className="flex items-center gap-2 mb-2">
-            <h1 className="text-3xl font-bold text-gray-900">Payment</h1>
-            <Lock className="w-6 h-6 text-green-600" />
+            <h1 className="text-3xl font-serif font-bold text-[var(--foreground)]">Payment</h1>
+            <Lock className="w-6 h-6 text-[var(--color-success)]" />
           </div>
-          <p className="text-gray-600">Your payment is secure and encrypted</p>
+          <p className="text-[var(--foreground-muted)]">Your payment is secure and encrypted</p>
         </div>
       </div>
 
@@ -145,7 +145,7 @@ export default async function PaymentPage({
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Left Column - Payment Form */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-lg shadow-sm p-6">
+            <div className="bg-[var(--background-elevated)] rounded-xl shadow-sm p-6">
               <PaymentForm
                 hotelSlug={slug}
                 roomId={search.roomId}
@@ -159,24 +159,24 @@ export default async function PaymentPage({
             </div>
 
             {/* Guest Information Summary */}
-            <div className="bg-white rounded-lg shadow-sm p-6 mt-6">
-              <h2 className="text-xl font-semibold mb-4">Guest Information</h2>
+            <div className="bg-[var(--background-elevated)] rounded-xl shadow-sm p-6 mt-6">
+              <h2 className="text-xl font-serif font-semibold mb-4">Guest Information</h2>
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
-                  <p className="text-gray-600">Name</p>
+                  <p className="text-[var(--foreground-muted)]">Name</p>
                   <p className="font-medium">{search.firstName} {search.lastName}</p>
                 </div>
                 <div>
-                  <p className="text-gray-600">Email</p>
+                  <p className="text-[var(--foreground-muted)]">Email</p>
                   <p className="font-medium">{search.email}</p>
                 </div>
                 <div>
-                  <p className="text-gray-600">Phone</p>
+                  <p className="text-[var(--foreground-muted)]">Phone</p>
                   <p className="font-medium">{search.phone}</p>
                 </div>
                 {search.specialRequests && (
                   <div className="col-span-2">
-                    <p className="text-gray-600">Special Requests</p>
+                    <p className="text-[var(--foreground-muted)]">Special Requests</p>
                     <p className="font-medium">{search.specialRequests}</p>
                   </div>
                 )}

@@ -65,9 +65,9 @@ export default async function BookingDetailsPage({
     new Date(booking.checkIn).getTime() - Date.now() > 48 * 60 * 60 * 1000; // 48 hours
 
   const statusConfig = {
-    upcoming: { label: 'Confirmed', color: 'bg-green-100 text-green-800', icon: CheckCircle },
-    completed: { label: 'Completed', color: 'bg-gray-100 text-gray-800', icon: CheckCircle },
-    cancelled: { label: 'Cancelled', color: 'bg-red-100 text-red-800', icon: XCircle },
+    upcoming: { label: 'Confirmed', color: 'bg-[var(--color-success)]/10 text-[var(--color-success)]', icon: CheckCircle },
+    completed: { label: 'Completed', color: 'bg-[var(--foreground-muted)]/10 text-[var(--foreground-muted)]', icon: CheckCircle },
+    cancelled: { label: 'Cancelled', color: 'bg-[var(--color-error)]/10 text-[var(--color-error)]', icon: XCircle },
   };
 
   const status = statusConfig[booking.status as keyof typeof statusConfig];
@@ -76,21 +76,21 @@ export default async function BookingDetailsPage({
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-[var(--background-elevated)] rounded-xl shadow-sm p-6">
         <Link
           href="/en/account/bookings"
-          className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 mb-4"
+          className="inline-flex items-center gap-2 text-[var(--color-terracotta)] hover:opacity-80 mb-4 transition-all"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to bookings
         </Link>
         <div className="flex justify-between items-start">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            <h1 className="text-3xl font-serif font-bold text-[var(--foreground)] mb-2">
               Booking Details
             </h1>
             <div className="flex items-center gap-4">
-              <p className="text-gray-600">Reference: {booking.reference}</p>
+              <p className="text-[var(--foreground-muted)]">Reference: {booking.reference}</p>
               <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium ${status.color}`}>
                 <StatusIcon className="w-4 h-4" />
                 {status.label}
@@ -98,12 +98,12 @@ export default async function BookingDetailsPage({
             </div>
           </div>
           <div className="flex gap-3">
-            <button className="flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+            <button className="flex items-center gap-2 px-4 py-2 border border-[var(--color-sand)] text-[var(--foreground)] rounded-lg hover:bg-[var(--color-sand)]/20 transition-all">
               <Download className="w-4 h-4" />
               Download
             </button>
             {canCancel && (
-              <button className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
+              <button className="flex items-center gap-2 px-4 py-2 bg-[var(--color-error)] text-[var(--color-pearl)] rounded-lg hover:opacity-90 transition-all">
                 <XCircle className="w-4 h-4" />
                 Cancel Booking
               </button>
@@ -113,9 +113,9 @@ export default async function BookingDetailsPage({
       </div>
 
       {/* Hotel & Room Info */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-[var(--background-elevated)] rounded-xl shadow-sm p-6">
         <div className="flex gap-6">
-          <div className="relative w-48 h-32 rounded-lg overflow-hidden flex-shrink-0 bg-gray-200">
+          <div className="relative w-48 h-32 rounded-lg overflow-hidden flex-shrink-0 bg-[var(--color-sand)]/20">
             <Image
               src={booking.hotel.image}
               alt={booking.hotel.name}
@@ -124,12 +124,12 @@ export default async function BookingDetailsPage({
             />
           </div>
           <div className="flex-1">
-            <h2 className="text-2xl font-semibold mb-2">{booking.hotel.name}</h2>
-            <div className="flex items-center gap-2 text-gray-600 mb-3">
+            <h2 className="text-2xl font-serif font-semibold mb-2 text-[var(--foreground)]">{booking.hotel.name}</h2>
+            <div className="flex items-center gap-2 text-[var(--foreground-muted)] mb-3">
               <MapPin className="w-4 h-4" />
               <span>{booking.hotel.address}, {booking.hotel.city}, {booking.hotel.country}</span>
             </div>
-            <div className="flex gap-4 text-sm text-gray-600">
+            <div className="flex gap-4 text-sm text-[var(--foreground-muted)]">
               <div className="flex items-center gap-1">
                 <Phone className="w-4 h-4" />
                 <span>{booking.hotel.phone}</span>
@@ -145,15 +145,15 @@ export default async function BookingDetailsPage({
 
       <div className="grid md:grid-cols-2 gap-6">
         {/* Stay Details */}
-        <div className="bg-white rounded-lg shadow-sm p-6">
-          <h3 className="text-xl font-semibold mb-4">Stay Details</h3>
+        <div className="bg-[var(--background-elevated)] rounded-xl shadow-sm p-6">
+          <h3 className="text-xl font-serif font-semibold mb-4 text-[var(--foreground)]">Stay Details</h3>
           <div className="space-y-4">
             <div>
-              <div className="flex items-center gap-2 text-gray-600 mb-1">
+              <div className="flex items-center gap-2 text-[var(--foreground-muted)] mb-1">
                 <Calendar className="w-4 h-4" />
                 <span className="text-sm">Check-in</span>
               </div>
-              <p className="font-semibold text-lg">
+              <p className="font-semibold text-lg text-[var(--foreground)]">
                 {booking.checkIn.toLocaleDateString('en-US', {
                   weekday: 'long',
                   year: 'numeric',
@@ -161,15 +161,15 @@ export default async function BookingDetailsPage({
                   day: 'numeric',
                 })}
               </p>
-              <p className="text-sm text-gray-600">From 3:00 PM</p>
+              <p className="text-sm text-[var(--foreground-muted)]">From 3:00 PM</p>
             </div>
 
             <div>
-              <div className="flex items-center gap-2 text-gray-600 mb-1">
+              <div className="flex items-center gap-2 text-[var(--foreground-muted)] mb-1">
                 <Calendar className="w-4 h-4" />
                 <span className="text-sm">Check-out</span>
               </div>
-              <p className="font-semibold text-lg">
+              <p className="font-semibold text-lg text-[var(--foreground)]">
                 {booking.checkOut.toLocaleDateString('en-US', {
                   weekday: 'long',
                   year: 'numeric',
@@ -177,61 +177,61 @@ export default async function BookingDetailsPage({
                   day: 'numeric',
                 })}
               </p>
-              <p className="text-sm text-gray-600">Until 11:00 AM</p>
+              <p className="text-sm text-[var(--foreground-muted)]">Until 11:00 AM</p>
             </div>
 
-            <div className="pt-4 border-t">
-              <p className="text-sm text-gray-600 mb-1">Room Type</p>
-              <p className="font-semibold">{booking.room.name}</p>
-              <p className="text-sm text-gray-600">{booking.room.type}</p>
-            </div>
-
-            <div>
-              <p className="text-sm text-gray-600 mb-1">Guests</p>
-              <p className="font-semibold">{booking.guests} {booking.guests === 1 ? 'guest' : 'guests'}</p>
+            <div className="pt-4 border-t border-[var(--color-sand)]">
+              <p className="text-sm text-[var(--foreground-muted)] mb-1">Room Type</p>
+              <p className="font-semibold text-[var(--foreground)]">{booking.room.name}</p>
+              <p className="text-sm text-[var(--foreground-muted)]">{booking.room.type}</p>
             </div>
 
             <div>
-              <p className="text-sm text-gray-600 mb-1">Duration</p>
-              <p className="font-semibold">{booking.nights} {booking.nights === 1 ? 'night' : 'nights'}</p>
+              <p className="text-sm text-[var(--foreground-muted)] mb-1">Guests</p>
+              <p className="font-semibold text-[var(--foreground)]">{booking.guests} {booking.guests === 1 ? 'guest' : 'guests'}</p>
+            </div>
+
+            <div>
+              <p className="text-sm text-[var(--foreground-muted)] mb-1">Duration</p>
+              <p className="font-semibold text-[var(--foreground)]">{booking.nights} {booking.nights === 1 ? 'night' : 'nights'}</p>
             </div>
           </div>
         </div>
 
         {/* Guest Information */}
-        <div className="bg-white rounded-lg shadow-sm p-6">
-          <h3 className="text-xl font-semibold mb-4">Guest Information</h3>
+        <div className="bg-[var(--background-elevated)] rounded-xl shadow-sm p-6">
+          <h3 className="text-xl font-serif font-semibold mb-4 text-[var(--foreground)]">Guest Information</h3>
           <div className="space-y-4">
             <div>
-              <div className="flex items-center gap-2 text-gray-600 mb-1">
+              <div className="flex items-center gap-2 text-[var(--foreground-muted)] mb-1">
                 <User className="w-4 h-4" />
                 <span className="text-sm">Name</span>
               </div>
-              <p className="font-semibold">
+              <p className="font-semibold text-[var(--foreground)]">
                 {booking.guest.firstName} {booking.guest.lastName}
               </p>
             </div>
 
             <div>
-              <div className="flex items-center gap-2 text-gray-600 mb-1">
+              <div className="flex items-center gap-2 text-[var(--foreground-muted)] mb-1">
                 <Mail className="w-4 h-4" />
                 <span className="text-sm">Email</span>
               </div>
-              <p className="font-semibold">{booking.guest.email}</p>
+              <p className="font-semibold text-[var(--foreground)]">{booking.guest.email}</p>
             </div>
 
             <div>
-              <div className="flex items-center gap-2 text-gray-600 mb-1">
+              <div className="flex items-center gap-2 text-[var(--foreground-muted)] mb-1">
                 <Phone className="w-4 h-4" />
                 <span className="text-sm">Phone</span>
               </div>
-              <p className="font-semibold">{booking.guest.phone}</p>
+              <p className="font-semibold text-[var(--foreground)]">{booking.guest.phone}</p>
             </div>
 
             {booking.specialRequests && (
-              <div className="pt-4 border-t">
-                <p className="text-sm text-gray-600 mb-1">Special Requests</p>
-                <p className="font-medium">{booking.specialRequests}</p>
+              <div className="pt-4 border-t border-[var(--color-sand)]">
+                <p className="text-sm text-[var(--foreground-muted)] mb-1">Special Requests</p>
+                <p className="font-medium text-[var(--foreground)]">{booking.specialRequests}</p>
               </div>
             )}
           </div>
@@ -239,37 +239,37 @@ export default async function BookingDetailsPage({
       </div>
 
       {/* Pricing */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
-        <h3 className="text-xl font-semibold mb-4">Price Summary</h3>
+      <div className="bg-[var(--background-elevated)] rounded-xl shadow-sm p-6">
+        <h3 className="text-xl font-serif font-semibold mb-4 text-[var(--foreground)]">Price Summary</h3>
         <div className="space-y-3">
           <div className="flex justify-between">
-            <span className="text-gray-600">
+            <span className="text-[var(--foreground-muted)]">
               ${(booking.pricing.subtotal / booking.nights).toFixed(2)} x {booking.nights} {booking.nights === 1 ? 'night' : 'nights'}
             </span>
-            <span className="font-medium">${booking.pricing.subtotal.toFixed(2)}</span>
+            <span className="font-medium text-[var(--foreground)]">${booking.pricing.subtotal.toFixed(2)}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-gray-600">Taxes & Fees</span>
-            <span className="font-medium">${booking.pricing.tax.toFixed(2)}</span>
+            <span className="text-[var(--foreground-muted)]">Taxes & Fees</span>
+            <span className="font-medium text-[var(--foreground)]">${booking.pricing.tax.toFixed(2)}</span>
           </div>
-          <div className="flex justify-between text-lg font-bold pt-3 border-t">
-            <span>Total</span>
-            <span className="text-blue-600">${booking.pricing.total.toFixed(2)}</span>
+          <div className="flex justify-between text-lg font-bold pt-3 border-t border-[var(--color-sand)]">
+            <span className="text-[var(--foreground)]">Total</span>
+            <span className="text-[var(--color-terracotta)]">${booking.pricing.total.toFixed(2)}</span>
           </div>
-          <div className="pt-3 border-t">
-            <p className="text-sm text-gray-600">Payment Method</p>
-            <p className="font-medium">{booking.paymentMethod}</p>
+          <div className="pt-3 border-t border-[var(--color-sand)]">
+            <p className="text-sm text-[var(--foreground-muted)]">Payment Method</p>
+            <p className="font-medium text-[var(--foreground)]">{booking.paymentMethod}</p>
           </div>
         </div>
       </div>
 
       {/* Booking Info */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
-        <h3 className="text-xl font-semibold mb-4">Booking Information</h3>
+      <div className="bg-[var(--background-elevated)] rounded-xl shadow-sm p-6">
+        <h3 className="text-xl font-serif font-semibold mb-4 text-[var(--foreground)]">Booking Information</h3>
         <div className="space-y-3">
           <div>
-            <p className="text-sm text-gray-600">Booked On</p>
-            <p className="font-medium">
+            <p className="text-sm text-[var(--foreground-muted)]">Booked On</p>
+            <p className="font-medium text-[var(--foreground)]">
               {booking.bookedAt.toLocaleDateString('en-US', {
                 year: 'numeric',
                 month: 'long',
@@ -280,17 +280,17 @@ export default async function BookingDetailsPage({
             </p>
           </div>
           <div>
-            <p className="text-sm text-gray-600">Cancellation Policy</p>
-            <p className="font-medium">{booking.cancellationPolicy}</p>
+            <p className="text-sm text-[var(--foreground-muted)]">Cancellation Policy</p>
+            <p className="font-medium text-[var(--foreground)]">{booking.cancellationPolicy}</p>
           </div>
         </div>
       </div>
 
       {/* Important Information */}
       {booking.status === 'upcoming' && (
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
-          <h3 className="font-semibold text-lg mb-3">Important Information</h3>
-          <ul className="space-y-2 text-sm text-gray-700">
+        <div className="bg-[var(--color-terracotta)]/5 border border-[var(--color-terracotta)]/20 rounded-xl p-6">
+          <h3 className="font-serif font-semibold text-lg mb-3 text-[var(--foreground)]">Important Information</h3>
+          <ul className="space-y-2 text-sm text-[var(--foreground-muted)]">
             <li>• Please bring a valid ID and the credit card used for booking at check-in</li>
             <li>• Check-in time: 3:00 PM | Check-out time: 11:00 AM</li>
             <li>• Contact the hotel directly for any special arrangements</li>
