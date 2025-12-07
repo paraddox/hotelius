@@ -9,12 +9,31 @@ import {
   AvailabilityError,
 } from '../availability';
 import { createMockSupabaseClient, mockData } from '@/test/mocks/supabase';
-import { BOOKING_STATES } from '../states';
 
 // Mock the Supabase client
 vi.mock('@/lib/supabase/server', () => ({
   createClient: vi.fn(),
 }));
+
+// Standard UUIDs for testing (using valid UUID v4 format)
+const HOTEL_ID = 'a0000000-0000-4000-a000-000000000001';
+const ROOM_TYPE_ID = 'b0000000-0000-4000-a000-000000000001';
+const ROOM_TYPE_ID_2 = 'b0000000-0000-4000-a000-000000000002';
+const ROOM_TYPE_ID_3 = 'b0000000-0000-4000-a000-000000000003';
+
+// Helper to create rooms for a room type
+function createRooms(count: number, roomTypeId: string, hotelId: string = HOTEL_ID) {
+  return Array.from({ length: count }, (_, i) => ({
+    id: `d0000000-${roomTypeId.slice(-4)}-4000-a000-0000000000${i.toString().padStart(2, '0')}`,
+    hotel_id: hotelId,
+    room_type_id: roomTypeId,
+    room_number: `${100 + i}`,
+    floor: 1,
+    is_active: true,
+    is_available: true,
+    status: 'available',
+  }));
+}
 
 describe('Availability Checking', () => {
   beforeEach(() => {
@@ -26,21 +45,15 @@ describe('Availability Checking', () => {
       const { createClient } = await import('@/lib/supabase/server');
       const mockClient = createMockSupabaseClient({
         data: {
-          rooms: Array.from({ length: 10 }, (_, i) => ({
-            id: `room-${i + 1}`,
-            hotel_id: '00000000-0000-0000-0000-000000000001',
-            room_type_id: '10000000-0000-0000-0000-000000000001',
-            is_active: true,
-            status: 'available',
-          })),
+          rooms: createRooms(10, ROOM_TYPE_ID),
           bookings: [],
         },
       });
       (createClient as any).mockResolvedValue(mockClient);
 
       const result = await checkAvailability({
-        hotelId: '00000000-0000-0000-0000-000000000001',
-        roomTypeId: '10000000-0000-0000-0000-000000000001',
+        hotelId: HOTEL_ID,
+        roomTypeId: ROOM_TYPE_ID,
         checkInDate: '2025-12-15',
         checkOutDate: '2025-12-17',
       });
@@ -52,23 +65,18 @@ describe('Availability Checking', () => {
 
     it('should calculate available rooms correctly with some bookings', async () => {
       const { createClient } = await import('@/lib/supabase/server');
+      const bookings = mockData.bookings(3, 'confirmed');
       const mockClient = createMockSupabaseClient({
         data: {
-          rooms: Array.from({ length: 10 }, (_, i) => ({
-            id: `room-${i + 1}`,
-            hotel_id: '00000000-0000-0000-0000-000000000001',
-            room_type_id: '10000000-0000-0000-0000-000000000001',
-            is_active: true,
-            status: 'available',
-          })),
-          bookings: mockData.bookings(3, 'confirmed'),
+          rooms: createRooms(10, ROOM_TYPE_ID),
+          bookings,
         },
       });
       (createClient as any).mockResolvedValue(mockClient);
 
       const result = await checkAvailability({
-        hotelId: '00000000-0000-0000-0000-000000000001',
-        roomTypeId: '10000000-0000-0000-0000-000000000001',
+        hotelId: HOTEL_ID,
+        roomTypeId: ROOM_TYPE_ID,
         checkInDate: '2025-12-15',
         checkOutDate: '2025-12-17',
       });
@@ -80,23 +88,18 @@ describe('Availability Checking', () => {
 
     it('should return not available when fully booked', async () => {
       const { createClient } = await import('@/lib/supabase/server');
+      const bookings = mockData.bookings(5, 'confirmed');
       const mockClient = createMockSupabaseClient({
         data: {
-          rooms: Array.from({ length: 5 }, (_, i) => ({
-            id: `room-${i + 1}`,
-            hotel_id: '00000000-0000-0000-0000-000000000001',
-            room_type_id: '10000000-0000-0000-0000-000000000001',
-            is_active: true,
-            status: 'available',
-          })),
-          bookings: mockData.bookings(5, 'confirmed'),
+          rooms: createRooms(5, ROOM_TYPE_ID),
+          bookings,
         },
       });
       (createClient as any).mockResolvedValue(mockClient);
 
       const result = await checkAvailability({
-        hotelId: '00000000-0000-0000-0000-000000000001',
-        roomTypeId: '10000000-0000-0000-0000-000000000001',
+        hotelId: HOTEL_ID,
+        roomTypeId: ROOM_TYPE_ID,
         checkInDate: '2025-12-15',
         checkOutDate: '2025-12-17',
       });
@@ -110,15 +113,15 @@ describe('Availability Checking', () => {
       const { createClient } = await import('@/lib/supabase/server');
       const mockClient = createMockSupabaseClient({
         data: {
-          room_types: [],
+          rooms: [], // No rooms for this room type
         },
       });
       (createClient as any).mockResolvedValue(mockClient);
 
       await expect(
         checkAvailability({
-          hotelId: '00000000-0000-0000-0000-000000000001',
-          roomTypeId: 'non-existent',
+          hotelId: HOTEL_ID,
+          roomTypeId: 'ffffffff-ffff-ffff-ffff-ffffffffffff',
           checkInDate: '2025-12-15',
           checkOutDate: '2025-12-17',
         })
@@ -127,29 +130,24 @@ describe('Availability Checking', () => {
 
     it('should only count active bookings (pending, confirmed, checked_in)', async () => {
       const { createClient } = await import('@/lib/supabase/server');
+      // Only bookings with status in [pending, confirmed, checked_in] should be counted
+      const bookings = [
+        ...mockData.bookings(2, 'confirmed'),
+        ...mockData.bookings(1, 'pending'),
+        ...mockData.bookings(2, 'cancelled'), // Should not be counted
+        ...mockData.bookings(1, 'checked_out'), // Should not be counted
+      ];
       const mockClient = createMockSupabaseClient({
         data: {
-          rooms: Array.from({ length: 10 }, (_, i) => ({
-            id: `room-${i + 1}`,
-            hotel_id: '00000000-0000-0000-0000-000000000001',
-            room_type_id: '10000000-0000-0000-0000-000000000001',
-            is_active: true,
-            status: 'available',
-          })),
-          // Only bookings with status in [pending, confirmed, checked_in] should be counted
-          bookings: [
-            ...mockData.bookings(2, 'confirmed'),
-            ...mockData.bookings(1, 'pending'),
-            ...mockData.bookings(2, 'cancelled'), // Should not be counted
-            ...mockData.bookings(1, 'checked_out'), // Should not be counted
-          ],
+          rooms: createRooms(10, ROOM_TYPE_ID),
+          bookings,
         },
       });
       (createClient as any).mockResolvedValue(mockClient);
 
       const result = await checkAvailability({
-        hotelId: '00000000-0000-0000-0000-000000000001',
-        roomTypeId: '10000000-0000-0000-0000-000000000001',
+        hotelId: HOTEL_ID,
+        roomTypeId: ROOM_TYPE_ID,
         checkInDate: '2025-12-15',
         checkOutDate: '2025-12-17',
       });
@@ -163,23 +161,27 @@ describe('Availability Checking', () => {
   describe('getAvailableRooms', () => {
     it('should return all room types when available', async () => {
       const { createClient } = await import('@/lib/supabase/server');
+      const roomTypes = [
+        { ...mockData.roomTypes(1, HOTEL_ID)[0], id: ROOM_TYPE_ID },
+        { ...mockData.roomTypes(1, HOTEL_ID)[0], id: ROOM_TYPE_ID_2, name: 'Room Type 2' },
+        { ...mockData.roomTypes(1, HOTEL_ID)[0], id: ROOM_TYPE_ID_3, name: 'Room Type 3' },
+      ];
+      const rooms = [
+        ...createRooms(10, ROOM_TYPE_ID),
+        ...createRooms(10, ROOM_TYPE_ID_2),
+        ...createRooms(10, ROOM_TYPE_ID_3),
+      ];
       const mockClient = createMockSupabaseClient({
         data: {
-          rooms: Array.from({ length: 3 * 10 }, (_, i) => ({
-            id: `room-${Math.floor(i / 10) + 1}-${(i % 10) + 1}`,
-            hotel_id: '00000000-0000-0000-0000-000000000001',
-            room_type_id: `room-type-${Math.floor(i / 10) + 1}`,
-            is_active: true,
-            status: 'available',
-          })),
-          room_types: mockData.roomTypes(3, '00000000-0000-0000-0000-000000000001'),
+          rooms,
+          room_types: roomTypes,
           bookings: [],
         },
       });
       (createClient as any).mockResolvedValue(mockClient);
 
       const result = await getAvailableRooms({
-        hotelId: '00000000-0000-0000-0000-000000000001',
+        hotelId: HOTEL_ID,
         checkInDate: '2025-12-15',
         checkOutDate: '2025-12-17',
       });
@@ -187,160 +189,69 @@ describe('Availability Checking', () => {
       expect(result).toHaveLength(3);
       result.forEach((roomType) => {
         expect(roomType.available_rooms).toBeGreaterThan(0);
-        expect(roomType.total_rooms).toBe(10); // From mockData
+        expect(roomType.total_rooms).toBe(10);
       });
     });
 
     it('should filter room types by occupancy requirements', async () => {
       const { createClient } = await import('@/lib/supabase/server');
+      const roomTypes = [
+        {
+          id: ROOM_TYPE_ID,
+          hotel_id: HOTEL_ID,
+          name: 'Single Room',
+          name_default: 'Single Room',
+          max_adults: 1,
+          max_children: 0,
+          max_occupancy: 1,
+          total_rooms: 5,
+          is_active: true,
+          base_price_cents: 8000,
+          currency: 'USD',
+        },
+        {
+          id: ROOM_TYPE_ID_2,
+          hotel_id: HOTEL_ID,
+          name: 'Double Room',
+          name_default: 'Double Room',
+          max_adults: 2,
+          max_children: 1,
+          max_occupancy: 3,
+          total_rooms: 5,
+          is_active: true,
+          base_price_cents: 10000,
+          currency: 'USD',
+        },
+        {
+          id: ROOM_TYPE_ID_3,
+          hotel_id: HOTEL_ID,
+          name: 'Family Suite',
+          name_default: 'Family Suite',
+          max_adults: 4,
+          max_children: 2,
+          max_occupancy: 6,
+          total_rooms: 5,
+          is_active: true,
+          base_price_cents: 15000,
+          currency: 'USD',
+        },
+      ];
+      const rooms = [
+        ...createRooms(5, ROOM_TYPE_ID),
+        ...createRooms(5, ROOM_TYPE_ID_2),
+        ...createRooms(5, ROOM_TYPE_ID_3),
+      ];
       const mockClient = createMockSupabaseClient({
         data: {
-          rooms: [
-            {
-              id: 'room-1-1',
-              hotel_id: '00000000-0000-0000-0000-000000000001',
-              room_type_id: '10000000-0000-0000-0000-000000000001',
-              is_active: true,
-              status: 'available',
-            },
-            {
-              id: 'room-1-2',
-              hotel_id: '00000000-0000-0000-0000-000000000001',
-              room_type_id: '10000000-0000-0000-0000-000000000001',
-              is_active: true,
-              status: 'available',
-            },
-            {
-              id: 'room-1-3',
-              hotel_id: '00000000-0000-0000-0000-000000000001',
-              room_type_id: '10000000-0000-0000-0000-000000000001',
-              is_active: true,
-              status: 'available',
-            },
-            {
-              id: 'room-1-4',
-              hotel_id: '00000000-0000-0000-0000-000000000001',
-              room_type_id: '10000000-0000-0000-0000-000000000001',
-              is_active: true,
-              status: 'available',
-            },
-            {
-              id: 'room-1-5',
-              hotel_id: '00000000-0000-0000-0000-000000000001',
-              room_type_id: '10000000-0000-0000-0000-000000000001',
-              is_active: true,
-              status: 'available',
-            },
-            {
-              id: 'room-2-1',
-              hotel_id: '00000000-0000-0000-0000-000000000001',
-              room_type_id: '10000000-0000-0000-0000-000000000002',
-              is_active: true,
-              status: 'available',
-            },
-            {
-              id: 'room-2-2',
-              hotel_id: '00000000-0000-0000-0000-000000000001',
-              room_type_id: '10000000-0000-0000-0000-000000000002',
-              is_active: true,
-              status: 'available',
-            },
-            {
-              id: 'room-2-3',
-              hotel_id: '00000000-0000-0000-0000-000000000001',
-              room_type_id: '10000000-0000-0000-0000-000000000002',
-              is_active: true,
-              status: 'available',
-            },
-            {
-              id: 'room-2-4',
-              hotel_id: '00000000-0000-0000-0000-000000000001',
-              room_type_id: '10000000-0000-0000-0000-000000000002',
-              is_active: true,
-              status: 'available',
-            },
-            {
-              id: 'room-2-5',
-              hotel_id: '00000000-0000-0000-0000-000000000001',
-              room_type_id: '10000000-0000-0000-0000-000000000002',
-              is_active: true,
-              status: 'available',
-            },
-            {
-              id: 'room-3-1',
-              hotel_id: '00000000-0000-0000-0000-000000000001',
-              room_type_id: '10000000-0000-0000-0000-000000000003',
-              is_active: true,
-              status: 'available',
-            },
-            {
-              id: 'room-3-2',
-              hotel_id: '00000000-0000-0000-0000-000000000001',
-              room_type_id: '10000000-0000-0000-0000-000000000003',
-              is_active: true,
-              status: 'available',
-            },
-            {
-              id: 'room-3-3',
-              hotel_id: '00000000-0000-0000-0000-000000000001',
-              room_type_id: '10000000-0000-0000-0000-000000000003',
-              is_active: true,
-              status: 'available',
-            },
-            {
-              id: 'room-3-4',
-              hotel_id: '00000000-0000-0000-0000-000000000001',
-              room_type_id: '10000000-0000-0000-0000-000000000003',
-              is_active: true,
-              status: 'available',
-            },
-            {
-              id: 'room-3-5',
-              hotel_id: '00000000-0000-0000-0000-000000000001',
-              room_type_id: '10000000-0000-0000-0000-000000000003',
-              is_active: true,
-              status: 'available',
-            },
-          ],
-          room_types: [
-            {
-              id: '10000000-0000-0000-0000-000000000001',
-              hotel_id: '00000000-0000-0000-0000-000000000001',
-              name_default: 'Single Room',
-              max_adults: 1,
-              max_children: 0,
-              max_occupancy: 1,
-              total_rooms: 5,
-              is_active: true,
-            },
-            {
-              id: '10000000-0000-0000-0000-000000000002',
-              hotel_id: '00000000-0000-0000-0000-000000000001',
-              name_default: 'Double Room',
-              max_adults: 2,
-              max_children: 1,
-              max_occupancy: 3,
-              total_rooms: 5,
-              is_active: true,
-            },
-            {
-              id: '10000000-0000-0000-0000-000000000003',
-              hotel_id: '00000000-0000-0000-0000-000000000001',
-              name_default: 'Family Suite',
-              max_adults: 4,
-              max_children: 2,
-              max_occupancy: 6,
-              total_rooms: 5,
-              is_active: true,
-            },
-          ],
+          rooms,
+          room_types: roomTypes,
           bookings: [],
         },
       });
       (createClient as any).mockResolvedValue(mockClient);
 
       const result = await getAvailableRooms({
-        hotelId: '00000000-0000-0000-0000-000000000001',
+        hotelId: HOTEL_ID,
         checkInDate: '2025-12-15',
         checkOutDate: '2025-12-17',
         numAdults: 3,
@@ -354,48 +265,56 @@ describe('Availability Checking', () => {
 
     it('should exclude fully booked room types', async () => {
       const { createClient } = await import('@/lib/supabase/server');
+      const roomTypes = [
+        {
+          id: ROOM_TYPE_ID,
+          hotel_id: HOTEL_ID,
+          name: 'Standard Room',
+          name_default: 'Standard Room',
+          max_adults: 2,
+          max_children: 1,
+          max_occupancy: 3,
+          total_rooms: 2,
+          is_active: true,
+          base_price_cents: 10000,
+          currency: 'USD',
+        },
+        {
+          id: ROOM_TYPE_ID_2,
+          hotel_id: HOTEL_ID,
+          name: 'Deluxe Room',
+          name_default: 'Deluxe Room',
+          max_adults: 2,
+          max_children: 1,
+          max_occupancy: 3,
+          total_rooms: 5,
+          is_active: true,
+          base_price_cents: 15000,
+          currency: 'USD',
+        },
+      ];
+      const rooms = [
+        ...createRooms(2, ROOM_TYPE_ID),
+        ...createRooms(5, ROOM_TYPE_ID_2),
+      ];
+      // Fully book room-type-1 (2 bookings for 2 total rooms)
+      const bookings = [
+        { ...mockData.bookings(1, 'confirmed')[0], room_type_id: ROOM_TYPE_ID, id: 'e0000000-0000-4000-a000-000000000001' },
+        { ...mockData.bookings(1, 'confirmed')[0], room_type_id: ROOM_TYPE_ID, id: 'e0000000-0000-4000-a000-000000000002' },
+        // Partially book room-type-2 (1 booking for 5 total rooms)
+        { ...mockData.bookings(1, 'confirmed')[0], room_type_id: ROOM_TYPE_ID_2, id: 'e0000000-0000-4000-a000-000000000003' },
+      ];
       const mockClient = createMockSupabaseClient({
         data: {
-          room_types: [
-            {
-              id: '10000000-0000-0000-0000-000000000001',
-              hotel_id: '00000000-0000-0000-0000-000000000001',
-              name: 'Standard Room',
-              max_adults: 2,
-              max_children: 1,
-              max_occupancy: 3,
-              total_rooms: 2,
-              is_active: true,
-            },
-            {
-              id: '10000000-0000-0000-0000-000000000002',
-              hotel_id: '00000000-0000-0000-0000-000000000001',
-              name: 'Deluxe Room',
-              max_adults: 2,
-              max_children: 1,
-              max_occupancy: 3,
-              total_rooms: 5,
-              is_active: true,
-            },
-          ],
-          bookings: [
-            // Fully book room-type-1 (2 bookings for 2 total rooms)
-            ...mockData.bookings(2, 'confirmed').map((b) => ({
-              ...b,
-              room_type_id: '10000000-0000-0000-0000-000000000001',
-            })),
-            // Partially book room-type-2 (1 booking for 5 total rooms)
-            {
-              ...mockData.bookings(1, 'confirmed')[0],
-              room_type_id: '10000000-0000-0000-0000-000000000002',
-            },
-          ],
+          rooms,
+          room_types: roomTypes,
+          bookings,
         },
       });
       (createClient as any).mockResolvedValue(mockClient);
 
       const result = await getAvailableRooms({
-        hotelId: '00000000-0000-0000-0000-000000000001',
+        hotelId: HOTEL_ID,
         checkInDate: '2025-12-15',
         checkOutDate: '2025-12-17',
       });
@@ -408,37 +327,49 @@ describe('Availability Checking', () => {
 
     it('should exclude inactive room types', async () => {
       const { createClient } = await import('@/lib/supabase/server');
+      const roomTypes = [
+        {
+          id: ROOM_TYPE_ID,
+          hotel_id: HOTEL_ID,
+          name: 'Active Room',
+          name_default: 'Active Room',
+          max_adults: 2,
+          max_children: 1,
+          max_occupancy: 3,
+          total_rooms: 5,
+          is_active: true,
+          base_price_cents: 10000,
+          currency: 'USD',
+        },
+        {
+          id: ROOM_TYPE_ID_2,
+          hotel_id: HOTEL_ID,
+          name: 'Inactive Room',
+          name_default: 'Inactive Room',
+          max_adults: 2,
+          max_children: 1,
+          max_occupancy: 3,
+          total_rooms: 5,
+          is_active: false,
+          base_price_cents: 10000,
+          currency: 'USD',
+        },
+      ];
+      const rooms = [
+        ...createRooms(5, ROOM_TYPE_ID),
+        ...createRooms(5, ROOM_TYPE_ID_2),
+      ];
       const mockClient = createMockSupabaseClient({
         data: {
-          room_types: [
-            {
-              id: '10000000-0000-0000-0000-000000000001',
-              hotel_id: '00000000-0000-0000-0000-000000000001',
-              name: 'Active Room',
-              max_adults: 2,
-              max_children: 1,
-              max_occupancy: 3,
-              total_rooms: 5,
-              is_active: true,
-            },
-            {
-              id: '10000000-0000-0000-0000-000000000002',
-              hotel_id: '00000000-0000-0000-0000-000000000001',
-              name: 'Inactive Room',
-              max_adults: 2,
-              max_children: 1,
-              max_occupancy: 3,
-              total_rooms: 5,
-              is_active: false,
-            },
-          ],
+          rooms,
+          room_types: roomTypes,
           bookings: [],
         },
       });
       (createClient as any).mockResolvedValue(mockClient);
 
       const result = await getAvailableRooms({
-        hotelId: '00000000-0000-0000-0000-000000000001',
+        hotelId: HOTEL_ID,
         checkInDate: '2025-12-15',
         checkOutDate: '2025-12-17',
       });
@@ -458,7 +389,7 @@ describe('Availability Checking', () => {
       (createClient as any).mockResolvedValue(mockClient);
 
       const result = await getAvailableRooms({
-        hotelId: '00000000-0000-0000-0000-000000000001',
+        hotelId: HOTEL_ID,
         checkInDate: '2025-12-15',
         checkOutDate: '2025-12-17',
       });
@@ -468,14 +399,18 @@ describe('Availability Checking', () => {
   });
 
   describe('getAvailableRoomIds', () => {
+    const ROOM_ID_1 = 'd0000000-0000-4000-a000-000000000001';
+    const ROOM_ID_2 = 'd0000000-0000-4000-a000-000000000002';
+    const ROOM_ID_3 = 'd0000000-0000-4000-a000-000000000003';
+
     it('should return all room IDs when none are booked', async () => {
       const { createClient } = await import('@/lib/supabase/server');
       const mockClient = createMockSupabaseClient({
         data: {
           rooms: [
-            { id: '30000000-0000-0000-0000-000000000001', hotel_id: '00000000-0000-0000-0000-000000000001', room_type_id: '10000000-0000-0000-0000-000000000001', is_available: true },
-            { id: '30000000-0000-0000-0000-000000000002', hotel_id: '00000000-0000-0000-0000-000000000001', room_type_id: '10000000-0000-0000-0000-000000000001', is_available: true },
-            { id: '30000000-0000-0000-0000-000000000003', hotel_id: '00000000-0000-0000-0000-000000000001', room_type_id: '10000000-0000-0000-0000-000000000001', is_available: true },
+            { id: ROOM_ID_1, hotel_id: HOTEL_ID, room_type_id: ROOM_TYPE_ID, is_available: true, status: 'available', is_active: true },
+            { id: ROOM_ID_2, hotel_id: HOTEL_ID, room_type_id: ROOM_TYPE_ID, is_available: true, status: 'available', is_active: true },
+            { id: ROOM_ID_3, hotel_id: HOTEL_ID, room_type_id: ROOM_TYPE_ID, is_available: true, status: 'available', is_active: true },
           ],
           bookings: [],
         },
@@ -483,14 +418,14 @@ describe('Availability Checking', () => {
       (createClient as any).mockResolvedValue(mockClient);
 
       const result = await getAvailableRoomIds({
-        hotelId: '00000000-0000-0000-0000-000000000001',
-        roomTypeId: '10000000-0000-0000-0000-000000000001',
+        hotelId: HOTEL_ID,
+        roomTypeId: ROOM_TYPE_ID,
         checkInDate: '2025-12-15',
         checkOutDate: '2025-12-17',
       });
 
       expect(result).toHaveLength(3);
-      expect(result).toEqual(['30000000-0000-0000-0000-000000000001', '30000000-0000-0000-0000-000000000002', '30000000-0000-0000-0000-000000000003']);
+      expect(result).toEqual([ROOM_ID_1, ROOM_ID_2, ROOM_ID_3]);
     });
 
     it('should exclude booked rooms', async () => {
@@ -498,30 +433,26 @@ describe('Availability Checking', () => {
       const mockClient = createMockSupabaseClient({
         data: {
           rooms: [
-            { id: '30000000-0000-0000-0000-000000000001', hotel_id: '00000000-0000-0000-0000-000000000001', room_type_id: '10000000-0000-0000-0000-000000000001', is_available: true },
-            { id: '30000000-0000-0000-0000-000000000002', hotel_id: '00000000-0000-0000-0000-000000000001', room_type_id: '10000000-0000-0000-0000-000000000001', is_available: true },
-            { id: '30000000-0000-0000-0000-000000000003', hotel_id: '00000000-0000-0000-0000-000000000001', room_type_id: '10000000-0000-0000-0000-000000000001', is_available: true },
+            { id: ROOM_ID_1, hotel_id: HOTEL_ID, room_type_id: ROOM_TYPE_ID, is_available: true, status: 'available', is_active: true },
+            { id: ROOM_ID_2, hotel_id: HOTEL_ID, room_type_id: ROOM_TYPE_ID, is_available: true, status: 'available', is_active: true },
+            { id: ROOM_ID_3, hotel_id: HOTEL_ID, room_type_id: ROOM_TYPE_ID, is_available: true, status: 'available', is_active: true },
           ],
           bookings: [
-            {
-              ...mockData.bookings(1, 'confirmed')[0],
-              room_id: '30000000-0000-0000-0000-000000000001',
-              room_type_id: '10000000-0000-0000-0000-000000000001',
-            },
+            { ...mockData.bookings(1, 'confirmed')[0], room_id: ROOM_ID_1, room_type_id: ROOM_TYPE_ID },
           ],
         },
       });
       (createClient as any).mockResolvedValue(mockClient);
 
       const result = await getAvailableRoomIds({
-        hotelId: '00000000-0000-0000-0000-000000000001',
-        roomTypeId: '10000000-0000-0000-0000-000000000001',
+        hotelId: HOTEL_ID,
+        roomTypeId: ROOM_TYPE_ID,
         checkInDate: '2025-12-15',
         checkOutDate: '2025-12-17',
       });
 
       expect(result).toHaveLength(2);
-      expect(result).toEqual(['30000000-0000-0000-0000-000000000002', '30000000-0000-0000-0000-000000000003']);
+      expect(result).toEqual([ROOM_ID_2, ROOM_ID_3]);
     });
 
     it('should exclude rooms marked as unavailable', async () => {
@@ -529,9 +460,9 @@ describe('Availability Checking', () => {
       const mockClient = createMockSupabaseClient({
         data: {
           rooms: [
-            { id: '30000000-0000-0000-0000-000000000001', hotel_id: '00000000-0000-0000-0000-000000000001', room_type_id: '10000000-0000-0000-0000-000000000001', is_available: true },
-            { id: '30000000-0000-0000-0000-000000000002', hotel_id: '00000000-0000-0000-0000-000000000001', room_type_id: '10000000-0000-0000-0000-000000000001', is_available: false },
-            { id: '30000000-0000-0000-0000-000000000003', hotel_id: '00000000-0000-0000-0000-000000000001', room_type_id: '10000000-0000-0000-0000-000000000001', is_available: true },
+            { id: ROOM_ID_1, hotel_id: HOTEL_ID, room_type_id: ROOM_TYPE_ID, is_available: true, status: 'available', is_active: true },
+            { id: ROOM_ID_2, hotel_id: HOTEL_ID, room_type_id: ROOM_TYPE_ID, is_available: false, status: 'out_of_service', is_active: true },
+            { id: ROOM_ID_3, hotel_id: HOTEL_ID, room_type_id: ROOM_TYPE_ID, is_available: true, status: 'available', is_active: true },
           ],
           bookings: [],
         },
@@ -539,14 +470,14 @@ describe('Availability Checking', () => {
       (createClient as any).mockResolvedValue(mockClient);
 
       const result = await getAvailableRoomIds({
-        hotelId: '00000000-0000-0000-0000-000000000001',
-        roomTypeId: '10000000-0000-0000-0000-000000000001',
+        hotelId: HOTEL_ID,
+        roomTypeId: ROOM_TYPE_ID,
         checkInDate: '2025-12-15',
         checkOutDate: '2025-12-17',
       });
 
       expect(result).toHaveLength(2);
-      expect(result).toEqual(['30000000-0000-0000-0000-000000000001', '30000000-0000-0000-0000-000000000003']);
+      expect(result).toEqual([ROOM_ID_1, ROOM_ID_3]);
     });
 
     it('should return empty array when all rooms are booked', async () => {
@@ -554,28 +485,20 @@ describe('Availability Checking', () => {
       const mockClient = createMockSupabaseClient({
         data: {
           rooms: [
-            { id: '30000000-0000-0000-0000-000000000001', hotel_id: '00000000-0000-0000-0000-000000000001', room_type_id: '10000000-0000-0000-0000-000000000001', is_available: true },
-            { id: '30000000-0000-0000-0000-000000000002', hotel_id: '00000000-0000-0000-0000-000000000001', room_type_id: '10000000-0000-0000-0000-000000000001', is_available: true },
+            { id: ROOM_ID_1, hotel_id: HOTEL_ID, room_type_id: ROOM_TYPE_ID, is_available: true, status: 'available', is_active: true },
+            { id: ROOM_ID_2, hotel_id: HOTEL_ID, room_type_id: ROOM_TYPE_ID, is_available: true, status: 'available', is_active: true },
           ],
           bookings: [
-            {
-              ...mockData.bookings(1, 'confirmed')[0],
-              room_id: '30000000-0000-0000-0000-000000000001',
-              room_type_id: '10000000-0000-0000-0000-000000000001',
-            },
-            {
-              ...mockData.bookings(1, 'confirmed')[0],
-              room_id: '30000000-0000-0000-0000-000000000002',
-              room_type_id: '10000000-0000-0000-0000-000000000001',
-            },
+            { ...mockData.bookings(1, 'confirmed')[0], room_id: ROOM_ID_1, room_type_id: ROOM_TYPE_ID, id: 'e0000000-0000-4000-a000-000000000001' },
+            { ...mockData.bookings(1, 'confirmed')[0], room_id: ROOM_ID_2, room_type_id: ROOM_TYPE_ID, id: 'e0000000-0000-4000-a000-000000000002' },
           ],
         },
       });
       (createClient as any).mockResolvedValue(mockClient);
 
       const result = await getAvailableRoomIds({
-        hotelId: '00000000-0000-0000-0000-000000000001',
-        roomTypeId: '10000000-0000-0000-0000-000000000001',
+        hotelId: HOTEL_ID,
+        roomTypeId: ROOM_TYPE_ID,
         checkInDate: '2025-12-15',
         checkOutDate: '2025-12-17',
       });
@@ -585,17 +508,14 @@ describe('Availability Checking', () => {
   });
 
   describe('isRoomAvailable', () => {
+    const ROOM_ID = 'd0000000-0000-4000-a000-000000000001';
+
     it('should return true for available room', async () => {
       const { createClient } = await import('@/lib/supabase/server');
       const mockClient = createMockSupabaseClient({
         data: {
           rooms: [
-            {
-              id: '30000000-0000-0000-0000-000000000001',
-              is_available: true,
-              hotel_id: '00000000-0000-0000-0000-000000000001',
-              room_type_id: '10000000-0000-0000-0000-000000000001',
-            },
+            { id: ROOM_ID, is_available: true, hotel_id: HOTEL_ID, room_type_id: ROOM_TYPE_ID, status: 'available', is_active: true },
           ],
           bookings: [],
         },
@@ -603,7 +523,7 @@ describe('Availability Checking', () => {
       (createClient as any).mockResolvedValue(mockClient);
 
       const result = await isRoomAvailable({
-        roomId: '30000000-0000-0000-0000-000000000001',
+        roomId: ROOM_ID,
         checkInDate: '2025-12-15',
         checkOutDate: '2025-12-17',
       });
@@ -616,25 +536,17 @@ describe('Availability Checking', () => {
       const mockClient = createMockSupabaseClient({
         data: {
           rooms: [
-            {
-              id: '30000000-0000-0000-0000-000000000001',
-              is_available: true,
-              hotel_id: '00000000-0000-0000-0000-000000000001',
-              room_type_id: '10000000-0000-0000-0000-000000000001',
-            },
+            { id: ROOM_ID, is_available: true, hotel_id: HOTEL_ID, room_type_id: ROOM_TYPE_ID, status: 'available', is_active: true },
           ],
           bookings: [
-            {
-              ...mockData.bookings(1, 'confirmed')[0],
-              room_id: '30000000-0000-0000-0000-000000000001',
-            },
+            { ...mockData.bookings(1, 'confirmed')[0], room_id: ROOM_ID },
           ],
         },
       });
       (createClient as any).mockResolvedValue(mockClient);
 
       const result = await isRoomAvailable({
-        roomId: '30000000-0000-0000-0000-000000000001',
+        roomId: ROOM_ID,
         checkInDate: '2025-12-15',
         checkOutDate: '2025-12-17',
       });
@@ -647,12 +559,7 @@ describe('Availability Checking', () => {
       const mockClient = createMockSupabaseClient({
         data: {
           rooms: [
-            {
-              id: '30000000-0000-0000-0000-000000000001',
-              is_available: false,
-              hotel_id: '00000000-0000-0000-0000-000000000001',
-              room_type_id: '10000000-0000-0000-0000-000000000001',
-            },
+            { id: ROOM_ID, is_available: false, hotel_id: HOTEL_ID, room_type_id: ROOM_TYPE_ID, status: 'out_of_service', is_active: true },
           ],
           bookings: [],
         },
@@ -660,7 +567,7 @@ describe('Availability Checking', () => {
       (createClient as any).mockResolvedValue(mockClient);
 
       const result = await isRoomAvailable({
-        roomId: '30000000-0000-0000-0000-000000000001',
+        roomId: ROOM_ID,
         checkInDate: '2025-12-15',
         checkOutDate: '2025-12-17',
       });
@@ -679,7 +586,7 @@ describe('Availability Checking', () => {
       (createClient as any).mockResolvedValue(mockClient);
 
       const result = await isRoomAvailable({
-        roomId: 'non-existent',
+        roomId: 'ffffffff-ffff-ffff-ffff-ffffffffffff',
         checkInDate: '2025-12-15',
         checkOutDate: '2025-12-17',
       });
@@ -693,21 +600,15 @@ describe('Availability Checking', () => {
       const { createClient } = await import('@/lib/supabase/server');
       const mockClient = createMockSupabaseClient({
         data: {
-          rooms: Array.from({ length: 10 }, (_, i) => ({
-            id: `room-${i + 1}`,
-            hotel_id: '00000000-0000-0000-0000-000000000001',
-            room_type_id: '10000000-0000-0000-0000-000000000001',
-            is_active: true,
-            status: 'available',
-          })),
+          rooms: createRooms(10, ROOM_TYPE_ID),
           bookings: [],
         },
       });
       (createClient as any).mockResolvedValue(mockClient);
 
       const result = await getAvailabilityCalendar({
-        hotelId: '00000000-0000-0000-0000-000000000001',
-        roomTypeId: '10000000-0000-0000-0000-000000000001',
+        hotelId: HOTEL_ID,
+        roomTypeId: ROOM_TYPE_ID,
         startDate: '2025-12-15',
         endDate: '2025-12-17',
       });
@@ -727,21 +628,15 @@ describe('Availability Checking', () => {
       const { createClient } = await import('@/lib/supabase/server');
       const mockClient = createMockSupabaseClient({
         data: {
-          rooms: Array.from({ length: 10 }, (_, i) => ({
-            id: `room-${i + 1}`,
-            hotel_id: '00000000-0000-0000-0000-000000000001',
-            room_type_id: '10000000-0000-0000-0000-000000000001',
-            is_active: true,
-            status: 'available',
-          })),
+          rooms: createRooms(10, ROOM_TYPE_ID),
           bookings: mockData.bookings(3, 'confirmed'),
         },
       });
       (createClient as any).mockResolvedValue(mockClient);
 
       const result = await getAvailabilityCalendar({
-        hotelId: '00000000-0000-0000-0000-000000000001',
-        roomTypeId: '10000000-0000-0000-0000-000000000001',
+        hotelId: HOTEL_ID,
+        roomTypeId: ROOM_TYPE_ID,
         startDate: '2025-12-15',
         endDate: '2025-12-17',
       });
@@ -756,15 +651,15 @@ describe('Availability Checking', () => {
       const { createClient } = await import('@/lib/supabase/server');
       const mockClient = createMockSupabaseClient({
         data: {
-          room_types: [],
+          rooms: [],
         },
       });
       (createClient as any).mockResolvedValue(mockClient);
 
       await expect(
         getAvailabilityCalendar({
-          hotelId: '00000000-0000-0000-0000-000000000001',
-          roomTypeId: 'non-existent',
+          hotelId: HOTEL_ID,
+          roomTypeId: 'ffffffff-ffff-ffff-ffff-ffffffffffff',
           startDate: '2025-12-15',
           endDate: '2025-12-17',
         })
@@ -777,21 +672,15 @@ describe('Availability Checking', () => {
       const { createClient } = await import('@/lib/supabase/server');
       const mockClient = createMockSupabaseClient({
         data: {
-          rooms: Array.from({ length: 10 }, (_, i) => ({
-            id: `room-${i + 1}`,
-            hotel_id: '00000000-0000-0000-0000-000000000001',
-            room_type_id: '10000000-0000-0000-0000-000000000001',
-            is_active: true,
-            status: 'available',
-          })),
+          rooms: createRooms(10, ROOM_TYPE_ID),
           bookings: mockData.bookings(2, 'confirmed'),
         },
       });
       (createClient as any).mockResolvedValue(mockClient);
 
       const result = await getMinimumAvailability({
-        hotelId: '00000000-0000-0000-0000-000000000001',
-        roomTypeId: '10000000-0000-0000-0000-000000000001',
+        hotelId: HOTEL_ID,
+        roomTypeId: ROOM_TYPE_ID,
         checkInDate: '2025-12-15',
         checkOutDate: '2025-12-17',
       });
@@ -805,21 +694,15 @@ describe('Availability Checking', () => {
       const { createClient } = await import('@/lib/supabase/server');
       const mockClient = createMockSupabaseClient({
         data: {
-          rooms: Array.from({ length: 5 }, (_, i) => ({
-            id: `room-${i + 1}`,
-            hotel_id: '00000000-0000-0000-0000-000000000001',
-            room_type_id: '10000000-0000-0000-0000-000000000001',
-            is_active: true,
-            status: 'available',
-          })),
+          rooms: createRooms(5, ROOM_TYPE_ID),
           bookings: mockData.bookings(5, 'confirmed'),
         },
       });
       (createClient as any).mockResolvedValue(mockClient);
 
       const result = await getMinimumAvailability({
-        hotelId: '00000000-0000-0000-0000-000000000001',
-        roomTypeId: '10000000-0000-0000-0000-000000000001',
+        hotelId: HOTEL_ID,
+        roomTypeId: ROOM_TYPE_ID,
         checkInDate: '2025-12-15',
         checkOutDate: '2025-12-17',
       });

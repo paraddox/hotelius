@@ -11,24 +11,22 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 export class MockQueryBuilder {
   private mockData: any[] = [];
   private mockError: any = null;
-  private mockCount: number | null = null;
   private shouldCount: boolean = false;
-  private filters: any[] = [];
+  private headOnly: boolean = false;
+  private filters: Array<{ type: string; column: string; value?: any; values?: any[]; pattern?: string }> = [];
 
   constructor(data: any[] = [], error: any = null) {
-    this.mockData = data;
+    this.mockData = [...data]; // Clone to avoid mutations
     this.mockError = error;
   }
 
   // Selection methods
-  select(columns?: string, options?: any) {
-    // Handle count queries - mark that we need to count
+  select(columns?: string, options?: { count?: string; head?: boolean }) {
     if (options?.count === 'exact') {
       this.shouldCount = true;
     }
     if (options?.head === true) {
-      // Head means we only want metadata, not data
-      this.mockData = [];
+      this.headOnly = true;
     }
     return this;
   }
@@ -86,6 +84,13 @@ export class MockQueryBuilder {
 
   // Modifier methods
   order(column: string, options?: { ascending?: boolean }) {
+    // Sort the data if needed
+    const ascending = options?.ascending ?? true;
+    this.mockData.sort((a, b) => {
+      if (a[column] < b[column]) return ascending ? -1 : 1;
+      if (a[column] > b[column]) return ascending ? 1 : -1;
+      return 0;
+    });
     return this;
   }
 
@@ -98,30 +103,40 @@ export class MockQueryBuilder {
   }
 
   // Apply filters to data
-  private applyFilters(data: any[]): any[] {
-    let filtered = data;
+  private applyFilters(): any[] {
+    let filtered = [...this.mockData];
 
     for (const filter of this.filters) {
       filtered = filtered.filter(item => {
+        const itemValue = item[filter.column];
+
         switch (filter.type) {
           case 'eq':
-            return item[filter.column] === filter.value;
+            return itemValue === filter.value;
           case 'neq':
-            return item[filter.column] !== filter.value;
+            return itemValue !== filter.value;
           case 'in':
-            return filter.values.includes(item[filter.column]);
+            return filter.values?.includes(itemValue) ?? false;
           case 'is':
-            return item[filter.column] === filter.value;
+            if (filter.value === null) {
+              return itemValue === null || itemValue === undefined;
+            }
+            return itemValue === filter.value;
           case 'gte':
-            return item[filter.column] >= filter.value;
+            return itemValue >= filter.value;
           case 'lte':
-            return item[filter.column] <= filter.value;
+            return itemValue <= filter.value;
           case 'gt':
-            return item[filter.column] > filter.value;
+            return itemValue > filter.value;
           case 'lt':
-            return item[filter.column] < filter.value;
+            return itemValue < filter.value;
+          case 'like':
+            if (typeof itemValue !== 'string') return false;
+            const pattern = filter.pattern?.replace(/%/g, '.*') ?? '';
+            return new RegExp(pattern, 'i').test(itemValue);
           case 'overlaps':
-            // For now, just return true (tests don't heavily rely on this)
+            // For date range overlaps, return true by default in tests
+            // Real implementation would check range intersection
             return true;
           default:
             return true;
@@ -137,15 +152,18 @@ export class MockQueryBuilder {
     if (this.mockError) {
       return { data: null, error: this.mockError };
     }
-    const filtered = this.applyFilters(this.mockData);
-    return { data: filtered[0] || null, error: null };
+    const filtered = this.applyFilters();
+    if (filtered.length === 0) {
+      return { data: null, error: { code: 'PGRST116', message: 'No rows found' } };
+    }
+    return { data: filtered[0], error: null };
   }
 
   async maybeSingle() {
     if (this.mockError) {
       return { data: null, error: this.mockError };
     }
-    const filtered = this.applyFilters(this.mockData);
+    const filtered = this.applyFilters();
     return { data: filtered[0] || null, error: null };
   }
 
@@ -153,13 +171,15 @@ export class MockQueryBuilder {
     if (this.mockError) {
       return Promise.reject(this.mockError).then(resolve, reject);
     }
-    const filtered = this.applyFilters(this.mockData);
-    // If shouldCount is true, return the count of filtered results
+
+    const filtered = this.applyFilters();
     const count = this.shouldCount ? filtered.length : null;
+    const data = this.headOnly ? null : filtered;
+
     return Promise.resolve({
-      data: filtered,
+      data,
       error: null,
-      count: count,
+      count,
     }).then(resolve, reject);
   }
 
@@ -327,7 +347,7 @@ export const mockData = {
    */
   hotels: (count = 1) => {
     return Array.from({ length: count }, (_, i) => ({
-      id: `hotel-${i + 1}`,
+      id: `a0000000-0000-4000-a000-00000000000${i + 1}`,
       name: `Test Hotel ${i + 1}`,
       slug: `test-hotel-${i + 1}`,
       description: 'A test hotel',
@@ -349,11 +369,12 @@ export const mockData = {
   /**
    * Create mock room type data
    */
-  roomTypes: (count = 1, hotelId = 'hotel-1') => {
+  roomTypes: (count = 1, hotelId = 'a0000000-0000-4000-a000-000000000001') => {
     return Array.from({ length: count }, (_, i) => ({
-      id: `room-type-${i + 1}`,
+      id: `b0000000-0000-4000-a000-00000000000${i + 1}`,
       hotel_id: hotelId,
       name: `Room Type ${i + 1}`,
+      name_default: `Room Type ${i + 1}`,
       description: 'A test room type',
       base_price_cents: 10000 + i * 1000,
       currency: 'USD',
@@ -372,6 +393,24 @@ export const mockData = {
   },
 
   /**
+   * Create mock room data
+   */
+  rooms: (count = 1, roomTypeId = 'b0000000-0000-4000-a000-000000000001', hotelId = 'a0000000-0000-4000-a000-000000000001') => {
+    return Array.from({ length: count }, (_, i) => ({
+      id: `d0000000-0000-4000-a000-00000000000${i + 1}`,
+      hotel_id: hotelId,
+      room_type_id: roomTypeId,
+      room_number: `${100 + i + 1}`,
+      floor: 1,
+      is_active: true,
+      is_available: true,
+      status: 'available',
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    }));
+  },
+
+  /**
    * Create mock booking data
    */
   bookings: (count = 1, status = 'pending') => {
@@ -381,14 +420,15 @@ export const mockData = {
     checkOut.setDate(checkOut.getDate() + 2);
 
     return Array.from({ length: count }, (_, i) => ({
-      id: `booking-${i + 1}`,
-      hotel_id: 'hotel-1',
-      room_type_id: 'room-type-1',
-      room_id: `room-${i + 1}`,
+      id: `e0000000-0000-4000-a000-00000000000${i + 1}`,
+      hotel_id: 'a0000000-0000-4000-a000-000000000001',
+      room_type_id: 'b0000000-0000-4000-a000-000000000001',
+      room_id: `d0000000-0000-4000-a000-00000000000${i + 1}`,
       user_id: 'test-user-id',
       status,
       check_in_date: checkIn.toISOString().split('T')[0],
       check_out_date: checkOut.toISOString().split('T')[0],
+      stay_range: `[${checkIn.toISOString().split('T')[0]},${checkOut.toISOString().split('T')[0]})`,
       num_adults: 2,
       num_children: 0,
       guest_name: 'Test Guest',
@@ -404,7 +444,7 @@ export const mockData = {
   /**
    * Create mock rate plan data
    */
-  ratePlans: (count = 1, hotelId = 'hotel-1', roomTypeId = 'room-type-1') => {
+  ratePlans: (count = 1, hotelId = 'a0000000-0000-4000-a000-000000000001', roomTypeId = 'b0000000-0000-4000-a000-000000000001') => {
     const today = new Date();
     const validFrom = today.toISOString().split('T')[0];
     const validTo = new Date(today.getFullYear() + 1, today.getMonth(), today.getDate())
@@ -412,7 +452,7 @@ export const mockData = {
       .split('T')[0];
 
     return Array.from({ length: count }, (_, i) => ({
-      id: `rate-plan-${i + 1}`,
+      id: `c0000000-0000-4000-a000-00000000000${i + 1}`,
       hotel_id: hotelId,
       room_type_id: roomTypeId,
       name: `Rate Plan ${i + 1}`,

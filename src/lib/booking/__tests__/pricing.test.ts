@@ -13,6 +13,12 @@ vi.mock('@/lib/supabase/server', () => ({
   createClient: vi.fn(),
 }));
 
+// Standard UUIDs for testing (using valid UUID v4 format)
+const HOTEL_ID = 'a0000000-0000-4000-a000-000000000001';
+const ROOM_TYPE_ID = 'b0000000-0000-4000-a000-000000000001';
+const RATE_PLAN_ID = 'c0000000-0000-4000-a000-000000000001';
+const RATE_PLAN_ID_2 = 'c0000000-0000-4000-a000-000000000002';
+
 describe('Pricing Calculations', () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -25,7 +31,8 @@ describe('Pricing Calculations', () => {
         data: {
           room_types: [
             {
-              id: '10000000-0000-0000-0000-000000000001',
+              id: ROOM_TYPE_ID,
+              hotel_id: HOTEL_ID,
               base_price_cents: 10000, // $100/night
               currency: 'USD',
             },
@@ -36,8 +43,8 @@ describe('Pricing Calculations', () => {
       (createClient as any).mockResolvedValue(mockClient);
 
       const result = await calculateStayPrice({
-        hotelId: '00000000-0000-0000-0000-000000000001',
-        roomTypeId: '10000000-0000-0000-0000-000000000001',
+        hotelId: HOTEL_ID,
+        roomTypeId: ROOM_TYPE_ID,
         checkInDate: '2025-12-15',
         checkOutDate: '2025-12-17', // 2 nights
       });
@@ -68,14 +75,17 @@ describe('Pricing Calculations', () => {
         data: {
           room_types: [
             {
-              id: '10000000-0000-0000-0000-000000000001',
+              id: ROOM_TYPE_ID,
+              hotel_id: HOTEL_ID,
               base_price_cents: 10000,
               currency: 'USD',
             },
           ],
           rate_plans: [
             {
-              id: '20000000-0000-0000-0000-000000000001',
+              id: RATE_PLAN_ID,
+              hotel_id: HOTEL_ID,
+              room_type_id: ROOM_TYPE_ID,
               name: 'Early Bird Special',
               price_cents: 8000, // $80/night (20% off)
               validity_range: `[${validFrom},${validTo})`,
@@ -95,15 +105,15 @@ describe('Pricing Calculations', () => {
       (createClient as any).mockResolvedValue(mockClient);
 
       const result = await calculateStayPrice({
-        hotelId: '00000000-0000-0000-0000-000000000001',
-        roomTypeId: '10000000-0000-0000-0000-000000000001',
+        hotelId: HOTEL_ID,
+        roomTypeId: ROOM_TYPE_ID,
         checkInDate: checkInDate.toISOString().split('T')[0],
         checkOutDate: checkOutDate.toISOString().split('T')[0],
       });
 
       expect(result.nights).toBe(2);
       expect(result.basePriceCents).toBe(20000);
-      expect(result.appliedRatePlanId).toBe('20000000-0000-0000-0000-000000000001');
+      expect(result.appliedRatePlanId).toBe(RATE_PLAN_ID);
       expect(result.ratePlanPriceCents).toBe(16000); // $80 * 2 nights
       expect(result.subtotalCents).toBe(16000);
       // Tax on discounted price
@@ -128,14 +138,17 @@ describe('Pricing Calculations', () => {
         data: {
           room_types: [
             {
-              id: '10000000-0000-0000-0000-000000000001',
+              id: ROOM_TYPE_ID,
+              hotel_id: HOTEL_ID,
               base_price_cents: 10000,
               currency: 'USD',
             },
           ],
           rate_plans: [
             {
-              id: '20000000-0000-0000-0000-000000000001',
+              id: RATE_PLAN_ID,
+              hotel_id: HOTEL_ID,
+              room_type_id: ROOM_TYPE_ID,
               name: 'Early Bird Special',
               price_cents: 8000,
               validity_range: `[${validFrom},${validTo})`,
@@ -155,8 +168,8 @@ describe('Pricing Calculations', () => {
       (createClient as any).mockResolvedValue(mockClient);
 
       const result = await calculateStayPrice({
-        hotelId: '00000000-0000-0000-0000-000000000001',
-        roomTypeId: '10000000-0000-0000-0000-000000000001',
+        hotelId: HOTEL_ID,
+        roomTypeId: ROOM_TYPE_ID,
         checkInDate: checkInDate.toISOString().split('T')[0],
         checkOutDate: checkOutDate.toISOString().split('T')[0],
       });
@@ -183,14 +196,17 @@ describe('Pricing Calculations', () => {
         data: {
           room_types: [
             {
-              id: '10000000-0000-0000-0000-000000000001',
+              id: ROOM_TYPE_ID,
+              hotel_id: HOTEL_ID,
               base_price_cents: 10000,
               currency: 'USD',
             },
           ],
           rate_plans: [
             {
-              id: '20000000-0000-0000-0000-000000000001',
+              id: RATE_PLAN_ID,
+              hotel_id: HOTEL_ID,
+              room_type_id: ROOM_TYPE_ID,
               name: 'Standard Discount',
               price_cents: 9000,
               validity_range: `[${validFrom},${validTo})`,
@@ -205,7 +221,9 @@ describe('Pricing Calculations', () => {
               max_advance_booking_days: null,
             },
             {
-              id: '20000000-0000-0000-0000-000000000002',
+              id: RATE_PLAN_ID_2,
+              hotel_id: HOTEL_ID,
+              room_type_id: ROOM_TYPE_ID,
               name: 'Premium Discount',
               price_cents: 8000,
               validity_range: `[${validFrom},${validTo})`,
@@ -225,14 +243,14 @@ describe('Pricing Calculations', () => {
       (createClient as any).mockResolvedValue(mockClient);
 
       const result = await calculateStayPrice({
-        hotelId: '00000000-0000-0000-0000-000000000001',
-        roomTypeId: '10000000-0000-0000-0000-000000000001',
+        hotelId: HOTEL_ID,
+        roomTypeId: ROOM_TYPE_ID,
         checkInDate: checkInDate.toISOString().split('T')[0],
         checkOutDate: checkOutDate.toISOString().split('T')[0],
       });
 
       // Should select the higher priority plan
-      expect(result.appliedRatePlanId).toBe('20000000-0000-0000-0000-000000000002');
+      expect(result.appliedRatePlanId).toBe(RATE_PLAN_ID_2);
       expect(result.subtotalCents).toBe(16000); // $80 * 2
     });
 
@@ -240,15 +258,17 @@ describe('Pricing Calculations', () => {
       const { createClient } = await import('@/lib/supabase/server');
       const mockClient = createMockSupabaseClient({
         data: {
-          room_types: [{ id: '10000000-0000-0000-0000-000000000001', base_price_cents: 10000, currency: 'USD' }],
+          room_types: [
+            { id: ROOM_TYPE_ID, hotel_id: HOTEL_ID, base_price_cents: 10000, currency: 'USD' },
+          ],
         },
       });
       (createClient as any).mockResolvedValue(mockClient);
 
       await expect(
         calculateStayPrice({
-          hotelId: '00000000-0000-0000-0000-000000000001',
-          roomTypeId: '10000000-0000-0000-0000-000000000001',
+          hotelId: HOTEL_ID,
+          roomTypeId: ROOM_TYPE_ID,
           checkInDate: '2025-12-17',
           checkOutDate: '2025-12-15', // Check-out before check-in
         })
@@ -266,8 +286,8 @@ describe('Pricing Calculations', () => {
 
       await expect(
         calculateStayPrice({
-          hotelId: '00000000-0000-0000-0000-000000000001',
-          roomTypeId: 'non-existent',
+          hotelId: HOTEL_ID,
+          roomTypeId: 'ffffffff-ffff-ffff-ffff-ffffffffffff',
           checkInDate: '2025-12-15',
           checkOutDate: '2025-12-17',
         })
@@ -280,7 +300,8 @@ describe('Pricing Calculations', () => {
         data: {
           room_types: [
             {
-              id: '10000000-0000-0000-0000-000000000001',
+              id: ROOM_TYPE_ID,
+              hotel_id: HOTEL_ID,
               base_price_cents: 10000,
               currency: 'USD',
             },
@@ -291,8 +312,8 @@ describe('Pricing Calculations', () => {
       (createClient as any).mockResolvedValue(mockClient);
 
       const result = await calculateStayPrice({
-        hotelId: '00000000-0000-0000-0000-000000000001',
-        roomTypeId: '10000000-0000-0000-0000-000000000001',
+        hotelId: HOTEL_ID,
+        roomTypeId: ROOM_TYPE_ID,
         checkInDate: '2025-12-15',
         checkOutDate: '2025-12-17',
       });
@@ -356,7 +377,8 @@ describe('Pricing Calculations', () => {
         data: {
           room_types: [
             {
-              id: '10000000-0000-0000-0000-000000000001',
+              id: ROOM_TYPE_ID,
+              hotel_id: HOTEL_ID,
               base_price_cents: 10000,
               currency: 'USD',
             },
@@ -367,8 +389,8 @@ describe('Pricing Calculations', () => {
       (createClient as any).mockResolvedValue(mockClient);
 
       const result = await validateBookingPrice({
-        hotelId: '00000000-0000-0000-0000-000000000001',
-        roomTypeId: '10000000-0000-0000-0000-000000000001',
+        hotelId: HOTEL_ID,
+        roomTypeId: ROOM_TYPE_ID,
         checkInDate: '2025-12-15',
         checkOutDate: '2025-12-17',
         expectedTotalCents: 22400, // Correct total with taxes
@@ -385,7 +407,8 @@ describe('Pricing Calculations', () => {
         data: {
           room_types: [
             {
-              id: '10000000-0000-0000-0000-000000000001',
+              id: ROOM_TYPE_ID,
+              hotel_id: HOTEL_ID,
               base_price_cents: 10000,
               currency: 'USD',
             },
@@ -396,8 +419,8 @@ describe('Pricing Calculations', () => {
       (createClient as any).mockResolvedValue(mockClient);
 
       const result = await validateBookingPrice({
-        hotelId: '00000000-0000-0000-0000-000000000001',
-        roomTypeId: '10000000-0000-0000-0000-000000000001',
+        hotelId: HOTEL_ID,
+        roomTypeId: ROOM_TYPE_ID,
         checkInDate: '2025-12-15',
         checkOutDate: '2025-12-17',
         expectedTotalCents: 10000, // Trying to pay much less
@@ -414,7 +437,8 @@ describe('Pricing Calculations', () => {
         data: {
           room_types: [
             {
-              id: '10000000-0000-0000-0000-000000000001',
+              id: ROOM_TYPE_ID,
+              hotel_id: HOTEL_ID,
               base_price_cents: 10000,
               currency: 'USD',
             },
@@ -425,8 +449,8 @@ describe('Pricing Calculations', () => {
       (createClient as any).mockResolvedValue(mockClient);
 
       const result = await validateBookingPrice({
-        hotelId: '00000000-0000-0000-0000-000000000001',
-        roomTypeId: '10000000-0000-0000-0000-000000000001',
+        hotelId: HOTEL_ID,
+        roomTypeId: ROOM_TYPE_ID,
         checkInDate: '2025-12-15',
         checkOutDate: '2025-12-17',
         expectedTotalCents: 22401, // 1 cent difference (within tolerance)
