@@ -1,8 +1,10 @@
 import { notFound, redirect } from 'next/navigation';
 import Link from 'next/link';
+import { Metadata } from 'next';
 import { ArrowLeft, Calendar, Users } from 'lucide-react';
 import GuestForm from '@/components/booking/GuestForm';
 import BookingSummary from '@/components/booking/BookingSummary';
+import { generateBookingMetadata } from '@/lib/seo/metadata';
 
 interface SearchParams {
   roomId?: string;
@@ -47,6 +49,18 @@ async function getRoomDetails(hotelSlug: string, roomId: string) {
 async function getHotelName(slug: string) {
   // TODO: Replace with actual API call
   return 'Grand Plaza Hotel';
+}
+
+// Generate metadata for SEO (noindex for checkout pages)
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string; slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const hotelName = await getHotelName(slug);
+
+  return generateBookingMetadata(hotelName, 'guest');
 }
 
 export default async function BookPage({

@@ -138,6 +138,54 @@ export interface ConnectOnboardingStatus {
 }
 
 /**
+ * Connect account status for display
+ */
+export interface ConnectStatus {
+  accountId: string;
+  detailsSubmitted: boolean;
+  chargesEnabled: boolean;
+  payoutsEnabled: boolean;
+  capabilities: {
+    cardPayments: 'active' | 'inactive' | 'pending';
+    transfers: 'active' | 'inactive' | 'pending';
+  };
+  requiresInformation: boolean;
+  currentlyDue: string[];
+  pastDue: string[];
+}
+
+/**
+ * Stripe balance information
+ */
+export interface Balance {
+  available: Array<{
+    amount: number;
+    currency: string;
+  }>;
+  pending: Array<{
+    amount: number;
+    currency: string;
+  }>;
+}
+
+/**
+ * Payout information
+ */
+export interface Payout {
+  id: string;
+  amount: number;
+  currency: string;
+  status: 'paid' | 'pending' | 'in_transit' | 'canceled' | 'failed';
+  arrivalDate: number; // Unix timestamp
+  created: number; // Unix timestamp
+  destination?: string; // Bank account ID
+  bankAccount?: {
+    last4: string;
+    bankName?: string;
+  };
+}
+
+/**
  * Payment result from client-side confirmation
  */
 export interface PaymentResult {

@@ -17,8 +17,26 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Hotelius - Hotel Reservation Management',
-  description: 'Professional hotel reservation and management system',
+  title: {
+    template: '%s | Hotelius',
+    default: 'Hotelius - Hotel Reservation Management',
+  },
+  description: 'Professional hotel reservation and management system. Book hotels, manage reservations, and enjoy seamless travel experiences.',
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
+  applicationName: 'Hotelius',
+  openGraph: {
+    siteName: 'Hotelius',
+    type: 'website',
+    locale: 'en_US',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    site: '@hotelius',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export function generateStaticParams() {

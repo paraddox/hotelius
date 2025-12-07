@@ -1,10 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Metadata } from 'next';
 import { Calendar, Users, MapPin, Star, Wifi, Coffee, Utensils, Dumbbell, Phone, Mail } from 'lucide-react';
 import SearchWidget from '@/components/booking/SearchWidget';
-import { generateHotelMetadata, generateHotelStructuredData } from '@/lib/seo/metadata';
 
 // Mock data - replace with actual data fetching
 async function getHotel(slug: string) {
@@ -16,11 +14,7 @@ async function getHotel(slug: string) {
     description: 'Experience luxury and comfort in the heart of the city. Our hotel offers world-class amenities, stunning views, and exceptional service to make your stay unforgettable.',
     address: '123 Main Street, Downtown',
     city: 'New York',
-    state: 'NY',
     country: 'USA',
-    zipCode: '10001',
-    phone: '+1 (555) 123-4567',
-    email: 'info@grandplazahotel.com',
     rating: 4.8,
     reviewCount: 1234,
     images: [
@@ -30,16 +24,11 @@ async function getHotel(slug: string) {
       '/hotel-4.jpg',
     ],
     amenities: [
-      { id: '1', name: 'Free WiFi', icon: 'wifi', category: 'general' as const },
-      { id: '2', name: 'Breakfast Included', icon: 'coffee', category: 'dining' as const },
-      { id: '3', name: 'Restaurant & Bar', icon: 'utensils', category: 'dining' as const },
-      { id: '4', name: 'Fitness Center', icon: 'dumbbell', category: 'recreation' as const },
+      { icon: Wifi, name: 'Free WiFi' },
+      { icon: Coffee, name: 'Breakfast Included' },
+      { icon: Utensils, name: 'Restaurant & Bar' },
+      { icon: Dumbbell, name: 'Fitness Center' },
     ],
-    checkInTime: '15:00',
-    checkOutTime: '11:00',
-    cancellationPolicy: 'Free cancellation up to 24 hours before check-in',
-    createdAt: new Date(),
-    updatedAt: new Date(),
     rooms: [
       {
         id: '1',
@@ -69,24 +58,6 @@ async function getHotel(slug: string) {
   };
 }
 
-// Generate metadata for SEO
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string; slug: string }>;
-}): Promise<Metadata> {
-  const { locale, slug } = await params;
-  const hotel = await getHotel(slug);
-
-  if (!hotel) {
-    return {
-      title: 'Hotel Not Found',
-    };
-  }
-
-  return generateHotelMetadata(hotel, locale);
-}
-
 export default async function HotelPage({
   params,
 }: {
@@ -99,17 +70,8 @@ export default async function HotelPage({
     notFound();
   }
 
-  // Generate structured data for search engines
-  const structuredData = generateHotelStructuredData(hotel, locale);
-
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Add JSON-LD structured data */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
-
       {/* Hero Section with Image Gallery */}
       <div className="bg-white">
         <div className="container mx-auto px-4 py-8">
@@ -169,22 +131,12 @@ export default async function HotelPage({
             <div className="bg-white rounded-lg p-6 shadow-sm">
               <h2 className="text-2xl font-semibold mb-4">Amenities</h2>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="flex items-center gap-2 text-gray-700">
-                  <Wifi className="w-5 h-5 text-blue-600" />
-                  <span>Free WiFi</span>
-                </div>
-                <div className="flex items-center gap-2 text-gray-700">
-                  <Coffee className="w-5 h-5 text-blue-600" />
-                  <span>Breakfast Included</span>
-                </div>
-                <div className="flex items-center gap-2 text-gray-700">
-                  <Utensils className="w-5 h-5 text-blue-600" />
-                  <span>Restaurant & Bar</span>
-                </div>
-                <div className="flex items-center gap-2 text-gray-700">
-                  <Dumbbell className="w-5 h-5 text-blue-600" />
-                  <span>Fitness Center</span>
-                </div>
+                {hotel.amenities.map((amenity, index) => (
+                  <div key={index} className="flex items-center gap-2 text-gray-700">
+                    <amenity.icon className="w-5 h-5 text-blue-600" />
+                    <span>{amenity.name}</span>
+                  </div>
+                ))}
               </div>
             </div>
 
@@ -240,11 +192,11 @@ export default async function HotelPage({
               <div className="space-y-3">
                 <div className="flex items-center gap-3 text-gray-700">
                   <Phone className="w-5 h-5 text-blue-600" />
-                  <span>{hotel.phone}</span>
+                  <span>+1 (555) 123-4567</span>
                 </div>
                 <div className="flex items-center gap-3 text-gray-700">
                   <Mail className="w-5 h-5 text-blue-600" />
-                  <span>{hotel.email}</span>
+                  <span>info@grandplazahotel.com</span>
                 </div>
               </div>
             </div>

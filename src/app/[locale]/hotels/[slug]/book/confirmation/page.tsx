@@ -1,9 +1,22 @@
 import Link from 'next/link';
+import { Metadata } from 'next';
 import { CheckCircle, Calendar, MapPin, User, Mail, Phone, Download, Home } from 'lucide-react';
+import { generateBookingMetadata } from '@/lib/seo/metadata';
 
 interface SearchParams {
   bookingId?: string;
   bookingReference?: string;
+}
+
+// Generate metadata for SEO (noindex for confirmation pages)
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string; slug: string }>;
+}): Promise<Metadata> {
+  // Use a generic hotel name for confirmation page
+  // In production, fetch the actual hotel name from the booking
+  return generateBookingMetadata('Your Booking', 'confirmation');
 }
 
 // Mock function to get booking details - replace with actual API call

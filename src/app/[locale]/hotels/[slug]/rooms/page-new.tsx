@@ -1,10 +1,11 @@
 import { notFound } from 'next/navigation';
-import Link from 'next/link';
 import { Metadata } from 'next';
+import Link from 'next/link';
 import { Calendar, Users, ArrowLeft } from 'lucide-react';
 import RoomCard from '@/components/booking/RoomCard';
 import SearchWidget from '@/components/booking/SearchWidget';
-import { generateRoomsPageMetadata } from '@/lib/seo/metadata';
+import { Hotel } from '@/types/booking';
+import { generateRoomSearchMetadata } from '@/lib/seo/metadata';
 
 interface SearchParams {
   checkIn?: string;
@@ -70,9 +71,30 @@ async function checkAvailability(
   ];
 }
 
-async function getHotelName(slug: string) {
+async function getHotel(slug: string): Promise<Hotel> {
   // TODO: Replace with actual API call
-  return 'Grand Plaza Hotel';
+  return {
+    id: '1',
+    slug: slug,
+    name: 'Grand Plaza Hotel',
+    description: 'Experience luxury and comfort in the heart of the city.',
+    address: '123 Main Street, Downtown',
+    city: 'New York',
+    state: 'NY',
+    country: 'USA',
+    zipCode: '10001',
+    phone: '+1 (555) 123-4567',
+    email: 'info@grandplazahotel.com',
+    rating: 4.8,
+    reviewCount: 1234,
+    images: ['/hotel-1.jpg'],
+    amenities: [],
+    checkInTime: '15:00',
+    checkOutTime: '11:00',
+    cancellationPolicy: 'Free cancellation up to 24 hours before check-in',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  };
 }
 
 // Generate metadata for SEO
@@ -82,9 +104,15 @@ export async function generateMetadata({
   params: Promise<{ locale: string; slug: string }>;
 }): Promise<Metadata> {
   const { locale, slug } = await params;
-  const hotelName = await getHotelName(slug);
+  const hotel = await getHotel(slug);
 
-  return generateRoomsPageMetadata(hotelName, locale, slug);
+  if (!hotel) {
+    return {
+      title: 'Rooms Not Found',
+    };
+  }
+
+  return generateRoomSearchMetadata(hotel, locale);
 }
 
 export default async function RoomsPage({
@@ -97,7 +125,7 @@ export default async function RoomsPage({
   const { locale, slug } = await params;
   const search = await searchParams;
 
-  const hotelName = await getHotelName(slug);
+  const hotel = await getHotel(slug);
   const rooms = await checkAvailability(
     slug,
     search.checkIn,
@@ -130,7 +158,7 @@ export default async function RoomsPage({
             <ArrowLeft className="w-4 h-4" />
             Back to hotel
           </Link>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">{hotelName}</h1>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">{hotel.name}</h1>
           {checkInDate && checkOutDate && (
             <div className="flex flex-wrap items-center gap-4 text-gray-600">
               <div className="flex items-center gap-2">
