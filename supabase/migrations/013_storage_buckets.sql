@@ -27,11 +27,12 @@ ON storage.objects FOR INSERT
 TO authenticated
 WITH CHECK (
   bucket_id = 'hotel-media' AND
-  -- Ensure user owns the hotel (path format: {hotel_id}/hotels/* or {hotel_id}/room-types/*)
+  -- Ensure user is linked to the hotel (path format: {hotel_id}/hotels/* or {hotel_id}/room-types/*)
   EXISTS (
-    SELECT 1 FROM hotels
-    WHERE id::text = split_part(name, '/', 1)
-    AND owner_id = auth.uid()
+    SELECT 1 FROM profiles
+    WHERE id = auth.uid()
+    AND hotel_id::text = split_part(storage.objects.name, '/', 1)
+    AND role IN ('hotel_owner', 'hotel_staff')
   )
 );
 
@@ -42,17 +43,19 @@ TO authenticated
 USING (
   bucket_id = 'hotel-media' AND
   EXISTS (
-    SELECT 1 FROM hotels
-    WHERE id::text = split_part(name, '/', 1)
-    AND owner_id = auth.uid()
+    SELECT 1 FROM profiles
+    WHERE id = auth.uid()
+    AND hotel_id::text = split_part(storage.objects.name, '/', 1)
+    AND role IN ('hotel_owner', 'hotel_staff')
   )
 )
 WITH CHECK (
   bucket_id = 'hotel-media' AND
   EXISTS (
-    SELECT 1 FROM hotels
-    WHERE id::text = split_part(name, '/', 1)
-    AND owner_id = auth.uid()
+    SELECT 1 FROM profiles
+    WHERE id = auth.uid()
+    AND hotel_id::text = split_part(storage.objects.name, '/', 1)
+    AND role IN ('hotel_owner', 'hotel_staff')
   )
 );
 
@@ -63,18 +66,13 @@ TO authenticated
 USING (
   bucket_id = 'hotel-media' AND
   EXISTS (
-    SELECT 1 FROM hotels
-    WHERE id::text = split_part(name, '/', 1)
-    AND owner_id = auth.uid()
+    SELECT 1 FROM profiles
+    WHERE id = auth.uid()
+    AND hotel_id::text = split_part(storage.objects.name, '/', 1)
+    AND role IN ('hotel_owner', 'hotel_staff')
   )
 );
 
--- Comments
-COMMENT ON POLICY "Public read access for hotel media" ON storage.objects
-  IS 'Allow public read access to all hotel media files';
-COMMENT ON POLICY "Authenticated users can upload hotel media" ON storage.objects
-  IS 'Allow authenticated hotel owners to upload media to their hotel folders';
-COMMENT ON POLICY "Authenticated users can update hotel media" ON storage.objects
-  IS 'Allow authenticated hotel owners to update their hotel media';
-COMMENT ON POLICY "Authenticated users can delete hotel media" ON storage.objects
-  IS 'Allow authenticated hotel owners to delete their hotel media';
+-- Note: Comments on storage.objects policies are not added here because
+-- the migration user doesn't have owner privileges on storage.objects.
+-- The policies are self-documenting through their names.

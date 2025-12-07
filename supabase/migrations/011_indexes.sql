@@ -22,12 +22,12 @@ CREATE INDEX idx_rooms_hotel_type_status_active ON rooms(hotel_id, room_type_id,
   WHERE is_active = true AND status = 'available';
 
 -- Rate Plans: Active plans by hotel and validity
-CREATE INDEX idx_rate_plans_hotel_active_validity ON rate_plans(hotel_id, is_active, validity_range)
-  USING gist
+CREATE INDEX idx_rate_plans_hotel_active_validity ON rate_plans
+  USING gist(hotel_id, is_active, validity_range)
   WHERE is_active = true;
 
-CREATE INDEX idx_rate_plans_room_type_active_validity ON rate_plans(room_type_id, is_active, validity_range)
-  USING gist
+CREATE INDEX idx_rate_plans_room_type_active_validity ON rate_plans
+  USING gist(room_type_id, is_active, validity_range)
   WHERE is_active = true;
 
 -- Bookings: Availability checking (critical for performance)
@@ -40,18 +40,16 @@ CREATE INDEX idx_bookings_hotel_dates_status ON bookings(hotel_id, check_in_date
 CREATE INDEX idx_bookings_guest_status_dates ON bookings(guest_id, status, check_in_date DESC)
   WHERE guest_id IS NOT NULL;
 
--- Bookings: Upcoming check-ins and check-outs
+-- Bookings: Upcoming check-ins and check-outs (no date filter - date filtering done at query time)
 CREATE INDEX idx_bookings_upcoming_checkins ON bookings(hotel_id, check_in_date, status)
-  WHERE status = 'confirmed' AND check_in_date >= CURRENT_DATE;
+  WHERE status = 'confirmed';
 
 CREATE INDEX idx_bookings_upcoming_checkouts ON bookings(hotel_id, check_out_date, status)
-  WHERE status IN ('confirmed', 'checked_in') AND check_out_date >= CURRENT_DATE;
+  WHERE status IN ('confirmed', 'checked_in');
 
--- Bookings: Current occupancy
-CREATE INDEX idx_bookings_current_occupancy ON bookings(hotel_id, room_id)
-  WHERE status IN ('confirmed', 'checked_in')
-  AND check_in_date <= CURRENT_DATE
-  AND check_out_date > CURRENT_DATE;
+-- Bookings: Current occupancy (no date filter - date filtering done at query time)
+CREATE INDEX idx_bookings_current_occupancy ON bookings(hotel_id, room_id, check_in_date, check_out_date)
+  WHERE status IN ('confirmed', 'checked_in');
 
 --------------------------------------------------------------------------------
 -- GIST INDEXES FOR DATE RANGE OPERATIONS
@@ -108,24 +106,22 @@ CREATE INDEX idx_room_types_name_default_trgm ON room_types USING gin(name_defau
 -- Booking Guests: Search by name and email
 CREATE INDEX idx_booking_guests_first_name_trgm ON booking_guests USING gin(first_name gin_trgm_ops);
 CREATE INDEX idx_booking_guests_last_name_trgm ON booking_guests USING gin(last_name gin_trgm_ops);
-CREATE INDEX idx_booking_guests_full_name ON booking_guests((first_name || ' ' || last_name) gin_trgm_ops)
-  USING gin;
+CREATE INDEX idx_booking_guests_full_name ON booking_guests
+  USING gin((first_name || ' ' || last_name) gin_trgm_ops);
 
 --------------------------------------------------------------------------------
 -- PARTIAL INDEXES FOR SPECIFIC QUERIES
 --------------------------------------------------------------------------------
 
--- Hotels: Trial expiring soon
+-- Hotels: Trial expiring soon (no time filter - filtering done at query time)
 CREATE INDEX idx_hotels_trial_expiring ON hotels(trial_ends_at)
   WHERE subscription_status = 'trial'
-  AND trial_ends_at IS NOT NULL
-  AND trial_ends_at > NOW();
+  AND trial_ends_at IS NOT NULL;
 
--- Hotels: Subscription expiring soon
+-- Hotels: Subscription expiring soon (no time filter - filtering done at query time)
 CREATE INDEX idx_hotels_subscription_expiring ON hotels(subscription_ends_at)
   WHERE subscription_status = 'active'
-  AND subscription_ends_at IS NOT NULL
-  AND subscription_ends_at > NOW();
+  AND subscription_ends_at IS NOT NULL;
 
 -- Profiles: Active staff by hotel
 CREATE INDEX idx_profiles_hotel_staff_active ON profiles(hotel_id, role)

@@ -34,11 +34,7 @@ CREATE TABLE booking_state_log (
   reason TEXT,
 
   -- Metadata
-  metadata JSONB,
-
-  -- Index on booking_id for quick lookup
-  CONSTRAINT booking_state_log_booking_id_fkey
-    FOREIGN KEY (booking_id) REFERENCES bookings(id) ON DELETE CASCADE
+  metadata JSONB
 );
 
 -- Indexes for state log
@@ -221,14 +217,12 @@ COMMENT ON VIEW bookings_with_soft_hold_status IS 'Bookings with computed soft h
 
 -- Example of how to set up pg_cron to automatically expire bookings
 -- This is commented out - enable it if you have pg_cron installed
-/*
--- Run every 5 minutes to expire old pending bookings
-SELECT cron.schedule(
-  'expire-pending-bookings',
-  '*/5 * * * *', -- Every 5 minutes
-  $$SELECT expire_old_pending_bookings();$$
-);
-*/
+-- Run every 5 minutes to expire old pending bookings:
+-- SELECT cron.schedule(
+--   'expire-pending-bookings',
+--   '*/5 * * * *',
+--   $$SELECT expire_old_pending_bookings();$$
+-- );
 
 -- Alternative: Create an edge function trigger
 -- You can call this via Supabase Edge Functions or an API route

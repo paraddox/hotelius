@@ -13,3 +13,9 @@ CREATE EXTENSION IF NOT EXISTS "pg_trgm";
 
 -- Enable unaccent for accent-insensitive searches
 CREATE EXTENSION IF NOT EXISTS "unaccent";
+
+-- Enable cube for earthdistance (required dependency)
+CREATE EXTENSION IF NOT EXISTS "cube";
+
+-- Enable earthdistance for geolocation queries
+CREATE EXTENSION IF NOT EXISTS "earthdistance";

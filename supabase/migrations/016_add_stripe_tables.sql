@@ -223,54 +223,59 @@ ALTER TABLE connect_accounts ENABLE ROW LEVEL SECURITY;
 ALTER TABLE payments ENABLE ROW LEVEL SECURITY;
 ALTER TABLE payouts ENABLE ROW LEVEL SECURITY;
 
--- Subscriptions: Hotel owners can view their own subscriptions
-CREATE POLICY "Hotel owners can view their subscriptions"
+-- Subscriptions: Hotel owners/staff can view their own subscriptions
+CREATE POLICY "Hotel staff can view their subscriptions"
   ON subscriptions FOR SELECT
   USING (
     hotel_id IN (
-      SELECT id FROM hotels WHERE owner_id = auth.uid()
+      SELECT hotel_id FROM profiles
+      WHERE id = auth.uid() AND role IN ('hotel_owner', 'hotel_staff')
     )
   );
 
--- Invoices: Hotel owners can view their own invoices
-CREATE POLICY "Hotel owners can view their invoices"
+-- Invoices: Hotel owners/staff can view their own invoices
+CREATE POLICY "Hotel staff can view their invoices"
   ON invoices FOR SELECT
   USING (
     stripe_subscription_id IN (
       SELECT stripe_subscription_id FROM subscriptions
       WHERE hotel_id IN (
-        SELECT id FROM hotels WHERE owner_id = auth.uid()
+        SELECT hotel_id FROM profiles
+        WHERE id = auth.uid() AND role IN ('hotel_owner', 'hotel_staff')
       )
     )
   );
 
--- Connect accounts: Hotel owners can view their own Connect account
-CREATE POLICY "Hotel owners can view their Connect account"
+-- Connect accounts: Hotel owners/staff can view their own Connect account
+CREATE POLICY "Hotel staff can view their Connect account"
   ON connect_accounts FOR SELECT
   USING (
     hotel_id IN (
-      SELECT id FROM hotels WHERE owner_id = auth.uid()
+      SELECT hotel_id FROM profiles
+      WHERE id = auth.uid() AND role IN ('hotel_owner', 'hotel_staff')
     )
   );
 
--- Payments: Hotel owners and guests can view relevant payments
+-- Payments: Hotel staff and guests can view relevant payments
 CREATE POLICY "Users can view their payments"
   ON payments FOR SELECT
   USING (
     booking_id IN (
       SELECT id FROM bookings
       WHERE guest_id = auth.uid() OR hotel_id IN (
-        SELECT id FROM hotels WHERE owner_id = auth.uid()
+        SELECT hotel_id FROM profiles
+        WHERE id = auth.uid() AND role IN ('hotel_owner', 'hotel_staff')
       )
     )
   );
 
--- Payouts: Hotel owners can view their own payouts
-CREATE POLICY "Hotel owners can view their payouts"
+-- Payouts: Hotel owners/staff can view their own payouts
+CREATE POLICY "Hotel staff can view their payouts"
   ON payouts FOR SELECT
   USING (
     hotel_id IN (
-      SELECT id FROM hotels WHERE owner_id = auth.uid()
+      SELECT hotel_id FROM profiles
+      WHERE id = auth.uid() AND role IN ('hotel_owner', 'hotel_staff')
     )
   );
 
