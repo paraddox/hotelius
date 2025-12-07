@@ -2,25 +2,31 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useTranslations } from 'next-intl';
-import { DollarSign, Users, Trash2 } from 'lucide-react';
+import { DollarSign, Trash2 } from 'lucide-react';
 import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
 import { Button } from '@/components/ui/Button';
-import { ImageUploader } from '@/components/ui/ImageUploader';
+import { MultiLanguageInput } from '@/components/ui/MultiLanguageInput';
 import { AmenitiesSelector } from './AmenitiesSelector';
+import { PhotoUploader } from './PhotoUploader';
+import { OccupancySettingsComponent, occupancySchema } from './OccupancySettings';
 import { Modal, ModalFooter } from '@/components/ui/Modal';
 import { createRoomType, updateRoomType, deleteRoomType } from '@/lib/api/room-types';
 
 // Zod schema for room type validation
 const roomTypeSchema = z.object({
-  nameEn: z.string().min(3, 'Room type name must be at least 3 characters'),
-  nameEs: z.string().optional(),
-  descriptionEn: z.string().min(10, 'Description must be at least 10 characters'),
-  descriptionEs: z.string().optional(),
+  name: z.record(z.string().min(1)).refine(
+    (data) => data.en && data.en.length >= 3,
+    { message: 'English name must be at least 3 characters' }
+  ),
+  description: z.record(z.string().min(1)).refine(
+    (data) => data.en && data.en.length >= 10,
+    { message: 'English description must be at least 10 characters' }
+  ),
   basePrice: z.number()
     .min(1000, 'Price must be at least $10.00')
     .max(100000000, 'Price is too high'),
@@ -30,6 +36,8 @@ const roomTypeSchema = z.object({
   maxOccupancyChildren: z.number()
     .min(0, 'Cannot be negative')
     .max(10, 'Maximum 10 children'),
+  baseOccupancy: z.number().min(1).max(20).optional(),
+  extraGuestCharge: z.number().min(0).max(100000).optional(),
   amenities: z.array(z.string()).min(1, 'Please select at least one amenity'),
   images: z.array(z.string()).optional(),
   status: z.enum(['active', 'inactive']),
@@ -64,17 +72,18 @@ export function RoomTypeForm({ mode, hotelId, defaultValues, onSuccess }: RoomTy
     handleSubmit,
     setValue,
     watch,
+    control,
     formState: { errors },
   } = useForm<RoomTypeFormData>({
     resolver: zodResolver(roomTypeSchema),
     defaultValues: {
-      nameEn: defaultValues?.nameEn || '',
-      nameEs: defaultValues?.nameEs || '',
-      descriptionEn: defaultValues?.descriptionEn || '',
-      descriptionEs: defaultValues?.descriptionEs || '',
+      name: defaultValues?.name || { en: '', es: '' },
+      description: defaultValues?.description || { en: '', es: '' },
       basePrice: defaultValues?.basePrice || 0,
       maxOccupancyAdults: defaultValues?.maxOccupancyAdults || 2,
       maxOccupancyChildren: defaultValues?.maxOccupancyChildren || 0,
+      baseOccupancy: defaultValues?.baseOccupancy || 2,
+      extraGuestCharge: defaultValues?.extraGuestCharge || 0,
       amenities: defaultValues?.amenities || [],
       images: defaultValues?.images || [],
       status: (defaultValues?.status as 'active' | 'inactive') || 'active',
@@ -83,6 +92,8 @@ export function RoomTypeForm({ mode, hotelId, defaultValues, onSuccess }: RoomTy
 
   const amenities = watch('amenities');
   const images = watch('images') || [];
+  const name = watch('name');
+  const description = watch('description');
 
   // Handle price input (converts dollars to cents)
   const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -100,19 +111,15 @@ export function RoomTypeForm({ mode, hotelId, defaultValues, onSuccess }: RoomTy
     setIsLoading(true);
 
     try {
-      // Prepare multi-language data
+      // Prepare room type data
       const roomTypeData = {
-        name: {
-          en: data.nameEn,
-          ...(data.nameEs && { es: data.nameEs }),
-        },
-        description: {
-          en: data.descriptionEn,
-          ...(data.descriptionEs && { es: data.descriptionEs }),
-        },
+        name: data.name,
+        description: data.description,
         basePrice: data.basePrice,
         maxOccupancyAdults: data.maxOccupancyAdults,
         maxOccupancyChildren: data.maxOccupancyChildren,
+        baseOccupancy: data.baseOccupancy,
+        extraGuestCharge: data.extraGuestCharge,
         amenities: data.amenities,
         images: data.images || [],
         status: data.status,
@@ -164,70 +171,55 @@ export function RoomTypeForm({ mode, hotelId, defaultValues, onSuccess }: RoomTy
             Basic Information
           </h3>
 
-          <div className="grid grid-cols-1 gap-4">
-            <Input
-              label="Room Type Name (English)"
-              placeholder="e.g., Deluxe Room"
-              error={errors.nameEn?.message}
-              {...register('nameEn')}
-            />
-
-            <Input
-              label="Room Type Name (Spanish) - Optional"
-              placeholder="e.g., Habitación Deluxe"
-              error={errors.nameEs?.message}
-              {...register('nameEs')}
-            />
-          </div>
-
-          <div className="grid grid-cols-1 gap-4">
-            <div>
-              <label
-                htmlFor="descriptionEn"
-                className="block text-xs font-semibold tracking-[0.1em] uppercase text-[#8B8B8B] mb-2"
-              >
-                Description (English)
-              </label>
-              <textarea
-                id="descriptionEn"
-                rows={3}
-                placeholder="Describe the room type, its features, and what makes it special..."
-                className="block w-full px-4 py-3 font-sans text-base text-[#2C2C2C] bg-white border rounded transition-all duration-150 placeholder:text-[#8B8B8B] focus:outline-none border-[#E8E0D5] focus:border-[#C4A484] focus:ring-2 focus:ring-[#C4A484]/15"
-                {...register('descriptionEn')}
+          <Controller
+            name="name"
+            control={control}
+            render={({ field }) => (
+              <MultiLanguageInput
+                label="Room Type Name"
+                value={field.value}
+                onChange={field.onChange}
+                error={errors.name?.message}
+                required
+                placeholder={{
+                  en: 'e.g., Deluxe Room',
+                  es: 'e.g., Habitación Deluxe',
+                }}
+                hint="Enter the room type name in multiple languages for international guests"
               />
-              {errors.descriptionEn && (
-                <p className="mt-2 text-sm text-[#C45C5C] flex items-center gap-1.5">
-                  <span className="inline-block w-1 h-1 rounded-full bg-[#C45C5C]" />
-                  {errors.descriptionEn.message}
-                </p>
-              )}
-            </div>
+            )}
+          />
 
-            <div>
-              <label
-                htmlFor="descriptionEs"
-                className="block text-xs font-semibold tracking-[0.1em] uppercase text-[#8B8B8B] mb-2"
-              >
-                Description (Spanish) - Optional
-              </label>
-              <textarea
-                id="descriptionEs"
-                rows={3}
-                placeholder="Describe el tipo de habitación, sus características..."
-                className="block w-full px-4 py-3 font-sans text-base text-[#2C2C2C] bg-white border rounded transition-all duration-150 placeholder:text-[#8B8B8B] focus:outline-none border-[#E8E0D5] focus:border-[#C4A484] focus:ring-2 focus:ring-[#C4A484]/15"
-                {...register('descriptionEs')}
+          <Controller
+            name="description"
+            control={control}
+            render={({ field }) => (
+              <MultiLanguageInput
+                label="Description"
+                type="textarea"
+                value={field.value}
+                onChange={field.onChange}
+                error={errors.description?.message}
+                required
+                rows={4}
+                maxLength={500}
+                placeholder={{
+                  en: 'Describe the room type, its features, and what makes it special...',
+                  es: 'Describe el tipo de habitación, sus características...',
+                }}
+                hint="Provide a detailed description highlighting unique features and amenities"
               />
-            </div>
-          </div>
+            )}
+          />
         </div>
 
-        {/* Pricing & Occupancy */}
+        {/* Pricing */}
         <div className="space-y-4">
           <h3 className="text-lg font-['Cormorant_Garamond',Georgia,serif] font-medium text-[#2C2C2C]">
-            Pricing & Occupancy
+            Pricing
           </h3>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-semibold tracking-[0.1em] uppercase text-[#8B8B8B] mb-2">
                 Base Price (per night)
@@ -254,26 +246,37 @@ export function RoomTypeForm({ mode, hotelId, defaultValues, onSuccess }: RoomTy
               )}
               <p className="mt-2 text-xs text-[#8B8B8B]">Starting rate before rate plans</p>
             </div>
-
-            <Input
-              type="number"
-              label="Max Adults"
-              min={1}
-              max={20}
-              error={errors.maxOccupancyAdults?.message}
-              {...register('maxOccupancyAdults', { valueAsNumber: true })}
-            />
-
-            <Input
-              type="number"
-              label="Max Children"
-              min={0}
-              max={10}
-              error={errors.maxOccupancyChildren?.message}
-              {...register('maxOccupancyChildren', { valueAsNumber: true })}
-            />
           </div>
         </div>
+
+        {/* Occupancy Settings */}
+        <Controller
+          name="maxOccupancyAdults"
+          control={control}
+          render={({ field }) => (
+            <OccupancySettingsComponent
+              value={{
+                maxOccupancyAdults: watch('maxOccupancyAdults'),
+                maxOccupancyChildren: watch('maxOccupancyChildren'),
+                baseOccupancy: watch('baseOccupancy'),
+                extraGuestCharge: watch('extraGuestCharge'),
+              }}
+              onChange={(occupancy) => {
+                setValue('maxOccupancyAdults', occupancy.maxOccupancyAdults);
+                setValue('maxOccupancyChildren', occupancy.maxOccupancyChildren);
+                setValue('baseOccupancy', occupancy.baseOccupancy);
+                setValue('extraGuestCharge', occupancy.extraGuestCharge);
+              }}
+              errors={{
+                maxOccupancyAdults: errors.maxOccupancyAdults?.message,
+                maxOccupancyChildren: errors.maxOccupancyChildren?.message,
+                baseOccupancy: errors.baseOccupancy?.message,
+                extraGuestCharge: errors.extraGuestCharge?.message,
+              }}
+              showAdvanced={true}
+            />
+          )}
+        />
 
         {/* Amenities */}
         <AmenitiesSelector
@@ -283,12 +286,14 @@ export function RoomTypeForm({ mode, hotelId, defaultValues, onSuccess }: RoomTy
         />
 
         {/* Photos */}
-        <ImageUploader
+        <PhotoUploader
           images={images}
           onChange={(newImages) => setValue('images', newImages)}
           maxImages={6}
           label="Room Photos"
           error={errors.images?.message}
+          bucket="room-images"
+          pathPrefix={`room-types/${hotelId}`}
         />
 
         {/* Status */}

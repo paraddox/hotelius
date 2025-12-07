@@ -1,7 +1,8 @@
 import { requireAuth } from '@/lib/auth/requireAuth';
 import { getTranslations } from 'next-intl/server';
-import { Search, Filter, Download, Eye } from 'lucide-react';
+import { Search, Filter, Eye } from 'lucide-react';
 import Link from 'next/link';
+import ExportButton from './components/ExportButton';
 
 // Mock bookings data
 const mockBookings = [
@@ -114,13 +115,7 @@ export default async function BookingsPage() {
           <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
           <p className="mt-2 text-sm text-gray-700">{t('subtitle')}</p>
         </div>
-        <button
-          type="button"
-          className="inline-flex items-center gap-2 rounded-md bg-white px-4 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-        >
-          <Download className="h-4 w-4" />
-          {t('actions.export')}
-        </button>
+        <ExportButton label={t('actions.export')} />
       </div>
 
       {/* Filters */}

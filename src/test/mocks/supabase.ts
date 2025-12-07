@@ -17,7 +17,15 @@ export class MockQueryBuilder {
   }
 
   // Selection methods
-  select(columns?: string) {
+  select(columns?: string, options?: any) {
+    // Handle count queries
+    if (options?.count === 'exact') {
+      this.mockCount = this.mockData.length;
+    }
+    if (options?.head === true) {
+      // Head means we only want metadata, not data
+      this.mockData = [];
+    }
     return this;
   }
 

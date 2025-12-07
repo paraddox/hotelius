@@ -22,3 +22,6 @@ export { Avatar } from './Avatar';
 export { Spinner, PageSpinner } from './Spinner';
 
 export { EmptyState } from './EmptyState';
+
+export { MultiLanguageInput } from './MultiLanguageInput';
+export type { MultiLanguageInputProps } from './MultiLanguageInput';

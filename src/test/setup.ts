@@ -38,7 +38,10 @@ vi.mock('next-intl/navigation', () => ({
     refresh: vi.fn(),
   }),
   usePathname: () => '/',
-  Link: ({ children, ...props }: any) => <a {...props}>{children}</a>,
+  Link: ({ children, ...props }: any) => {
+    const React = require('react');
+    return React.createElement('a', props, children);
+  },
   redirect: vi.fn(),
 }));
 

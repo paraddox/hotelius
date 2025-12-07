@@ -3,6 +3,7 @@ import { headers } from 'next/headers'
 import Stripe from 'stripe'
 import { stripe, constructWebhookEvent } from '@/lib/stripe'
 import { createServiceClient } from '@/lib/supabase/service'
+import { sendBookingConfirmationEmail } from '@/lib/email/booking-confirmation-handler'
 import type {
   AccountWebhookEvent,
   PaymentIntentWebhookEvent,
@@ -228,9 +229,15 @@ async function handlePaymentIntentSucceeded(event: PaymentIntentWebhookEvent) {
     .single()
 
   if (booking) {
-    // TODO: Send confirmation email to guest
-    // TODO: Send notification email to hotel
-    console.log(`[Connect Webhook] Booking ${metadata.reservationId} confirmed for hotel ${booking.hotel_id}`)
+  // Send booking confirmation email
+  console.log(`[Connect Webhook] Booking ${metadata.reservationId} confirmed, sending confirmation email`)
+
+  // Send email asynchronously - don't block webhook response
+  sendBookingConfirmationEmail(metadata.reservationId).catch((error) => {
+    console.error('[Connect Webhook] Failed to send confirmation email:', error)
+    // Email failure should not cause webhook to fail
+  })
+
   }
 
   console.log(`[Connect Webhook] Payment processed successfully for booking ${metadata.reservationId}`)

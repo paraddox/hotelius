@@ -35,6 +35,7 @@ export {
   sendBookingModificationEmail,
   scheduleBookingReminder,
 } from './booking-emails';
+// Export booking confirmation handler for webhook integrationexport { sendBookingConfirmationEmail } from './booking-confirmation-handler';
 
 // Export email templates (for testing or custom usage)
 export { BookingConfirmationEmail } from './templates/booking-confirmation';

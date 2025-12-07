@@ -315,4 +315,142 @@ describe('Booking State Machine', () => {
       expect(isTerminalState(nextState as BookingStatus)).toBe(true);
     });
   });
+
+  describe('Edge Cases and Business Rules', () => {
+    it('should not allow checking in from pending state', () => {
+      expect(canTransition('pending', 'CHECK_IN')).toBe(false);
+      expect(getNextState('pending', 'CHECK_IN')).toBeNull();
+    });
+
+    it('should not allow checking out from confirmed state', () => {
+      expect(canTransition('confirmed', 'CHECK_OUT')).toBe(false);
+      expect(getNextState('confirmed', 'CHECK_OUT')).toBeNull();
+    });
+
+    it('should not allow payment received after already confirmed', () => {
+      expect(canTransition('confirmed', 'PAYMENT_RECEIVED')).toBe(false);
+    });
+
+    it('should not allow cancellation after check-in', () => {
+      expect(canTransition('checked_in', 'CANCEL')).toBe(false);
+    });
+
+    it('should not allow marking as no-show after check-in', () => {
+      expect(canTransition('checked_in', 'MARK_NO_SHOW')).toBe(false);
+    });
+
+    it('should not allow any transitions from checked_out state', () => {
+      const allEvents: BookingEvent[] = [
+        'PAYMENT_RECEIVED',
+        'PAYMENT_FAILED',
+        'PAYMENT_TIMEOUT',
+        'CANCEL',
+        'CHECK_IN',
+        'CHECK_OUT',
+        'MARK_NO_SHOW',
+        'EXPIRE',
+      ];
+
+      allEvents.forEach((event) => {
+        expect(canTransition('checked_out', event)).toBe(false);
+      });
+    });
+
+    it('should have exactly 5 possible events from pending state', () => {
+      const actions = getAvailableActions('pending');
+      expect(actions).toHaveLength(5);
+    });
+
+    it('should have exactly 3 possible events from confirmed state', () => {
+      const actions = getAvailableActions('confirmed');
+      expect(actions).toHaveLength(3);
+    });
+
+    it('should have exactly 1 possible event from checked_in state', () => {
+      const actions = getAvailableActions('checked_in');
+      expect(actions).toHaveLength(1);
+    });
+  });
+
+  describe('Error Handling', () => {
+    it('should provide helpful error for invalid transition', () => {
+      const validation = validateTransition('checked_out', 'CHECK_IN');
+      expect(validation.valid).toBe(false);
+      expect(validation.error).toBeDefined();
+      expect(validation.error).toContain('terminal state');
+    });
+
+    it('should list available actions in error message', () => {
+      const validation = validateTransition('pending', 'CHECK_OUT');
+      expect(validation.valid).toBe(false);
+      expect(validation.error).toBeDefined();
+      expect(validation.error).toContain('PAYMENT_RECEIVED');
+      expect(validation.error).toContain('CANCEL');
+    });
+
+    it('should indicate when no actions are available', () => {
+      const validation = validateTransition('expired', 'PAYMENT_RECEIVED');
+      expect(validation.valid).toBe(false);
+      expect(validation.error).toContain('terminal state');
+    });
+  });
+
+  describe('Event Requirements', () => {
+    it('should identify payment received as requiring payment info', () => {
+      expect(requiresPaymentInfo('PAYMENT_RECEIVED')).toBe(true);
+    });
+
+    it('should identify cancel as requiring reason', () => {
+      expect(requiresReason('CANCEL')).toBe(true);
+    });
+
+    it('should identify payment failed as requiring reason', () => {
+      expect(requiresReason('PAYMENT_FAILED')).toBe(true);
+    });
+
+    it('should not require reason for check in', () => {
+      expect(requiresReason('CHECK_IN')).toBe(false);
+    });
+
+    it('should not require reason for check out', () => {
+      expect(requiresReason('CHECK_OUT')).toBe(false);
+    });
+  });
+
+  describe('State Metadata Validation', () => {
+    it('should have metadata for all states', () => {
+      const states: BookingStatus[] = [
+        'pending',
+        'confirmed',
+        'checked_in',
+        'checked_out',
+        'cancelled',
+        'no_show',
+        'expired',
+      ];
+
+      states.forEach((state) => {
+        expect(getStateLabel(state)).toBeDefined();
+        expect(typeof getStateLabel(state)).toBe('string');
+      });
+    });
+
+    it('should have metadata for all events', () => {
+      const events: BookingEvent[] = [
+        'PAYMENT_RECEIVED',
+        'PAYMENT_FAILED',
+        'PAYMENT_TIMEOUT',
+        'CANCEL',
+        'CHECK_IN',
+        'CHECK_OUT',
+        'MARK_NO_SHOW',
+        'EXPIRE',
+      ];
+
+      events.forEach((event) => {
+        expect(getEventLabel(event)).toBeDefined();
+        expect(typeof getEventLabel(event)).toBe('string');
+      });
+    });
+  });
 });

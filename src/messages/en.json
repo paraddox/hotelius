@@ -483,7 +483,8 @@
       "subtitle": "Manage pricing strategies and rate plans for your rooms",
       "actions": {
         "addNew": "Add Rate Plan",
-        "backToList": "Back to Rate Plans"
+        "backToList": "Back to Rate Plans",
+        "bulkUpdate": "Bulk Update"
       },
       "stats": {
         "total": "Total Plans",
