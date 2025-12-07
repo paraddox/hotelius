@@ -12,6 +12,7 @@ export class MockQueryBuilder {
   private mockData: any[] = [];
   private mockError: any = null;
   private mockCount: number | null = null;
+  private shouldCount: boolean = false;
   private filters: any[] = [];
 
   constructor(data: any[] = [], error: any = null) {
@@ -21,9 +22,9 @@ export class MockQueryBuilder {
 
   // Selection methods
   select(columns?: string, options?: any) {
-    // Handle count queries
+    // Handle count queries - mark that we need to count
     if (options?.count === 'exact') {
-      this.mockCount = this.mockData.length;
+      this.shouldCount = true;
     }
     if (options?.head === true) {
       // Head means we only want metadata, not data
@@ -96,29 +97,69 @@ export class MockQueryBuilder {
     return this;
   }
 
+  // Apply filters to data
+  private applyFilters(data: any[]): any[] {
+    let filtered = data;
+
+    for (const filter of this.filters) {
+      filtered = filtered.filter(item => {
+        switch (filter.type) {
+          case 'eq':
+            return item[filter.column] === filter.value;
+          case 'neq':
+            return item[filter.column] !== filter.value;
+          case 'in':
+            return filter.values.includes(item[filter.column]);
+          case 'is':
+            return item[filter.column] === filter.value;
+          case 'gte':
+            return item[filter.column] >= filter.value;
+          case 'lte':
+            return item[filter.column] <= filter.value;
+          case 'gt':
+            return item[filter.column] > filter.value;
+          case 'lt':
+            return item[filter.column] < filter.value;
+          case 'overlaps':
+            // For now, just return true (tests don't heavily rely on this)
+            return true;
+          default:
+            return true;
+        }
+      });
+    }
+
+    return filtered;
+  }
+
   // Result methods
   async single() {
     if (this.mockError) {
       return { data: null, error: this.mockError };
     }
-    return { data: this.mockData[0] || null, error: null };
+    const filtered = this.applyFilters(this.mockData);
+    return { data: filtered[0] || null, error: null };
   }
 
   async maybeSingle() {
     if (this.mockError) {
       return { data: null, error: this.mockError };
     }
-    return { data: this.mockData[0] || null, error: null };
+    const filtered = this.applyFilters(this.mockData);
+    return { data: filtered[0] || null, error: null };
   }
 
   then(resolve: (value: any) => void, reject?: (reason: any) => void) {
     if (this.mockError) {
       return Promise.reject(this.mockError).then(resolve, reject);
     }
+    const filtered = this.applyFilters(this.mockData);
+    // If shouldCount is true, return the count of filtered results
+    const count = this.shouldCount ? filtered.length : null;
     return Promise.resolve({
-      data: this.mockData,
+      data: filtered,
       error: null,
-      count: this.mockCount,
+      count: count,
     }).then(resolve, reject);
   }
 
